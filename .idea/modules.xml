@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/BeautyarticlePro.iml" filepath="$PROJECT_DIR$/BeautyarticlePro.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/CommLib/CommLib.iml" filepath="$PROJECT_DIR$/libraries/CommLib/CommLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/MeterialSettingLib/MeterialSettingLib.iml" filepath="$PROJECT_DIR$/libraries/MeterialSettingLib/MeterialSettingLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/SwipeBackLayoutLibary/SwipeBackLayoutLibary.iml" filepath="$PROJECT_DIR$/libraries/SwipeBackLayoutLibary/SwipeBackLayoutLibary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/libraries.iml" filepath="$PROJECT_DIR$/libraries/libraries.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/multi-image-selector/multi-image-selector.iml" filepath="$PROJECT_DIR$/libraries/multi-image-selector/multi-image-selector.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/sociallibrary/sociallibrary.iml" filepath="$PROJECT_DIR$/libraries/sociallibrary/sociallibrary.iml" />
+    </modules>
+  </component>
+</project>
