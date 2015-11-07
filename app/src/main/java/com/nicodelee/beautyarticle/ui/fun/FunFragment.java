@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -129,16 +130,19 @@ public class FunFragment extends BaseFragment {
         skipIntent(FunTemplateAct.class, false);
         break;
       case R.id.iv_fun:
-        int selectedMode = MultiImageSelectorActivity.MODE_SINGLE;
-        MultiImageSelectorActivity.startSelect(FunFragment.this, REQUEST_IMAGE, 1, selectedMode);
+        showChiocePicDialog();
         break;
     }
   }
 
   private void showEdDialig() {
     View etView = inflater.inflate(R.layout.item_fun_et, null);
-    final EditText etTitle = findById(etView, R.id.et_title);
-    final EditText etDesc = findById(etView, R.id.et_desc);
+    final TextInputLayout inputTitle = findById(etView, R.id.textInput_title);
+    final TextInputLayout inputDesc = findById(etView, R.id.textInput_desc);
+    inputTitle.setHint("想个好标题");
+    inputDesc.setHint("说说图片的故事");
+    final EditText etTitle = inputTitle.getEditText();
+    final EditText etDesc = inputDesc.getEditText();
     etTitle.setText(title);
     etDesc.setText(desc);
 
@@ -171,6 +175,23 @@ public class FunFragment extends BaseFragment {
         inputManager.showSoftInput(etTitle, 0);
       }
     }, 200);
+  }
+
+  private void showChiocePicDialog(){
+    String[] items = new String[]{"拍照", "相册"};
+    new AlertDialog.Builder(mActivity).setItems(items, new DialogInterface.OnClickListener() {
+      @Override public void onClick(DialogInterface dialog, int which) {
+        switch (which){
+          case 0:
+            skipIntent(TakePhotoActivity.class,false);
+            break;
+          case 1:
+            int selectedMode = MultiImageSelectorActivity.MODE_SINGLE;
+            MultiImageSelectorActivity.startSelect(FunFragment.this, REQUEST_IMAGE, 1, selectedMode);
+            break;
+        }
+      }
+    }).create().show();
   }
 
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
