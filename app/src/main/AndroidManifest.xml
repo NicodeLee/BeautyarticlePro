@@ -34,7 +34,8 @@
 
         <activity android:name=".ui.fun.CropAct" android:screenOrientation="portrait"></activity>
         <activity android:name=".ui.fun.FunTemplateAct" android:screenOrientation="portrait" android:theme="@style/ActTheme"></activity>
-        <activity android:name=".ui.fun.TakePhotoActivity" android:screenOrientation="portrait" android:theme="@style/ActTheme"></activity>
+        <activity android:name=".ui.camara.TakePhotoActivity" android:screenOrientation="portrait" android:theme="@style/ActTheme"></activity>
+        <activity android:name=".ui.camara.CameraActivity" android:screenOrientation="portrait" android:theme="@style/ActTheme"></activity>
         <activity android:name="me.nereo.multi_image_selector.PreviewPicturesActivity" android:theme="@style/ActTheme" android:configChanges="orientation|screenSize" />
         <activity android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" android:theme="@style/ActTheme"
             android:configChanges="orientation|screenSize" />
@@ -54,16 +55,16 @@
         </activity>
 
         <!-- ShareSDK开始 -->
-        <activity
-            android:name="cn.sharesdk.framework.ShareSDKUIShell"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-            <meta-data
-                android:name="Adapter"
-                android:value="cn.sharesdk.demo.MyAdapter" />
-        </activity>
+        <!--<activity-->
+            <!--android:name="cn.sharesdk.framework.ShareSDKUIShell"-->
+            <!--android:configChanges="keyboardHidden|orientation"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"-->
+            <!--android:windowSoftInputMode="stateHidden|adjustResize" >-->
+            <!--<meta-data-->
+                <!--android:name="Adapter"-->
+                <!--android:value="cn.sharesdk.demo.MyAdapter" />-->
+        <!--</activity>-->
         <!-- ShareSDK结束 -->
 
 

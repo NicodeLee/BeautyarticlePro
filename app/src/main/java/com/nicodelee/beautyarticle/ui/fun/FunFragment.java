@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.NestedScrollView;
@@ -22,13 +23,16 @@ import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.commonsware.cwac.cam2.AbstractCameraActivity;
 import com.github.clans.fab.FloatingActionMenu;
 import com.nicodelee.beautyarticle.R;
+import com.nicodelee.beautyarticle.app.APP;
 import com.nicodelee.beautyarticle.app.BaseFragment;
 import com.nicodelee.beautyarticle.bus.CropEvent;
-import com.nicodelee.beautyarticle.mode.ShareMod;
+import com.nicodelee.beautyarticle.ui.camara.CameraActivity;
 import com.nicodelee.beautyarticle.utils.AndroidUtils;
 import com.nicodelee.beautyarticle.utils.DevicesUtil;
+import com.nicodelee.beautyarticle.utils.L;
 import com.nicodelee.beautyarticle.utils.SharImageHelper;
 import com.nicodelee.beautyarticle.utils.ShareHelper;
 import com.nicodelee.beautyarticle.utils.TimeUtils;
@@ -37,15 +41,14 @@ import com.nicodelee.beautyarticle.viewhelper.VerticalTextView;
 import com.nicodelee.utils.WeakHandler;
 import com.nicodelee.view.CircularImage;
 import com.nicodelee.view.CropImageView;
-import java.util.ArrayList;
-
 import de.greenrobot.event.EventBus;
+import java.io.File;
+import java.util.ArrayList;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 import static butterknife.ButterKnife.findById;
 
@@ -68,6 +71,7 @@ public class FunFragment extends BaseFragment {
 
   private String title, desc;
   private static final int REQUEST_IMAGE = 2;
+  private static final int REQUEST_PORTRAIT_FFC = 3;
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -183,7 +187,21 @@ public class FunFragment extends BaseFragment {
       @Override public void onClick(DialogInterface dialog, int which) {
         switch (which){
           case 0:
-            skipIntent(TakePhotoActivity.class,false);
+            //int[] startingLocation = new int[2];
+            //ivFun.getLocationOnScreen(startingLocation);
+            //startingLocation[0] += ivFun.getWidth() / 2;
+            //TakePhotoActivity.startCameraFromLocation(startingLocation, mActivity);
+            //mActivity.overridePendingTransition(0, 0);
+            //skipIntent(TakePhotoActivity.class,false);
+            Intent i=new CameraActivity.IntentBuilder(getActivity())
+                .skipConfirm()
+                .facing(CameraActivity.Facing.BACK)
+                .to(new File(AndroidUtils.IMAGE_CACHE_PATH, "portrait-front.jpg"))
+                .debug()
+                .updateMediaStore()
+                .build();
+
+            startActivityForResult(i, REQUEST_PORTRAIT_FFC);
             break;
           case 1:
             int selectedMode = MultiImageSelectorActivity.MODE_SINGLE;
@@ -195,8 +213,11 @@ public class FunFragment extends BaseFragment {
   }
 
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-    if (resultCode == mActivity.RESULT_OK && requestCode == REQUEST_IMAGE) {
+    //super.onActivityResult(requestCode, resultCode, data);
+    L.e(String.format("requestCode = %s, resultCode= %s, data= %s",requestCode,resultCode,data));
+    if (resultCode != mActivity.RESULT_OK ) return;
+
+    if (requestCode == REQUEST_IMAGE) {
       ArrayList<String> mSelectPath =
           data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
       CropEvent cropEvent = new CropEvent();
@@ -204,6 +225,11 @@ public class FunFragment extends BaseFragment {
       cropEvent.setImagePath(mSelectPath.get(0));
       EventBus.getDefault().postSticky(cropEvent);
       skipIntent(CropAct.class, false);
+    }else if (requestCode == REQUEST_PORTRAIT_FFC){
+      Uri path = data.getData();
+      L.e(String.format("path = %s",path));
+      if (path !=null) APP.getInstance().imageLoader.displayImage(path+"",ivFun);
+
     }
   }
 

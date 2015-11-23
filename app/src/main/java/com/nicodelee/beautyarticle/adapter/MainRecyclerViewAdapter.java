@@ -126,7 +126,7 @@ public class MainRecyclerViewAdapter
     holder.tvDesc.setText(mod.descriptions);
 
     Observable.create(new Observable.OnSubscribe<Bitmap>() {
-      @Override public void call(Subscriber<? super Bitmap> subscriber) {
+      @Override public void call(final Subscriber<? super Bitmap> subscriber) {
         final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
         APP.getInstance().imageLoader.displayImage(mod.image, holder.ivIcon, APP.options,
             new ImageLoadingListener() {
