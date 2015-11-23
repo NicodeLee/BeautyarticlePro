@@ -187,20 +187,11 @@ public class CameraFragment extends Fragment {
 
     previewStack=(ViewGroup)v.findViewById(R.id.cwac_cam2_preview_stack);
     progress=v.findViewById(R.id.cwac_cam2_progress);
-
-    //fabPicture=(FloatingActionButton)v.findViewById(R.id.cwac_cam2_picture);
-    //
-    //if (isVideo()) {
-    //  fabPicture.setImageResource(R.drawable.cwac_cam2_ic_videocam);
-    //}
-
    v.findViewById(R.id.btnTakePhoto).setOnClickListener(new View.OnClickListener() {
      @Override public void onClick(View view) {
        performCameraAction();//拍照
      }
     });
-
-    //fabSwitch=(FloatingActionButton)v.findViewById(R.id.cwac_cam2_switch_camera);
     v.findViewById(R.id.btn_switch).setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
         progress.setVisibility(View.VISIBLE);
@@ -208,13 +199,7 @@ public class CameraFragment extends Fragment {
       }
     });
 
-    //changeMenuIconAnimation((FloatingActionMenu)v.findViewById(R.id.cwac_cam2_settings));
-
     onHiddenChanged(false); // hack, since this does not get
-                            // called on initial display
-    
-    //fabPicture.setEnabled(false);
-    //fabSwitch.setEnabled(false);
 
     if (ctlr!=null && ctlr.getNumberOfCameras()>0) {
       prepController();
@@ -317,8 +302,6 @@ public class CameraFragment extends Fragment {
           getArguments().getBoolean(ARG_UPDATE_MEDIA_STORE, false));
     }
 
-    //fabPicture.setEnabled(false);
-    //fabSwitch.setEnabled(false);
     ctlr.takePicture(b.build());
   }
 

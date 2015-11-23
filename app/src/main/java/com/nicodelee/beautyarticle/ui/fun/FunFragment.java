@@ -196,7 +196,7 @@ public class FunFragment extends BaseFragment {
             Intent i=new CameraActivity.IntentBuilder(getActivity())
                 .skipConfirm()
                 .facing(CameraActivity.Facing.BACK)
-                .to(new File(AndroidUtils.IMAGE_CACHE_PATH, "portrait-front.jpg"))
+                .to(new File(AndroidUtils.IMAGE_CACHE_PATH, "nicodelee.jpg"))
                 .debug()
                 .updateMediaStore()
                 .build();
@@ -217,18 +217,25 @@ public class FunFragment extends BaseFragment {
     L.e(String.format("requestCode = %s, resultCode= %s, data= %s",requestCode,resultCode,data));
     if (resultCode != mActivity.RESULT_OK ) return;
 
+    CropEvent cropEvent = new CropEvent();
+    cropEvent.setCropMode(CropImageView.CropMode.CIRCLE);
     if (requestCode == REQUEST_IMAGE) {
       ArrayList<String> mSelectPath =
           data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
-      CropEvent cropEvent = new CropEvent();
-      cropEvent.setCropMode(CropImageView.CropMode.CIRCLE);
       cropEvent.setImagePath(mSelectPath.get(0));
       EventBus.getDefault().postSticky(cropEvent);
       skipIntent(CropAct.class, false);
     }else if (requestCode == REQUEST_PORTRAIT_FFC){
-      Uri path = data.getData();
+      String path = data.getData()+"";
       L.e(String.format("path = %s",path));
-      if (path !=null) APP.getInstance().imageLoader.displayImage(path+"",ivFun);
+      if (path !=null) {
+        String url = path.substring(path.lastIndexOf("//")+1);
+        cropEvent.setImagePath(url);
+        EventBus.getDefault().postSticky(cropEvent);
+        skipIntent(CropAct.class, false);
+      }
+        //APP.getInstance().imageLoader.displayImage(path+"",ivFun);
+
 
     }
   }
