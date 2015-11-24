@@ -236,7 +236,6 @@ public class FunFragment extends BaseFragment {
       }
         //APP.getInstance().imageLoader.displayImage(path+"",ivFun);
 
-
     }
   }
 

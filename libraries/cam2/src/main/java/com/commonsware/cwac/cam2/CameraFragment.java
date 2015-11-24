@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
+import android.widget.Toast;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import java.io.File;
@@ -196,6 +197,16 @@ public class CameraFragment extends Fragment {
       @Override public void onClick(View view) {
         progress.setVisibility(View.VISIBLE);
         ctlr.switchCamera();//前置后置摄像头切换
+      }
+    });
+    v.findViewById(R.id.btn_close).setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        getActivity().finish();
+      }
+    });
+    v.findViewById(R.id.btn_chiose_pic).setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        Toast.makeText(getActivity(),"从相册选图",Toast.LENGTH_SHORT).show();
       }
     });
 

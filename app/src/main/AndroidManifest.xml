@@ -36,6 +36,7 @@
         <activity android:name=".ui.fun.FunTemplateAct" android:screenOrientation="portrait" android:theme="@style/ActTheme"></activity>
         <activity android:name=".ui.camara.TakePhotoActivity" android:screenOrientation="portrait" android:theme="@style/ActTheme"></activity>
         <activity android:name=".ui.camara.CameraActivity" android:screenOrientation="portrait" android:theme="@style/ActTheme"></activity>
+        <activity android:name=".ui.camara.PhotoProcessActivity" android:screenOrientation="portrait" android:theme="@style/ActTheme"></activity>
         <activity android:name="me.nereo.multi_image_selector.PreviewPicturesActivity" android:theme="@style/ActTheme" android:configChanges="orientation|screenSize" />
         <activity android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" android:theme="@style/ActTheme"
             android:configChanges="orientation|screenSize" />

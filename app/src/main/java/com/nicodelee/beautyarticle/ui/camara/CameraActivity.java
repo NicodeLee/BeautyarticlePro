@@ -9,6 +9,8 @@ import com.commonsware.cwac.cam2.CameraEngine;
 import com.commonsware.cwac.cam2.CameraFragment;
 import com.commonsware.cwac.cam2.ConfirmationFragment;
 import com.commonsware.cwac.cam2.ImageContext;
+import com.nicodelee.beautyarticle.utils.L;
+import de.greenrobot.event.EventBus;
 import java.io.File;
 
 /**
@@ -71,10 +73,13 @@ public class CameraActivity extends AbstractCameraActivity
   }
 
   @Override public void completeRequest(ImageContext imageContext, boolean isOK) {
+    L.e(String.format("isOk=%b",isOK));
+    //拍照回调数据
     if (!isOK) {
       setResult(RESULT_CANCELED);
       finish();
     } else {
+      L.e(String.format("needsThumbnail=%b",needsThumbnail));
       if (needsThumbnail) {
         final Intent result = new Intent();
 
@@ -89,7 +94,10 @@ public class CameraActivity extends AbstractCameraActivity
       } else {
         findViewById(android.R.id.content).post(new Runnable() {
           @Override public void run() {
-            setResult(RESULT_OK, new Intent().setData(getOutputUri()));
+            //setResult(RESULT_OK, new Intent().setData(getOutputUri()));
+            Intent intent = new Intent(CameraActivity.this,PhotoProcessActivity.class);
+            intent.setData(getOutputUri());
+            startActivity(intent);
             removeFragments();
           }
         });
@@ -126,11 +134,6 @@ public class CameraActivity extends AbstractCameraActivity
     getFragmentManager().beginTransaction().remove(confirmFrag).remove(cameraFrag).commit();
   }
 
-  /**
-   * Class to build an Intent used to start the CameraActivity.
-   * Call setComponent() on the Intent if you are using your
-   * own subclass of CameraActivity.
-   */
   public static class IntentBuilder extends AbstractCameraActivity.IntentBuilder {
 
     public IntentBuilder(Context ctxt) {

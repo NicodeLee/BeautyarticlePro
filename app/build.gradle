@@ -11,7 +11,7 @@ android {
   def androidConfig = rootProject.ext.android
 
   compileSdkVersion androidConfig.compileSdkVersion
-  buildToolsVersion androidConfig.buildToolsVersion
+  buildToolsVersion '23.0.2'
 
   defaultConfig {
     applicationId androidConfig.applicationId
@@ -105,7 +105,8 @@ dependencies {
   compile dependencies["javax.annotation"]
   apt dependencies["com.google.dagger.compiler"]
   compile dependencies["com.google.dagger"]
-  compile dependencies["fastScroll"]
+  compile dependencies["gpuimage"]
+//  compile dependencies["fastScroll"]
 //  compile dependencies["cam2"]
 //  compile dependencies["smooth-app-bar-layout"]
 
