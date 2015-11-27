@@ -1,9 +1,12 @@
 package com.nicodelee.beautyarticle.ui.fun;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +14,18 @@ import android.widget.RelativeLayout;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.nicodelee.beautyarticle.R;
+import com.nicodelee.beautyarticle.app.APP;
 import com.nicodelee.beautyarticle.bus.CropEvent;
+import com.nicodelee.beautyarticle.ui.camara.CameraActivity;
+import com.nicodelee.beautyarticle.utils.AndroidUtils;
 import com.nicodelee.beautyarticle.utils.DevicesUtil;
+import com.nicodelee.beautyarticle.utils.L;
 import com.nicodelee.beautyarticle.utils.SharImageHelper;
 import com.nicodelee.beautyarticle.utils.ShareHelper;
 import com.nicodelee.beautyarticle.viewhelper.LayoutToImage;
 import com.nicodelee.view.CropImageView;
 import de.greenrobot.event.EventBus;
+import java.io.File;
 import java.util.ArrayList;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
@@ -27,6 +35,8 @@ import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 public class SquareFragment extends TemplateBase {
 
   private Bitmap bitmap;
+  private static final int REQUEST_IMAGE = 2;
+  private static final int REQUEST_PORTRAIT_FFC = 3;
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -61,10 +71,36 @@ public class SquareFragment extends TemplateBase {
         showEdDialig(false);
         break;
       case R.id.iv_fun:
-        int selectedMode = MultiImageSelectorActivity.MODE_SINGLE;
-        MultiImageSelectorActivity.startSelect(SquareFragment.this, REQUEST_IMAGE, 1, selectedMode);
+        //int selectedMode = MultiImageSelectorActivity.MODE_SINGLE;
+        //MultiImageSelectorActivity.startSelect(SquareFragment.this, REQUEST_IMAGE, 1, selectedMode);
+        showChiocePicDialog();
         break;
     }
+  }
+
+  private void showChiocePicDialog(){
+    String[] items = new String[]{"拍照", "相册"};
+    new AlertDialog.Builder(mActivity).setItems(items, new DialogInterface.OnClickListener() {
+      @Override public void onClick(DialogInterface dialog, int which) {
+        switch (which){
+          case 0:
+            Intent i=new CameraActivity.IntentBuilder(getActivity())
+                .skipConfirm()
+                .facing(CameraActivity.Facing.BACK)
+                .to(new File(AndroidUtils.IMAGE_CACHE_PATH, "nicodelee.jpg"))
+                .debug()
+                .updateMediaStore()
+                .build();
+
+            startActivityForResult(i, REQUEST_PORTRAIT_FFC);
+            break;
+          case 1:
+            int selectedMode = MultiImageSelectorActivity.MODE_SINGLE;
+            MultiImageSelectorActivity.startSelect(getActivity(), REQUEST_IMAGE, 1, selectedMode);
+            break;
+        }
+      }
+    }).create().show();
   }
 
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -82,5 +118,10 @@ public class SquareFragment extends TemplateBase {
 
   public void onEvent(Bitmap corpBitmap) {
     ivFun.setImageBitmap(corpBitmap);
+  }
+
+  public void onEvent(Uri uri) {//拍照后编辑
+    L.e("图片编辑");
+    APP.getInstance().imageLoader.displayImage(uri+"",ivFun,APP.options);
   }
 }

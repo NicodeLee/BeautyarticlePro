@@ -10,13 +10,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by Nicodelee on 15/8/1.
  */
 public class SharImageHelper {
-
-  public static String sharePicName = "beautyacticle.png";
+  private static String picName = TimeUtils.dtFormat(new Date(), "yyyyMMddHHmmss");
+  public static String sharePicName = picName + "-beautyacticle.jpeg";
 
   public ShareMod getShareMod(Bitmap bitmap) {
     ShareMod shareMod = new ShareMod();
@@ -57,7 +58,7 @@ public class SharImageHelper {
     }
     try {
       FileOutputStream out = new FileOutputStream(f);
-      bitmap.compress(Bitmap.CompressFormat.PNG, 40, out);
+      bitmap.compress(Bitmap.CompressFormat.JPEG, 50, out);
       out.flush();
       out.close();
       return true;

@@ -39,7 +39,8 @@ ext {
                   "javax.annotation"                    : "javax.annotation:javax.annotation-api:1.2",
                   "fastScroll"                          : "com.github.plusCubed:recycler-fast-scroll:0.2.0",
                   "cam2"                                : "com.commonsware.cwac:cam2:0.3.+",
-                  "gpuimage"                                : "jp.co.cyberagent.android.gpuimage:gpuimage-library:1.3.0",
+                  "gpuimage"                            : "jp.co.cyberagent.android.gpuimage:gpuimage-library:1.3.0",
+                  "horizontallistview"                  : "it.sephiroth.android.library.horizontallistview:hlistview:1.2.2",
                   "smooth-app-bar-layout"               : "me.henrytao:smooth-app-bar-layout:0.1.9"
 
   ]

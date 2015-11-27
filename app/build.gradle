@@ -106,6 +106,7 @@ dependencies {
   apt dependencies["com.google.dagger.compiler"]
   compile dependencies["com.google.dagger"]
   compile dependencies["gpuimage"]
+  compile dependencies["horizontallistview"]
 //  compile dependencies["fastScroll"]
 //  compile dependencies["cam2"]
 //  compile dependencies["smooth-app-bar-layout"]

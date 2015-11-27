@@ -1,5 +1,6 @@
 package com.nicodelee.beautyarticle.utils;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -11,6 +12,14 @@ public class TimeUtils {
   public static String getCurentData() {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     return sdf.format(new Date());
+  }
+
+  public static String dtFormat(Date date, String dateFormat){
+    return getFormat(dateFormat).format(date);
+  }
+
+  private static final DateFormat getFormat(String format) {
+    return new SimpleDateFormat(format);
   }
 
   public static String dateToCnDate(String date) {

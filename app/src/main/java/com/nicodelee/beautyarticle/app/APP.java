@@ -3,7 +3,6 @@ package com.nicodelee.beautyarticle.app;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.internal.di.components.ApplicationComponent;
@@ -46,12 +45,11 @@ public class APP extends Application {
             .build());
     app = this;
 
-    initImageLoader(getApplicationContext());
-
     //refWatcher = LeakCanary.install(this);
 
     AndroidUtils.init(this);
     DevicesUtil.getScreenConfig(this);
+    initImageLoader(getApplicationContext());
   }
 
   //public static RefWatcher getRefWatcher(Context context) {
@@ -79,9 +77,7 @@ public class APP extends Application {
             .diskCacheFileNameGenerator(new Md5FileNameGenerator())
             .diskCacheSize(50 * 1024 * 1024)
             .imageDownloader(new OkHttpImageDownloader(context,new OkHttpClient()))
-            .diskCache(new UnlimitedDiskCache(new File(
-                Environment.getExternalStorageDirectory().getAbsolutePath()
-                    + "/Beautyacticle/pic")))
+            .diskCache(new UnlimitedDiskCache(new File(AndroidUtils.IMAGE_CACHE_PATH)))
             .tasksProcessingOrder(QueueProcessingType.LIFO)
             .diskCacheFileCount(200)
             .writeDebugLogs();
@@ -93,7 +89,6 @@ public class APP extends Application {
   public static DisplayImageOptions options =
       new DisplayImageOptions.Builder().showImageOnLoading(R.color.loading_cl).showImageForEmptyUri(
           R.color.loading_cl)
-          //			.showImageOnFail(R.drawable.head_null)
           .showImageOnFail(R.color.loading_cl)
           .cacheInMemory(true)
           .cacheOnDisk(true)

@@ -21,10 +21,10 @@ import java.io.IOException;
 import java.util.UUID;
 
 public class AndroidUtils {
-  public static final String IMAGE_CACHE = "image";
-  public static final String VIDEO_CACHE = "video";
-  public static final String BASE = "Beautyacticle/";
-  public static final String IMAGE_SAVE = "pic";
+  private static final String IMAGE_CACHE = "image";
+  private static final String VIDEO_CACHE = "video";
+  private static final String BASE = "Beautyacticle/";
+  private static final String IMAGE_SAVE = "pic";
 
   public static String IMAGE_CACHE_PATH;
   public static String VIDEO_CACHE_PATH;

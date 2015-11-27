@@ -23,7 +23,6 @@ import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.commonsware.cwac.cam2.AbstractCameraActivity;
 import com.github.clans.fab.FloatingActionMenu;
 import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.app.APP;
@@ -66,7 +65,6 @@ public class FunFragment extends BaseFragment {
   @BindString(R.string.acticle_title) String acticleTitle;
 
   private LayoutToImage layoutToImage;
-  //private Bitmap bitmap;
   private LayoutInflater inflater;
 
   private String title, desc;
@@ -105,9 +103,6 @@ public class FunFragment extends BaseFragment {
       case R.id.fb_share:
 
         final SharImageHelper sharImageHelper = new SharImageHelper();
-        //if (sharImageHelper.saveBitmap(bitmap, SharImageHelper.sharePicName)) {
-        //  ShareHelper.showUp(mActivity, sharImageHelper.getShareMod(bitmap));
-        //}
         Observable.create(new Observable.OnSubscribe<Bitmap>() {
           @Override public void call(Subscriber<? super Bitmap> subscriber) {
             Bitmap bitmap = layoutToImage.convertlayout();
@@ -213,7 +208,6 @@ public class FunFragment extends BaseFragment {
   }
 
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    //super.onActivityResult(requestCode, resultCode, data);
     L.e(String.format("requestCode = %s, resultCode= %s, data= %s",requestCode,resultCode,data));
     if (resultCode != mActivity.RESULT_OK ) return;
 
@@ -225,7 +219,7 @@ public class FunFragment extends BaseFragment {
       cropEvent.setImagePath(mSelectPath.get(0));
       EventBus.getDefault().postSticky(cropEvent);
       skipIntent(CropAct.class, false);
-    }else if (requestCode == REQUEST_PORTRAIT_FFC){
+    }else if (requestCode == REQUEST_PORTRAIT_FFC){//拍照直接返回的
       String path = data.getData()+"";
       L.e(String.format("path = %s",path));
       if (path !=null) {
@@ -234,12 +228,15 @@ public class FunFragment extends BaseFragment {
         EventBus.getDefault().postSticky(cropEvent);
         skipIntent(CropAct.class, false);
       }
-        //APP.getInstance().imageLoader.displayImage(path+"",ivFun);
-
     }
   }
 
   public void onEvent(Bitmap corpBitmap) {
     ivFun.setImageBitmap(corpBitmap);
+  }
+
+  public void onEvent(Uri uri) {//拍照后编辑
+    L.e("图片编辑");
+    APP.getInstance().imageLoader.displayImage(uri+"",ivFun,APP.options);
   }
 }

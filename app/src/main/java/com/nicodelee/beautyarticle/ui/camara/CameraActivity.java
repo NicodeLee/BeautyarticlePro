@@ -145,11 +145,5 @@ public class CameraActivity extends AbstractCameraActivity
 
       return (this);
     }
-
-    public IntentBuilder debugSavePreviewFrame() {
-      result.putExtra(EXTRA_DEBUG_SAVE_PREVIEW_FRAME, true);
-
-      return (this);
-    }
   }
 }

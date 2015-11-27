@@ -2,6 +2,7 @@ package com.nicodelee.beautyarticle.ui.camara;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,9 @@ import butterknife.ButterKnife;
 import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.utils.L;
 import com.nicodelee.utils.ListUtils;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Logger;
 import jp.co.cyberagent.android.gpuimage.GPUImageFilter;
@@ -25,15 +29,18 @@ public class PhotoFiltersAdapter
 
   List<FilterEffect> filterUris;
   private Bitmap background;
+  LinearLayoutManager mlinearLayoutManager;
 
   public PhotoFiltersAdapter(Context context) {
     this.context = context;
   }
 
-  public PhotoFiltersAdapter(Context context, List<FilterEffect> effects, Bitmap backgroud) {
+  public PhotoFiltersAdapter(Context context, List<FilterEffect> effects, Bitmap backgroud,
+      LinearLayoutManager linearLayoutManager) {
     filterUris = effects;
     this.context = context;
     this.background = backgroud;
+    mlinearLayoutManager = linearLayoutManager;
   }
 
   @Override public PhotoFilterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -42,22 +49,29 @@ public class PhotoFiltersAdapter
     return new PhotoFilterViewHolder(view);
   }
 
+  HashSet<Integer> recodeSet = new HashSet<>();
+
   @Override public void onBindViewHolder(PhotoFilterViewHolder holder, final int position) {
 
-    holder.smallFilter.setTag(position);
+    //L.e("onBindViewHolder postion="+position+"holder="+holder);
 
     final FilterEffect effect = filterUris.get(position);
-    holder.filterName.setText(effect.getTitle());
-    holder.smallFilter.setImage(background);
-    GPUImageFilter filter = GPUImageFilterTools.createFilterForType(context, effect.getType());
-    holder.smallFilter.setFilter(filter);
+    if (recodeSet.contains(position)){
+      L.e("添加过的位置");
+    }else {
+      holder.filterName.setText(effect.getTitle());
+      holder.smallFilter.setImage(background);
+      GPUImageFilter filter = GPUImageFilterTools.createFilterForType(context, effect.getType());
+      holder.smallFilter.setFilter(filter);
+    }
+
+    recodeSet.add(position);
 
     holder.itemView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         GPUImageFilter filter =
             GPUImageFilterTools.createFilterForType(context, filterUris.get(position).getType());
         PhotoProcessActivity.photoProcessActivity.gpuimage.setFilter(filter);
-
       }
     });
   }
@@ -71,11 +85,8 @@ public class PhotoFiltersAdapter
     @Bind(R.id.small_filter_container) LinearLayout smallFilterContainer;
     @Bind(R.id.filter_name) TextView filterName;
 
-    public final View mView;
-
     public PhotoFilterViewHolder(View view) {
       super(view);
-      mView = view;
       ButterKnife.bind(this, view);
     }
   }
