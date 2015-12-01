@@ -12,13 +12,9 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.nicodelee.beautyarticle.R;
-import com.nicodelee.beautyarticle.utils.L;
 import com.nicodelee.utils.ListUtils;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.logging.Logger;
 import jp.co.cyberagent.android.gpuimage.GPUImageFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageView;
 
@@ -53,19 +49,15 @@ public class PhotoFiltersAdapter
 
   @Override public void onBindViewHolder(PhotoFilterViewHolder holder, final int position) {
 
-    //L.e("onBindViewHolder postion="+position+"holder="+holder);
-
     final FilterEffect effect = filterUris.get(position);
-    if (recodeSet.contains(position)){
-      L.e("添加过的位置");
-    }else {
+    if (!recodeSet.contains(position)){
+      recodeSet.add(position);
       holder.filterName.setText(effect.getTitle());
       holder.smallFilter.setImage(background);
       GPUImageFilter filter = GPUImageFilterTools.createFilterForType(context, effect.getType());
       holder.smallFilter.setFilter(filter);
     }
 
-    recodeSet.add(position);
 
     holder.itemView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {

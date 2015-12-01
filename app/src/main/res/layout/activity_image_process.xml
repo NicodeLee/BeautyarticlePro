@@ -27,6 +27,7 @@
       android:layout_below="@+id/drawing_view_container"
       android:layout_width="fill_parent"
       android:layout_height="fill_parent"
+      android:background="#161819"
       android:orientation="vertical">
 
     <it.sephiroth.android.library.widget.HListView

@@ -30,53 +30,49 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import de.greenrobot.event.EventBus;
 import java.io.File;
 import java.util.LinkedList;
-import de.greenrobot.event.EventBus;
 
 /**
  * Fragment for displaying a camera preview, with hooks to allow
  * you (or the user) to take a picture.
  */
 public class CameraFragment extends Fragment {
-  private static final String ARG_OUTPUT="output";
-  private static final String ARG_UPDATE_MEDIA_STORE="updateMediaStore";
-  private static final String ARG_IS_VIDEO="isVideo";
-  private static final String ARG_VIDEO_QUALITY="quality";
-  private static final String ARG_SIZE_LIMIT="sizeLimit";
-  private static final String ARG_DURATION_LIMIT="durationLimit";
+  private static final String ARG_OUTPUT = "output";
+  private static final String ARG_UPDATE_MEDIA_STORE = "updateMediaStore";
+  private static final String ARG_IS_VIDEO = "isVideo";
+  private static final String ARG_VIDEO_QUALITY = "quality";
+  private static final String ARG_SIZE_LIMIT = "sizeLimit";
+  private static final String ARG_DURATION_LIMIT = "durationLimit";
   private CameraController ctlr;
   private ViewGroup previewStack;
-  private FloatingActionButton fabPicture;
-  private FloatingActionButton fabSwitch;
   private View progress;
-  private boolean isVideoRecording=false;
-  private boolean mirrorPreview=false;
+  private boolean isVideoRecording = false;
+  private boolean mirrorPreview = false;
 
-  public static CameraFragment newPictureInstance(Uri output,
-                                                  boolean updateMediaStore) {
-    CameraFragment f=new CameraFragment();
-    Bundle args=new Bundle();
+  public static CameraFragment newPictureInstance(Uri output, boolean updateMediaStore) {
+    CameraFragment f = new CameraFragment();
+    Bundle args = new Bundle();
 
     args.putParcelable(ARG_OUTPUT, output);
     args.putBoolean(ARG_UPDATE_MEDIA_STORE, updateMediaStore);
     args.putBoolean(ARG_IS_VIDEO, false);
     f.setArguments(args);
 
-    return(f);
+    return (f);
   }
 
-  public static CameraFragment newVideoInstance(Uri output,
-                                                boolean updateMediaStore,
-                                                int quality, int sizeLimit,
-                                                int durationLimit) {
-    CameraFragment f=new CameraFragment();
-    Bundle args=new Bundle();
+  public static CameraFragment newVideoInstance(Uri output, boolean updateMediaStore, int quality,
+      int sizeLimit, int durationLimit) {
+    CameraFragment f = new CameraFragment();
+    Bundle args = new Bundle();
 
     args.putParcelable(ARG_OUTPUT, output);
     args.putBoolean(ARG_UPDATE_MEDIA_STORE, updateMediaStore);
@@ -86,16 +82,14 @@ public class CameraFragment extends Fragment {
     args.putInt(ARG_DURATION_LIMIT, durationLimit);
     f.setArguments(args);
 
-    return(f);
+    return (f);
   }
 
   /**
    * Standard fragment entry point.
-   *
    * @param savedInstanceState State of a previous instance
    */
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     setRetainInstance(true);
@@ -104,42 +98,33 @@ public class CameraFragment extends Fragment {
   /**
    * Standard lifecycle method, passed along to the CameraController.
    */
-  @Override
-  public void onStart() {
+  @Override public void onStart() {
     super.onStart();
 
     EventBus.getDefault().register(this);
 
-    if (ctlr!=null) {
+    if (ctlr != null) {
       ctlr.start();
     }
   }
 
-  @Override
-  public void onHiddenChanged(boolean isHidden) {
+  @Override public void onHiddenChanged(boolean isHidden) {
     super.onHiddenChanged(isHidden);
 
     if (!isHidden) {
-      ActionBar ab=getActivity().getActionBar();
+      ActionBar ab = getActivity().getActionBar();
 
-      if (ab!=null) {
-        ab.setBackgroundDrawable(getActivity()
-            .getResources()
+      if (ab != null) {
+        ab.setBackgroundDrawable(getActivity().getResources()
             .getDrawable(R.drawable.cwac_cam2_action_bar_bg_transparent));
         ab.setTitle("");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
           ab.setDisplayHomeAsUpEnabled(false);
-        }
-        else {
+        } else {
           ab.setDisplayShowHomeEnabled(false);
           ab.setHomeButtonEnabled(false);
         }
-      }
-
-      if (fabPicture!=null) {
-        fabPicture.setEnabled(true);
-        fabSwitch.setEnabled(true);
       }
     }
   }
@@ -148,9 +133,8 @@ public class CameraFragment extends Fragment {
    * Standard lifecycle method, for when the fragment moves into
    * the stopped state. Passed along to the CameraController.
    */
-  @Override
-  public void onStop() {
-    if (ctlr!=null) {
+  @Override public void onStop() {
+    if (ctlr != null) {
       ctlr.stop();
     }
 
@@ -164,9 +148,8 @@ public class CameraFragment extends Fragment {
    * ruthlessly destroyed. Passed along to the CameraController,
    * because why should the fragment have all the fun?
    */
-  @Override
-  public void onDestroy() {
-    if (ctlr!=null) {
+  @Override public void onDestroy() {
+    if (ctlr != null) {
       ctlr.destroy();
     }
 
@@ -182,16 +165,24 @@ public class CameraFragment extends Fragment {
    * @param savedInstanceState State of a previous instance
    * @return the UI being managed by this fragment
    */
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View v=inflater.inflate(R.layout.cwac_cam2_fragment, container, false);
+  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    View v = inflater.inflate(R.layout.cwac_cam2_fragment, container, false);
 
-    previewStack=(ViewGroup)v.findViewById(R.id.cwac_cam2_preview_stack);
-    progress=v.findViewById(R.id.cwac_cam2_progress);
-   v.findViewById(R.id.btnTakePhoto).setOnClickListener(new View.OnClickListener() {
-     @Override public void onClick(View view) {
-       performCameraAction();//拍照
-     }
+    WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+    int width = wm.getDefaultDisplay().getWidth();// 屏幕宽度
+
+    previewStack = (ViewGroup) v.findViewById(R.id.cwac_cam2_preview_stack);
+    ViewGroup.LayoutParams layout = previewStack.getLayoutParams();
+    layout.height = width;
+    layout.width = width;
+    previewStack.setLayoutParams(layout);
+
+    progress = v.findViewById(R.id.cwac_cam2_progress);
+    v.findViewById(R.id.btnTakePhoto).setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        performCameraAction();//拍照
+      }
     });
     v.findViewById(R.id.btn_switch).setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
@@ -206,24 +197,24 @@ public class CameraFragment extends Fragment {
     });
     v.findViewById(R.id.btn_chiose_pic).setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        Toast.makeText(getActivity(),"从相册选图",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "从相册选图", Toast.LENGTH_SHORT).show();
       }
     });
 
     onHiddenChanged(false); // hack, since this does not get
 
-    if (ctlr!=null && ctlr.getNumberOfCameras()>0) {
+    if (ctlr != null && ctlr.getNumberOfCameras() > 0) {
       prepController();
     }
 
-    return(v);
+    return (v);
   }
 
   /**
    * @return the CameraController this fragment delegates to
    */
   public CameraController getController() {
-    return(ctlr);
+    return (ctlr);
   }
 
   /**
@@ -232,7 +223,7 @@ public class CameraFragment extends Fragment {
    * @param ctlr the controller that this fragment delegates to
    */
   public void setController(CameraController ctlr) {
-    this.ctlr=ctlr;
+    this.ctlr = ctlr;
   }
 
   /**
@@ -240,10 +231,10 @@ public class CameraFragment extends Fragment {
    * to false.
    *
    * @param mirror true if we should horizontally mirror the
-   *               preview, false otherwise
+   * preview, false otherwise
    */
   public void setMirrorPreview(boolean mirror) {
-    this.mirrorPreview=mirror;
+    this.mirrorPreview = mirror;
   }
 
   @SuppressWarnings("unused")
@@ -253,43 +244,32 @@ public class CameraFragment extends Fragment {
     }
   }
 
-  @SuppressWarnings("unused")
-  public void onEventMainThread(CameraEngine.OpenedEvent event) {
-    if (event.exception==null) {
+  @SuppressWarnings("unused") public void onEventMainThread(CameraEngine.OpenedEvent event) {
+    if (event.exception == null) {
       progress.setVisibility(View.GONE);
-      fabSwitch.setEnabled(true);
-      fabPicture.setEnabled(true);
-    }
-    else {
+    } else {
       getActivity().finish();
     }
   }
 
-  @SuppressWarnings("unused")
-  public void onEventMainThread(CameraEngine.VideoTakenEvent event) {
-    if (event.exception==null) {
+  @SuppressWarnings("unused") public void onEventMainThread(CameraEngine.VideoTakenEvent event) {
+    if (event.exception == null) {
       if (getArguments().getBoolean(ARG_UPDATE_MEDIA_STORE, false)) {
-        final Context app=getActivity().getApplicationContext();
-        Uri output=getArguments().getParcelable(ARG_OUTPUT);
-        final String path=output.getPath();
+        final Context app = getActivity().getApplicationContext();
+        Uri output = getArguments().getParcelable(ARG_OUTPUT);
+        final String path = output.getPath();
 
         new Thread() {
-          @Override
-          public void run() {
+          @Override public void run() {
             SystemClock.sleep(2000);
-            MediaScannerConnection.scanFile(app,
-              new String[]{path}, new String[]{"video/mp4"},
-              null);
+            MediaScannerConnection.scanFile(app, new String[] { path },
+                new String[] { "video/mp4" }, null);
           }
         }.start();
       }
 
-      isVideoRecording=false;
-      fabPicture.setImageResource(R.drawable.cwac_cam2_ic_videocam);
-      fabPicture.setColorNormalResId(R.color.cwac_cam2_picture_fab);
-      fabPicture.setColorPressedResId(R.color.cwac_cam2_picture_fab_pressed);
-    }
-    else {
+      isVideoRecording = false;
+    } else {
       getActivity().finish();
     }
   }
@@ -297,20 +277,18 @@ public class CameraFragment extends Fragment {
   protected void performCameraAction() {
     if (isVideo()) {
       recordVideo();
-    }
-    else {
+    } else {
       takePicture();
     }
   }
 
   private void takePicture() {
-    Uri output=getArguments().getParcelable(ARG_OUTPUT);
+    Uri output = getArguments().getParcelable(ARG_OUTPUT);
 
-    PictureTransaction.Builder b=new PictureTransaction.Builder();
+    PictureTransaction.Builder b = new PictureTransaction.Builder();
 
-    if (output!=null) {
-      b.toUri(getActivity(), output,
-          getArguments().getBoolean(ARG_UPDATE_MEDIA_STORE, false));
+    if (output != null) {
+      b.toUri(getActivity(), output, getArguments().getBoolean(ARG_UPDATE_MEDIA_STORE, false));
     }
 
     ctlr.takePicture(b.build());
@@ -320,29 +298,23 @@ public class CameraFragment extends Fragment {
     if (isVideoRecording) {
       try {
         ctlr.stopVideoRecording();
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         Log.e(getClass().getSimpleName(), "Exception stopping recording of video", e);
         // TODO: um, do something here
       }
-    }
-    else {
+    } else {
       try {
-        VideoTransaction.Builder b=new VideoTransaction.Builder();
-        Uri output=getArguments().getParcelable(ARG_OUTPUT);
+        VideoTransaction.Builder b = new VideoTransaction.Builder();
+        Uri output = getArguments().getParcelable(ARG_OUTPUT);
 
         b.to(new File(output.getPath()))
-         .quality(getArguments().getInt(ARG_VIDEO_QUALITY, 1))
-         .sizeLimit(getArguments().getInt(ARG_SIZE_LIMIT, 0))
-         .durationLimit(getArguments().getInt(ARG_DURATION_LIMIT, 0));
+            .quality(getArguments().getInt(ARG_VIDEO_QUALITY, 1))
+            .sizeLimit(getArguments().getInt(ARG_SIZE_LIMIT, 0))
+            .durationLimit(getArguments().getInt(ARG_DURATION_LIMIT, 0));
 
         ctlr.recordVideo(b.build());
-        isVideoRecording=true;
-        fabPicture.setImageResource(R.drawable.cwac_cam2_ic_stop);
-        fabPicture.setColorNormalResId(R.color.cwac_cam2_recording_fab);
-        fabPicture.setColorPressedResId(R.color.cwac_cam2_recording_fab_pressed);
-      }
-      catch (Exception e) {
+        isVideoRecording = true;
+      } catch (Exception e) {
         Log.e(getClass().getSimpleName(), "Exception recording video", e);
         // TODO: um, do something here
       }
@@ -350,18 +322,18 @@ public class CameraFragment extends Fragment {
   }
 
   private boolean isVideo() {
-    return(getArguments().getBoolean(ARG_IS_VIDEO, false));
+    return (getArguments().getBoolean(ARG_IS_VIDEO, false));
   }
 
   private void prepController() {
-    LinkedList<CameraView> cameraViews=new LinkedList<CameraView>();
-    CameraView cv=(CameraView)previewStack.getChildAt(0);
+    LinkedList<CameraView> cameraViews = new LinkedList<CameraView>();
+    CameraView cv = (CameraView) previewStack.getChildAt(0);
 
     cv.setMirror(mirrorPreview);
     cameraViews.add(cv);
 
-    for (int i=1; i < ctlr.getNumberOfCameras(); i++) {
-      cv=new CameraView(getActivity());
+    for (int i = 1; i < ctlr.getNumberOfCameras(); i++) {
+      cv = new CameraView(getActivity());
       cv.setVisibility(View.INVISIBLE);
       cv.setMirror(mirrorPreview);
       previewStack.addView(cv);
@@ -374,12 +346,12 @@ public class CameraFragment extends Fragment {
   // based on https://goo.gl/3IUM8K
 
   private void changeMenuIconAnimation(final FloatingActionMenu menu) {
-    AnimatorSet set=new AnimatorSet();
-    final ImageView v=menu.getMenuIconView();
-    ObjectAnimator scaleOutX=ObjectAnimator.ofFloat(v, "scaleX", 1.0f, 0.2f);
-    ObjectAnimator scaleOutY=ObjectAnimator.ofFloat(v, "scaleY", 1.0f, 0.2f);
-    ObjectAnimator scaleInX=ObjectAnimator.ofFloat(v, "scaleX", 0.2f, 1.0f);
-    ObjectAnimator scaleInY=ObjectAnimator.ofFloat(v, "scaleY", 0.2f, 1.0f);
+    AnimatorSet set = new AnimatorSet();
+    final ImageView v = menu.getMenuIconView();
+    ObjectAnimator scaleOutX = ObjectAnimator.ofFloat(v, "scaleX", 1.0f, 0.2f);
+    ObjectAnimator scaleOutY = ObjectAnimator.ofFloat(v, "scaleY", 1.0f, 0.2f);
+    ObjectAnimator scaleInX = ObjectAnimator.ofFloat(v, "scaleX", 0.2f, 1.0f);
+    ObjectAnimator scaleInY = ObjectAnimator.ofFloat(v, "scaleY", 0.2f, 1.0f);
 
     scaleOutX.setDuration(50);
     scaleOutY.setDuration(50);
@@ -387,11 +359,9 @@ public class CameraFragment extends Fragment {
     scaleInX.setDuration(150);
     scaleInY.setDuration(150);
     scaleInX.addListener(new AnimatorListenerAdapter() {
-      @Override
-      public void onAnimationStart(Animator animation) {
-        v.setImageResource(menu.isOpened()
-          ? R.drawable.cwac_cam2_ic_action_settings
-          : R.drawable.cwac_cam2_ic_close);
+      @Override public void onAnimationStart(Animator animation) {
+        v.setImageResource(menu.isOpened() ? R.drawable.cwac_cam2_ic_action_settings
+            : R.drawable.cwac_cam2_ic_close);
         // yes, that seems backwards, but it works
         // presumably, opened state not yet toggled
       }

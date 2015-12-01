@@ -15,7 +15,6 @@
 package com.commonsware.cwac.cam2;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
@@ -23,12 +22,8 @@ import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.media.MediaRecorder;
 import android.os.Build;
-import android.os.Environment;
 import android.util.Log;
-import android.view.Surface;
-import android.view.WindowManager;
 import com.commonsware.cwac.cam2.util.Size;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;

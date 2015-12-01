@@ -182,12 +182,6 @@ public class FunFragment extends BaseFragment {
       @Override public void onClick(DialogInterface dialog, int which) {
         switch (which){
           case 0:
-            //int[] startingLocation = new int[2];
-            //ivFun.getLocationOnScreen(startingLocation);
-            //startingLocation[0] += ivFun.getWidth() / 2;
-            //TakePhotoActivity.startCameraFromLocation(startingLocation, mActivity);
-            //mActivity.overridePendingTransition(0, 0);
-            //skipIntent(TakePhotoActivity.class,false);
             Intent i=new CameraActivity.IntentBuilder(getActivity())
                 .skipConfirm()
                 .facing(CameraActivity.Facing.BACK)

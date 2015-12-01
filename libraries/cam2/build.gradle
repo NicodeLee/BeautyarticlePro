@@ -3,6 +3,7 @@ apply plugin: 'com.android.library'
 dependencies {
     compile 'com.github.clans:fab:1.6.1'
     compile 'de.greenrobot:eventbus:2.4.0'
+    compile project(':libraries:CommLib')
 }
 
 android {
