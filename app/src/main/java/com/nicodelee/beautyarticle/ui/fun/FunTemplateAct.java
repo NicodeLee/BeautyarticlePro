@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +12,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.app.BaseSwiBackAct;
-import com.nicodelee.beautyarticle.ui.article.ArticleFragment;
 import com.nicodelee.viewpager.TabletTransformer;
 
 /**

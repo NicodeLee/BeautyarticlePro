@@ -4,9 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -55,10 +52,13 @@ public class PhotoProcessActivity extends BaseAct {
     initView();
   }
 
-  @OnClick({ R.id.left }) public void Click(View view) {
+  @OnClick({ R.id.left,R.id.right }) public void Click(View view) {
     switch (view.getId()) {
       case R.id.left:
         finish();
+        break;
+      case R.id.right:
+        savePicture();
         break;
     }
   }
@@ -68,11 +68,13 @@ public class PhotoProcessActivity extends BaseAct {
     title.setText("图片美化");
     left.setImageResource(R.drawable.ic_arrow_back_white_24dp);
     right.setImageResource(R.drawable.ic_arrow_forward_white_24dp);
+
     Intent intent = getIntent();
-    Uri uri = intent.getData();
+    String uri = intent.getStringExtra("uri");
+    //Uri uri = intent.getData();
 
     if (uri != null) {
-      Bitmap bitmap = APP.getInstance().imageLoader.loadImageSync(uri + "",
+      Bitmap bitmap = APP.getInstance().imageLoader.loadImageSync(uri,
           new ImageSize(DevicesUtil.screenWidth, DevicesUtil.screenWidth));
       gpuimage.setImage(bitmap);
 
@@ -84,10 +86,6 @@ public class PhotoProcessActivity extends BaseAct {
       gpuimage.setLayoutParams(rparams);
       initFilterToolBar();
     }
-  }
-
-  @OnClick(R.id.right) void goNext() {
-    savePicture();
   }
 
   //保存图片

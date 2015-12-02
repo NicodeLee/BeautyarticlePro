@@ -73,6 +73,9 @@ public class PreviewPicturesActivity extends AppCompatActivity {
         intent.putExtra("pics", picList);
         intent.putExtra("index", index);
         setResult(RESULT_OK, intent);
+        //Intent intent = new Intent(PreviewPicturesActivity.this,PhotoProcessActivity.class);
+        //intent.putExtra("uri",picList.get(0));
+        //startActivity(intent);
         finish();
       }
     });

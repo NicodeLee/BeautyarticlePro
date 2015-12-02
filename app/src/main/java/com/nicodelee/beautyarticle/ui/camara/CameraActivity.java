@@ -96,7 +96,8 @@ public class CameraActivity extends AbstractCameraActivity
           @Override public void run() {
             //setResult(RESULT_OK, new Intent().setData(getOutputUri()));
             Intent intent = new Intent(CameraActivity.this,PhotoProcessActivity.class);
-            intent.setData(getOutputUri());
+            intent.putExtra("uri",getOutputUri()+"");
+            //intent.setData(getOutputUri());
             startActivity(intent);
             removeFragments();
           }

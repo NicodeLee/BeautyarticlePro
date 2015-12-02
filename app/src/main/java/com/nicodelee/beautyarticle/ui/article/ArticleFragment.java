@@ -26,11 +26,9 @@ import com.nicodelee.beautyarticle.mode.ActicleMod;
 import com.nicodelee.beautyarticle.utils.UILUtils;
 import java.util.ArrayList;
 import rx.Observable;
-import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 public class ArticleFragment extends BaseFragment {
 

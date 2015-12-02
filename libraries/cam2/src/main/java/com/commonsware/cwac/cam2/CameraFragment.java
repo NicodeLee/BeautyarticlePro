@@ -342,34 +342,4 @@ public class CameraFragment extends Fragment {
 
     ctlr.setCameraViews(cameraViews);
   }
-
-  // based on https://goo.gl/3IUM8K
-
-  private void changeMenuIconAnimation(final FloatingActionMenu menu) {
-    AnimatorSet set = new AnimatorSet();
-    final ImageView v = menu.getMenuIconView();
-    ObjectAnimator scaleOutX = ObjectAnimator.ofFloat(v, "scaleX", 1.0f, 0.2f);
-    ObjectAnimator scaleOutY = ObjectAnimator.ofFloat(v, "scaleY", 1.0f, 0.2f);
-    ObjectAnimator scaleInX = ObjectAnimator.ofFloat(v, "scaleX", 0.2f, 1.0f);
-    ObjectAnimator scaleInY = ObjectAnimator.ofFloat(v, "scaleY", 0.2f, 1.0f);
-
-    scaleOutX.setDuration(50);
-    scaleOutY.setDuration(50);
-
-    scaleInX.setDuration(150);
-    scaleInY.setDuration(150);
-    scaleInX.addListener(new AnimatorListenerAdapter() {
-      @Override public void onAnimationStart(Animator animation) {
-        v.setImageResource(menu.isOpened() ? R.drawable.cwac_cam2_ic_action_settings
-            : R.drawable.cwac_cam2_ic_close);
-        // yes, that seems backwards, but it works
-        // presumably, opened state not yet toggled
-      }
-    });
-
-    set.play(scaleOutX).with(scaleOutY);
-    set.play(scaleInX).with(scaleInY).after(scaleOutX);
-    set.setInterpolator(new OvershootInterpolator(2));
-    menu.setIconToggleAnimatorSet(set);
-  }
 }

@@ -19,7 +19,6 @@ import com.nicodelee.beautyarticle.app.APP;
 import com.nicodelee.beautyarticle.mode.ActicleMod;
 import com.nicodelee.beautyarticle.ui.article.ArticleAct;
 import com.nicodelee.beautyarticle.utils.DevicesUtil;
-import com.nicodelee.beautyarticle.utils.L;
 import com.nicodelee.utils.ListUtils;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -30,13 +29,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by alee on 2015/7/4.
