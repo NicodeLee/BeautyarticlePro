@@ -134,10 +134,10 @@ public class ActicleListFragment extends BaseFragment
     mSwipeLayout.setRefreshing(false);
     if (ListUtils.isEmpty(acticleMods)) {
       if (page > 0) {
-        showToast("全部加载完毕");
+        showInfo("全部加载完毕");
         isHasMore = false;
       } else if (page < 0) {
-        showToast("小编正为你编辑更多文章");
+        showInfo("小编正为你编辑更多文章");
       }
       return;
     }

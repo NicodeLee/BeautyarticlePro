@@ -19,7 +19,7 @@ package com.nicodelee.beautyarticle.ui.camara;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
-import com.nicodelee.beautyarticle.R;
+import com.nicodelee.beautyarticle.base.R;
 import java.util.LinkedList;
 import java.util.List;
 import jp.co.cyberagent.android.gpuimage.GPUImage3x3ConvolutionFilter;
@@ -353,7 +353,7 @@ public class GPUImageFilterTools {
     try {
       GPUImageTwoInputFilter filter = filterClass.newInstance();
       filter.setBitmap(
-          BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher));
+          BitmapFactory.decodeResource(context.getResources(), R.drawable.lookup_amatorka));
       return filter;
     } catch (Exception e) {
       e.printStackTrace();

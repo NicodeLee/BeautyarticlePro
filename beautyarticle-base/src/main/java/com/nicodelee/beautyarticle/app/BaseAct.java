@@ -1,13 +1,15 @@
 package com.nicodelee.beautyarticle.app;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.Toast;
 import com.devspark.appmsg.AppMsg;
-import com.nicodelee.beautyarticle.R;
+import com.nicodelee.beautyarticle.base.R;
 import com.nicodelee.view.LoadingDialog;
 import de.greenrobot.event.EventBus;
 import java.io.Serializable;
@@ -33,9 +35,9 @@ public abstract class BaseAct extends AppCompatActivity {
     super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
   }
 
-  public APP getApp() {
-    return (APP) getApplication();
-  }
+  //public APP getApp() {
+  //  return (APP) getApplication();
+  //}
 
   public void showToast(String message) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
@@ -51,6 +53,14 @@ public abstract class BaseAct extends AppCompatActivity {
     appMsg.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
     appMsg.setLayoutGravity(Gravity.CENTER);
     appMsg.show();
+  }
+
+  public <T> T findViewById(View v, int id) {
+    return (T) v.findViewById(id);
+  }
+
+  public <T> T findViewById(Activity activity, int id) {
+    return (T) activity.findViewById(id);
   }
 
   public void skipIntent(Class clz, HashMap<String, Object> map, boolean isFinish) {
@@ -124,5 +134,4 @@ public abstract class BaseAct extends AppCompatActivity {
   protected boolean isStickyAvailable() {
     return false;
   }
-
 }

@@ -70,7 +70,6 @@ android {
       keyPassword "com.nicodelee"
     }
   }
-
 }
 
 repositories {
@@ -119,7 +118,7 @@ dependencies {
   compile project(':libraries:multi-image-selector')
   compile project(':libraries:sociallibrary')
   compile project(':libraries:cam2')
-//  compile project(':beautyarticle-base')
+  compile project(':beautyarticle-base')
 }
 
 apply plugin: 'me.tatarka.retrolambda'

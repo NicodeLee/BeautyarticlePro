@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.Gravity;
 import android.widget.Toast;
+import com.devspark.appmsg.AppMsg;
 import de.greenrobot.event.EventBus;
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -51,6 +53,15 @@ public abstract class BaseFragment extends Fragment {
 
   public void showToast(String message) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+  }
+
+  public void showInfo(String message) {
+    AppMsg.Style style = new AppMsg.Style(1500, com.nicodelee.beautyarticle.base.R.color.colorAccent);
+    AppMsg appMsg = AppMsg.makeText(getActivity(), message, style);
+    appMsg.setAnimation(
+        com.nicodelee.beautyarticle.base.R.anim.slide_in_bottom, com.nicodelee.beautyarticle.base.R.anim.slide_out_bottom);
+    appMsg.setLayoutGravity(Gravity.CENTER);
+    appMsg.show();
   }
 
   public void skipIntent(Class clz, HashMap<String, Object> map, boolean isFinish) {

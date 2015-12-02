@@ -1,22 +1,23 @@
 package com.nicodelee.beautyarticle.ui.camara;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import com.nicodelee.beautyarticle.R;
-import com.nicodelee.beautyarticle.app.APP;
+import android.widget.Toast;
 import com.nicodelee.beautyarticle.app.BaseAct;
+import com.nicodelee.beautyarticle.base.R;
 import com.nicodelee.beautyarticle.utils.AndroidUtils;
-import com.nicodelee.beautyarticle.utils.DevicesUtil;
 import com.nicodelee.beautyarticle.utils.TimeUtils;
+import com.nicodelee.utils.StringUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import de.greenrobot.event.EventBus;
 import it.sephiroth.android.library.widget.AdapterView;
@@ -31,58 +32,68 @@ import jp.co.cyberagent.android.gpuimage.GPUImageView;
  * Email：lirizhilirizhi@163.com
  * 照片编辑
  */
-public class PhotoProcessActivity extends BaseAct {
+public class PhotoProcessActivity extends BaseAct implements View.OnClickListener {
 
-  @Bind(R.id.gpuimage) GPUImageView gpuimage;
-  @Bind(R.id.left) ImageView left;
-  @Bind(R.id.right) ImageView right;
-  @Bind(R.id.list_tools) HListView bottomToolBar;
-  //@Bind(R.id.list_tools) RecyclerView listTools;
-  @Bind(R.id.title) TextView title;
+  private GPUImageView gpuimage;
+  private ImageView left;
+  private ImageView right;
+  private HListView bottomToolBar;
+  private TextView title;
 
-  //用于预览的小图片
+  //预览的小图
   private Bitmap smallImageBackgroud;
-
-  static PhotoProcessActivity photoProcessActivity;
+  protected static PhotoProcessActivity photoProcessActivity;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_image_process);
-    ButterKnife.bind(this);
     initView();
   }
 
-  @OnClick({ R.id.left,R.id.right }) public void Click(View view) {
-    switch (view.getId()) {
-      case R.id.left:
-        finish();
-        break;
-      case R.id.right:
-        savePicture();
-        break;
+  @Override public void onClick(View view) {
+    int i = view.getId();
+    if (i == R.id.left) {
+      finish();
+    } else if (i == R.id.right) {
+      savePicture();
     }
   }
 
   private void initView() {
     photoProcessActivity = this;
+    findView();
+    setData();
+  }
+
+  private void findView() {
+    title =  findViewById(this,R.id.title);
+    left = findViewById(this,R.id.left);
+    right =  findViewById(this,R.id.right);
+    gpuimage = findViewById(this,R.id.gpuimage);
+    bottomToolBar = findViewById(this,R.id.list_tools);
+
     title.setText("图片美化");
     left.setImageResource(R.drawable.ic_arrow_back_white_24dp);
     right.setImageResource(R.drawable.ic_arrow_forward_white_24dp);
+    left.setOnClickListener(this);
+    right.setOnClickListener(this);
+  }
 
+  private void setData() {
     Intent intent = getIntent();
     String uri = intent.getStringExtra("uri");
-    //Uri uri = intent.getData();
-
-    if (uri != null) {
-      Bitmap bitmap = APP.getInstance().imageLoader.loadImageSync(uri,
-          new ImageSize(DevicesUtil.screenWidth, DevicesUtil.screenWidth));
+    if (!uri.contains("file://")) {
+      uri = "file://" + uri;
+    }
+    if (!StringUtils.isEmpty(uri)) {
+      ImageLoader imageLoader = ImageLoader.getInstance();
+      WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+      int width = wm.getDefaultDisplay().getWidth();
+      int heiht = wm.getDefaultDisplay().getWidth();
+      Bitmap bitmap = imageLoader.loadImageSync(uri, new ImageSize(width, width));
       gpuimage.setImage(bitmap);
-
-      smallImageBackgroud =
-          APP.getInstance().imageLoader.loadImageSync(uri + "", new ImageSize(80, 80));
-
-      RelativeLayout.LayoutParams rparams =
-          new RelativeLayout.LayoutParams(DevicesUtil.screenHeight, DevicesUtil.screenWidth);
+      smallImageBackgroud = imageLoader.loadImageSync(uri + "", new ImageSize(80, 80));
+      RelativeLayout.LayoutParams rparams = new RelativeLayout.LayoutParams(heiht, width);
       gpuimage.setLayoutParams(rparams);
       initFilterToolBar();
     }
@@ -104,15 +115,6 @@ public class PhotoProcessActivity extends BaseAct {
 
   //初始化滤镜
   private void initFilterToolBar() {
-    //RecyclerView bug https://github.com/CyberAgent/android-gpuimage/issues/189
-    //LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-    //final List<FilterEffect> filters = EffectService.getInst().getLocalFilters();
-    //final PhotoFiltersAdapter adapter =
-    //    new PhotoFiltersAdapter(PhotoProcessActivity.this, filters, smallImageBackgroud,linearLayoutManager);
-    //listTools.setAdapter(adapter);
-    //listTools.setHasFixedSize(true);
-    //listTools.setLayoutManager(linearLayoutManager);
-
     final List<FilterEffect> filters = EffectService.getInst().getLocalFilters();
     final FilterAdapter adapter =
         new FilterAdapter(PhotoProcessActivity.this, filters, smallImageBackgroud);

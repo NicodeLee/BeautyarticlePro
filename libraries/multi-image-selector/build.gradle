@@ -22,4 +22,5 @@ dependencies {
     compile rootProject.ext.dependencies["com.android.support:appcompat-v7"]
     compile rootProject.ext.dependencies["com.squareup.picasso"]
     compile project(':libraries:CommLib')
+    compile project(':beautyarticle-base')
 }

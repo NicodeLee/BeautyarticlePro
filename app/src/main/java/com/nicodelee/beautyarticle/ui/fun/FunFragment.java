@@ -229,8 +229,7 @@ public class FunFragment extends BaseFragment {
     ivFun.setImageBitmap(corpBitmap);
   }
 
-  public void onEvent(Uri uri) {//拍照后编辑
-    L.e("图片编辑");
+  public void onEvent(Uri uri) {
     APP.getInstance().imageLoader.displayImage(uri+"",ivFun,APP.options);
   }
 }
