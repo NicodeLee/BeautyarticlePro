@@ -36,7 +36,6 @@ public class SquareFragment extends TemplateBase {
 
   private Bitmap bitmap;
   private static final int REQUEST_IMAGE = 2;
-  private static final int REQUEST_PORTRAIT_FFC = 3;
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -71,37 +70,11 @@ public class SquareFragment extends TemplateBase {
         showEdDialig(false);
         break;
       case R.id.iv_fun:
-        //int selectedMode = MultiImageSelectorActivity.MODE_SINGLE;
-        //MultiImageSelectorActivity.startSelect(SquareFragment.this, REQUEST_IMAGE, 1, selectedMode);
         showChiocePicDialog();
         break;
     }
   }
 
-  private void showChiocePicDialog(){
-    String[] items = new String[]{"拍照", "相册"};
-    new AlertDialog.Builder(mActivity).setItems(items, new DialogInterface.OnClickListener() {
-      @Override public void onClick(DialogInterface dialog, int which) {
-        switch (which){
-          case 0:
-            Intent i=new CameraActivity.IntentBuilder(getActivity())
-                .skipConfirm()
-                .facing(CameraActivity.Facing.BACK)
-                .to(new File(AndroidUtils.IMAGE_CACHE_PATH, "nicodelee.jpg"))
-                .debug()
-                .updateMediaStore()
-                .build();
-
-            startActivityForResult(i, REQUEST_PORTRAIT_FFC);
-            break;
-          case 1:
-            int selectedMode = MultiImageSelectorActivity.MODE_SINGLE;
-            MultiImageSelectorActivity.startSelect(getActivity(), REQUEST_IMAGE, 1, selectedMode);
-            break;
-        }
-      }
-    }).create().show();
-  }
 
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
@@ -121,7 +94,6 @@ public class SquareFragment extends TemplateBase {
   }
 
   public void onEvent(Uri uri) {//拍照后编辑
-    L.e("图片编辑");
     APP.getInstance().imageLoader.displayImage(uri+"",ivFun,APP.options);
   }
 }

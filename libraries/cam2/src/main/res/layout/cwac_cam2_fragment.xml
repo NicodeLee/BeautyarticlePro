@@ -72,10 +72,10 @@
 
         <Button
             android:id="@+id/btnTakePhoto"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
             android:layout_gravity="center"
-            android:background="@drawable/btn_capture"/>
+            android:background="@drawable/selector_photo_take"/>
       </FrameLayout>
 
       <FrameLayout

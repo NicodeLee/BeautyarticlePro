@@ -180,8 +180,8 @@ public class ActicleListFragment extends BaseFragment
 
   public void onEvent(String msg) {
     if (msg.equals("Reselected")) {
-      rv.smoothScrollToPosition(0);
-      //linearLayoutManager.scrollToPosition(0);
+      //rv.smoothScrollToPosition(0);
+      linearLayoutManager.scrollToPosition(0);
     } else if (msg.equals("clear")) {
       mActcleAdapter.clearData();
     }

@@ -2,6 +2,7 @@ package com.nicodelee.beautyarticle.ui.fun;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.nicodelee.beautyarticle.R;
+import com.nicodelee.beautyarticle.app.APP;
 import com.nicodelee.beautyarticle.bus.CropEvent;
 import com.nicodelee.beautyarticle.utils.DevicesUtil;
 import com.nicodelee.beautyarticle.utils.SharImageHelper;
@@ -69,8 +71,7 @@ public class RectangleFragment extends TemplateBase {
         showEdDialig(false);
         break;
       case R.id.iv_fun:
-        int selectedMode = MultiImageSelectorActivity.MODE_SINGLE;
-        MultiImageSelectorActivity.startSelect(RectangleFragment.this, REQUEST_IMAGE, 1, selectedMode);
+        showChiocePicDialog();
         break;
     }
   }
@@ -96,4 +97,9 @@ public class RectangleFragment extends TemplateBase {
   public void onEvent(Bitmap corpBitmap) {
     ivFun.setImageBitmap(corpBitmap);
   }
+
+  public void onEvent(Uri uri) {//拍照后编辑
+    APP.getInstance().imageLoader.displayImage(uri+"",ivFun,APP.options);
+  }
+
 }

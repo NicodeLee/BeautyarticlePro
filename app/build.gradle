@@ -62,6 +62,15 @@ android {
     exclude 'META-INF/LGPL2.1'
   }
 
+  lintOptions {
+    disable 'MissingTranslation', 'ExtraTranslation'
+  }
+
+  lintOptions {
+    checkReleaseBuilds false
+    abortOnError false
+  }
+
   signingConfigs {
     debug {
       storeFile file("beautiful.keystore")

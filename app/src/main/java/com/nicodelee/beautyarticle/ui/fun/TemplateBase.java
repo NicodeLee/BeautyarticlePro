@@ -2,6 +2,7 @@ package com.nicodelee.beautyarticle.ui.fun;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,8 +16,12 @@ import butterknife.Bind;
 import com.github.clans.fab.FloatingActionMenu;
 import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.app.BaseFragment;
+import com.nicodelee.beautyarticle.ui.camara.CameraActivity;
+import com.nicodelee.beautyarticle.utils.AndroidUtils;
 import com.nicodelee.beautyarticle.viewhelper.LayoutToImage;
 import com.nicodelee.utils.WeakHandler;
+import java.io.File;
+import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
 import static butterknife.ButterKnife.findById;
 
@@ -31,6 +36,7 @@ public class TemplateBase extends BaseFragment {
   @Bind(R.id.tv_fun) TextView tvDesc;
 
   protected static final int REQUEST_IMAGE = 2;
+  private static final int REQUEST_PORTRAIT_FFC = 3;
 
   protected LayoutToImage layoutToImage;
   protected LayoutInflater inflater;
@@ -75,4 +81,31 @@ public class TemplateBase extends BaseFragment {
       }
     }, 200);
   }
+
+
+  protected void showChiocePicDialog(){
+    String[] items = new String[]{"拍照", "相册"};
+    new AlertDialog.Builder(mActivity).setItems(items, new DialogInterface.OnClickListener() {
+      @Override public void onClick(DialogInterface dialog, int which) {
+        switch (which){
+          case 0:
+            Intent i=new CameraActivity.IntentBuilder(getActivity())
+                .skipConfirm()
+                .facing(CameraActivity.Facing.BACK)
+                .to(new File(AndroidUtils.IMAGE_CACHE_PATH, "nicodelee.jpg"))
+                .debug()
+                .updateMediaStore()
+                .build();
+
+            startActivityForResult(i, REQUEST_PORTRAIT_FFC);
+            break;
+          case 1:
+            int selectedMode = MultiImageSelectorActivity.MODE_SINGLE;
+            MultiImageSelectorActivity.startSelect(getActivity(), REQUEST_IMAGE, 1, selectedMode);
+            break;
+        }
+      }
+    }).create().show();
+  }
+
 }
