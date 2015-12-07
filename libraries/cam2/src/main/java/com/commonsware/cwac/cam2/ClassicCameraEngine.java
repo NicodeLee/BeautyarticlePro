@@ -1,10 +1,8 @@
 /***
  Copyright (c) 2015 CommonsWare, LLC
-
  Licensed under the Apache License, Version 2.0 (the "License"); you may
  not use this file except in compliance with the License. You may obtain
  a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
-
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -106,7 +104,7 @@ public class ClassicCameraEngine extends CameraEngine
 
         for (Descriptor descriptor : descriptors) {
           if (!criteria.getFacingExactMatch() ||
-            descriptor.getScore(criteria)>0) {
+              descriptor.getScore(criteria)>0) {
             result.add(descriptor);
           }
         }
@@ -197,7 +195,7 @@ public class ClassicCameraEngine extends CameraEngine
    */
   @Override
   public void open(final CameraSession session,
-                   final SurfaceTexture texture) {
+      final SurfaceTexture texture) {
     getThreadPool().execute(new Runnable() {
       @Override
       public void run() {
@@ -211,7 +209,7 @@ public class ClassicCameraEngine extends CameraEngine
 
         try {
           camera.setParameters(((Session)session).configureStillCamera(
-            false));
+              false));
           camera.setPreviewTexture(texture);
           camera.startPreview();
           getBus().post(new OpenedEvent());
@@ -231,7 +229,7 @@ public class ClassicCameraEngine extends CameraEngine
 
   @Override
   public void recordVideo(CameraSession session,
-                          VideoTransaction xact) throws Exception {
+      VideoTransaction xact) throws Exception {
     Descriptor descriptor=(Descriptor)session.getDescriptor();
     Camera camera=descriptor.getCamera();
 
@@ -243,7 +241,7 @@ public class ClassicCameraEngine extends CameraEngine
         recorder=new MediaRecorder();
         recorder.setCamera(camera);
         recorder.setAudioSource(
-          MediaRecorder.AudioSource.CAMCORDER);
+            MediaRecorder.AudioSource.CAMCORDER);
         recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
         ((Session)session).configureRecorder(xact, recorder);
@@ -290,15 +288,12 @@ public class ClassicCameraEngine extends CameraEngine
       (WindowManager)ctxt.getSystemService(Context.WINDOW_SERVICE);
     Configuration config=ctxt.getResources().getConfiguration();
     int rotation=windowManager.getDefaultDisplay().getRotation();
-
     boolean defaultLandscapeAndIsInLandscape = (rotation == Surface.ROTATION_0 ||
       rotation == Surface.ROTATION_180) &&
       config.orientation == Configuration.ORIENTATION_LANDSCAPE;
-
     boolean defaultLandscapeAndIsInPortrait = (rotation == Surface.ROTATION_90 ||
       rotation == Surface.ROTATION_270) &&
       config.orientation == Configuration.ORIENTATION_PORTRAIT;
-
     return(defaultLandscapeAndIsInLandscape ||
       defaultLandscapeAndIsInPortrait);
   }
@@ -306,7 +301,7 @@ public class ClassicCameraEngine extends CameraEngine
 
   @Override
   public void handleOrientationChange(CameraSession session,
-                                      OrientationChangedEvent event) {
+      OrientationChangedEvent event) {
     ((Session)session).configureStillCamera(true);
   }
 
@@ -334,7 +329,7 @@ public class ClassicCameraEngine extends CameraEngine
       @Override
       public void run() {
         YuvImage yuv=new YuvImage(data, previewFormat,
-          previewWidth, previewHeight, null);
+            previewWidth, previewHeight, null);
 
         try {
           if (savePreviewFile().exists()) {
@@ -342,17 +337,17 @@ public class ClassicCameraEngine extends CameraEngine
           }
 
           FileOutputStream fos=
-            new FileOutputStream(savePreviewFile());
+              new FileOutputStream(savePreviewFile());
 
           yuv.compressToJpeg(new Rect(0, 0, previewWidth, previewHeight),
-            90, fos);
+              90, fos);
           fos.flush();
           fos.getFD().sync();
           fos.close();
         }
         catch (Exception e) {
           Log.e(getClass().getSimpleName(),
-            "Exception saving preview frame", e);
+              "Exception saving preview frame", e);
         }
       }
     }.start();
@@ -374,7 +369,7 @@ public class ClassicCameraEngine extends CameraEngine
         public void run() {
           camera.startPreview();
           getBus().post(new PictureTakenEvent(xact,
-            xact.process(new ImageContext(ctxt, bytes))));
+              xact.process(new ImageContext(ctxt, bytes))));
         }
       });
     }
@@ -464,13 +459,13 @@ public class ClassicCameraEngine extends CameraEngine
 
         for (CameraPlugin plugin : getPlugins()) {
           ClassicCameraConfigurator configurator=
-            plugin.buildConfigurator(
-              ClassicCameraConfigurator.class);
+              plugin.buildConfigurator(
+                  ClassicCameraConfigurator.class);
 
           if (configurator!=null) {
             params=
-              configurator.configureStillCamera(info, camera,
-                params);
+                configurator.configureStillCamera(info, camera,
+                    params);
           }
         }
       }
@@ -479,16 +474,16 @@ public class ClassicCameraEngine extends CameraEngine
     }
 
     void configureRecorder(VideoTransaction xact,
-                           MediaRecorder recorder) {
+        MediaRecorder recorder) {
       final Descriptor descriptor=(Descriptor)getDescriptor();
 
       for (CameraPlugin plugin : getPlugins()) {
         ClassicCameraConfigurator configurator=
-          plugin.buildConfigurator(ClassicCameraConfigurator.class);
+            plugin.buildConfigurator(ClassicCameraConfigurator.class);
 
         if (configurator!=null) {
           configurator.configureRecorder(descriptor.getCameraId(),
-            xact, recorder);
+              xact, recorder);
         }
       }
     }

@@ -1,4 +1,4 @@
-package com.nicodelee.beautyarticle.ui.article;
+package com.nicodelee.beautyarticle.ui.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

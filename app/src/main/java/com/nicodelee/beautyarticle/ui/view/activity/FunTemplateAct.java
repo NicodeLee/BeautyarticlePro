@@ -1,4 +1,4 @@
-package com.nicodelee.beautyarticle.ui.fun;
+package com.nicodelee.beautyarticle.ui.view.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +12,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.app.BaseSwiBackAct;
+import com.nicodelee.beautyarticle.ui.view.fragment.RectangleFragment;
+import com.nicodelee.beautyarticle.ui.view.fragment.SquareFragment;
 import com.nicodelee.viewpager.TabletTransformer;
 
 /**

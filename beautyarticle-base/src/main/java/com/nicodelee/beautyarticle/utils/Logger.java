@@ -5,10 +5,10 @@ import com.nicodelee.beautyarticle.base.BuildConfig;
 /**
  * Wrapper API for sending log output.
  */
-public class L {
+public class Logger {
   protected static final String TAG = "beautyarticle";
 
-  private L() {
+  private Logger() {
   }
 
   /**
@@ -122,7 +122,7 @@ public class L {
   protected static String buildMessage(String msg) {
     StackTraceElement caller = new Throwable().fillInStackTrace().getStackTrace()[2];
     return new StringBuilder().append("*****")
-        .append("-L-")
+        .append("-Line-")
         .append(caller.getLineNumber())
         .append("-")
         .append(caller.getClassName())

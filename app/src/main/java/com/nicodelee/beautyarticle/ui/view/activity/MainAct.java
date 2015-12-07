@@ -1,4 +1,4 @@
-package com.nicodelee.beautyarticle.ui.home;
+package com.nicodelee.beautyarticle.ui.view.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -10,8 +10,8 @@ import android.view.MenuItem;
 import butterknife.ButterKnife;
 import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.adapter.MainTabPageAdapter;
-import com.nicodelee.beautyarticle.ui.fun.FunFragment;
-import com.nicodelee.beautyarticle.ui.setting.SettingAct;
+import com.nicodelee.beautyarticle.ui.view.fragment.FunFragment;
+import com.nicodelee.beautyarticle.ui.view.fragment.ActicleListFragment;
 import de.greenrobot.event.EventBus;
 
 public class MainAct extends MainBase {
@@ -21,6 +21,10 @@ public class MainAct extends MainBase {
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
     initView();
+  }
+
+  @Override protected int getLayoutResId() {
+    return R.layout.activity_main;
   }
 
   private void initView() {

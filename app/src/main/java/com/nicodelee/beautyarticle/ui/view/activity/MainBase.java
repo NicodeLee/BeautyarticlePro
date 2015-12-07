@@ -1,4 +1,4 @@
-package com.nicodelee.beautyarticle.ui.home;
+package com.nicodelee.beautyarticle.ui.view.activity;
 
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;

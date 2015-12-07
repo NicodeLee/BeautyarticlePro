@@ -1,17 +1,16 @@
-package com.nicodelee.beautyarticle.ui.camara;
+package com.nicodelee.beautyarticle.ui.view.activity;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import com.commonsware.cwac.cam2.AbstractCameraActivity;
 import com.commonsware.cwac.cam2.CameraEngine;
 import com.commonsware.cwac.cam2.CameraFragment;
 import com.commonsware.cwac.cam2.ConfirmationFragment;
 import com.commonsware.cwac.cam2.ImageContext;
-import com.nicodelee.beautyarticle.utils.L;
-import de.greenrobot.event.EventBus;
+import com.nicodelee.beautyarticle.ui.camara.PhotoProcessActivity;
+import com.nicodelee.beautyarticle.utils.Logger;
 import java.io.File;
 
 /**
@@ -74,13 +73,13 @@ public class CameraActivity extends AbstractCameraActivity
   }
 
   @Override public void completeRequest(ImageContext imageContext, boolean isOK) {
-    L.e(String.format("isOk=%b",isOK));
+    Logger.e(String.format("isOk=%b",isOK));
     //拍照回调数据
     if (!isOK) {
       setResult(RESULT_CANCELED);
       finish();
     } else {
-      L.e(String.format("needsThumbnail=%b",needsThumbnail));
+      Logger.e(String.format("needsThumbnail=%b",needsThumbnail));
       if (needsThumbnail) {
         final Intent result = new Intent();
 

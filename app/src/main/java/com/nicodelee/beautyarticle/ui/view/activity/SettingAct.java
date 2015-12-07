@@ -1,4 +1,4 @@
-package com.nicodelee.beautyarticle.ui.setting;
+package com.nicodelee.beautyarticle.ui.view.activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;

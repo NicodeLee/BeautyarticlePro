@@ -1,4 +1,4 @@
-package com.nicodelee.beautyarticle.ui.article;
+package com.nicodelee.beautyarticle.ui.view.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,15 +6,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.app.BaseSwiBackAct;
 import com.nicodelee.beautyarticle.mode.ActicleMod;
-
+import com.nicodelee.beautyarticle.ui.view.fragment.ArticleFragment;
 import java.util.ArrayList;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by alee on 2015/1/9.
@@ -32,6 +30,10 @@ public class ArticleAct extends BaseSwiBackAct {
     setContentView(R.layout.act_article);
     ButterKnife.bind(this);
     initView();
+  }
+
+  @Override protected int getLayoutResId() {
+    return 0;
   }
 
   private void initView() {

@@ -1,4 +1,4 @@
-package com.nicodelee.beautyarticle.ui.fun;
+package com.nicodelee.beautyarticle.ui.view.fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,10 +28,12 @@ import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.app.APP;
 import com.nicodelee.beautyarticle.app.BaseFragment;
 import com.nicodelee.beautyarticle.bus.CropEvent;
-import com.nicodelee.beautyarticle.ui.camara.CameraActivity;
+import com.nicodelee.beautyarticle.ui.view.activity.FunTemplateAct;
+import com.nicodelee.beautyarticle.ui.view.activity.CameraActivity;
+import com.nicodelee.beautyarticle.ui.view.activity.CropAct;
 import com.nicodelee.beautyarticle.utils.AndroidUtils;
 import com.nicodelee.beautyarticle.utils.DevicesUtil;
-import com.nicodelee.beautyarticle.utils.L;
+import com.nicodelee.beautyarticle.utils.Logger;
 import com.nicodelee.beautyarticle.utils.SharImageHelper;
 import com.nicodelee.beautyarticle.utils.ShareHelper;
 import com.nicodelee.beautyarticle.utils.TimeUtils;
@@ -202,7 +204,7 @@ public class FunFragment extends BaseFragment {
   }
 
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    L.e(String.format("requestCode = %s, resultCode= %s, data= %s",requestCode,resultCode,data));
+    Logger.e(String.format("requestCode = %s, resultCode= %s, data= %s",requestCode,resultCode,data));
     if (resultCode != mActivity.RESULT_OK ) return;
 
     CropEvent cropEvent = new CropEvent();
@@ -215,7 +217,7 @@ public class FunFragment extends BaseFragment {
       skipIntent(CropAct.class, false);
     }else if (requestCode == REQUEST_PORTRAIT_FFC){//拍照直接返回的
       String path = data.getData()+"";
-      L.e(String.format("path = %s",path));
+      Logger.e(String.format("path = %s",path));
       if (path !=null) {
         String url = path.substring(path.lastIndexOf("//")+1);
         cropEvent.setImagePath(url);

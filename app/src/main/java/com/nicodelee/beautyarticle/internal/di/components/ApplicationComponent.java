@@ -5,8 +5,8 @@ import com.nicodelee.beautyarticle.app.APP;
 import com.nicodelee.beautyarticle.app.BaseFragment;
 import com.nicodelee.beautyarticle.internal.di.modules.ApplicationModule;
 import com.nicodelee.beautyarticle.app.BaseAct;
-import com.nicodelee.beautyarticle.ui.home.ActicleListFragment;
-import com.nicodelee.beautyarticle.ui.home.MainAct;
+import com.nicodelee.beautyarticle.ui.view.fragment.ActicleListFragment;
+import com.nicodelee.beautyarticle.ui.view.activity.MainAct;
 import dagger.Component;
 import javax.inject.Singleton;
 

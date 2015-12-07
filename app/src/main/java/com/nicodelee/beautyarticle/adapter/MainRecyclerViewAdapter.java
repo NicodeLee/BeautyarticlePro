@@ -17,7 +17,7 @@ import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.app.APP;
 import com.nicodelee.beautyarticle.mode.ActicleMod;
-import com.nicodelee.beautyarticle.ui.article.ArticleAct;
+import com.nicodelee.beautyarticle.ui.view.activity.ArticleAct;
 import com.nicodelee.beautyarticle.utils.DevicesUtil;
 import com.nicodelee.utils.ListUtils;
 import com.nostra13.universalimageloader.core.assist.FailReason;

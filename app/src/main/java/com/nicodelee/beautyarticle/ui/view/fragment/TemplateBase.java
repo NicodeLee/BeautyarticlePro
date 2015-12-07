@@ -1,4 +1,4 @@
-package com.nicodelee.beautyarticle.ui.fun;
+package com.nicodelee.beautyarticle.ui.view.fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,7 +16,7 @@ import butterknife.Bind;
 import com.github.clans.fab.FloatingActionMenu;
 import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.app.BaseFragment;
-import com.nicodelee.beautyarticle.ui.camara.CameraActivity;
+import com.nicodelee.beautyarticle.ui.view.activity.CameraActivity;
 import com.nicodelee.beautyarticle.utils.AndroidUtils;
 import com.nicodelee.beautyarticle.viewhelper.LayoutToImage;
 import com.nicodelee.utils.WeakHandler;

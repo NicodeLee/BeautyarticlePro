@@ -1,4 +1,4 @@
-package com.nicodelee.beautyarticle.ui.fun;
+package com.nicodelee.beautyarticle.ui.view.activity;
 
 import android.os.Bundle;
 import android.view.View;

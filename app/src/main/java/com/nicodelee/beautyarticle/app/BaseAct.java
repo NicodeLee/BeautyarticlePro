@@ -4,28 +4,34 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.LayoutRes;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 import com.devspark.appmsg.AppMsg;
 import com.nicodelee.beautyarticle.base.R;
+import com.nicodelee.beautyarticle.navigation.Navigator;
 import com.nicodelee.view.LoadingDialog;
 import de.greenrobot.event.EventBus;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import javax.inject.Inject;
+import nucleus.presenter.Presenter;
+import nucleus.view.NucleusAppCompatActivity;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public abstract class BaseAct extends AppCompatActivity {
+public abstract class BaseAct <PresenterType extends Presenter> extends
+    NucleusAppCompatActivity<PresenterType> {
+
+  @Inject Navigator navigator;
 
   public LoadingDialog loadingDialog;
-  public Intent intent;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    intent = getIntent();
+    setContentView(getLayoutResId());
     loadingDialog = new LoadingDialog(this);
     //RefWatcher refWatcher = APP.getRefWatcher(this);
     //refWatcher.watch(this);
@@ -34,10 +40,6 @@ public abstract class BaseAct extends AppCompatActivity {
   @Override protected void attachBaseContext(Context newBase) {
     super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
   }
-
-  //public APP getApp() {
-  //  return (APP) getApplication();
-  //}
 
   public void showToast(String message) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
@@ -134,4 +136,6 @@ public abstract class BaseAct extends AppCompatActivity {
   protected boolean isStickyAvailable() {
     return false;
   }
+
+  abstract protected @LayoutRes int getLayoutResId();
 }
