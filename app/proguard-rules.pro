@@ -12,25 +12,26 @@
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
 # class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+
+-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+   public *;
+}
+
+-keep class android.webkit.** { *; }
+-dontwarn android.webkit.**
 
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
 -keep class **$$ViewBinder { *; }
-
 -keepclasseswithmembernames class * {
     @butterknife.* <fields>;
-}
-
--keepclasseswithmembernames class * {
-    @butterknife.* <methods>;
 }
 
 -keep public class com.nicodelee.beautyarticle.R$*{
 		public static final int *;
 }
+
+-keep class com.nicodelee.beautyarticle.** { *;}
 
 # Keep the support library
 -keep class android.support.** { *; }
@@ -47,12 +48,6 @@
 
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
-}
-
--dontwarn retrofit.**
--keep class retrofit.** { *; }
--keepclasseswithmembers class * {
-    @retrofit.http.* <methods>;
 }
 
 # Remove logging calls
@@ -82,6 +77,14 @@
 -keep interface com.squareup.okhttp.** { *; }
 -dontwarn com.squareup.okhttp.**
 
+-dontwarn retrofit.**
+-dontwarn retrofit.appengine.UrlFetchClient
+-keep class retrofit.** { *; }
+-keepclasseswithmembers class * {
+    @retrofit.http.* <methods>;
+}
+
+
 -dontwarn rx.**
 
 ## 使用注解
@@ -96,6 +99,17 @@
     public *;
 }
 
+#dbflow
+-keep class com.raizlabs.android.dbflow.config.GeneratedDatabaseHolder
+
+-dontwarn uk.co.senab.photoview.**
+-keep class uk.co.senab.photoview.** { *;}
+
+# Crashlytics 1.+
+
+-keep class com.crashlytics.** { *; }
+-keepattributes SourceFile,LineNumberTable
+
 ## ----------------------------------
 ##      sharesdk
 ## ----------------------------------
@@ -109,3 +123,17 @@
 -keep class android.webkit.**{*;}
 -keep class cn.sharesdk.**{*;}
 -keep class m.framework.**{*;}
+
+#指定不混淆所有的JNI方法
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+-keep class com.commonsware.cwac.cam2.**{*;}
+-dontwarn com.commonsware.cwac.cam2.**
+-keep class jp.co.cyberagent.android.gpuimage.**{*;}
+-dontwarn jp.co.cyberagent.android.gpuimage.**
+-keep class com.github.clans.fab.**{*;}
+-dontwarn com.github.clans.fab.**
+-keep class com.nostra13.universalimageloader.** { *; }
+-keepclassmembers class com.nostra13.universalimageloader.** {*;}

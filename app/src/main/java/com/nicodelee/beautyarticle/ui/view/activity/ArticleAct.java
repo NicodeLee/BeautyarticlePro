@@ -27,13 +27,11 @@ public class ArticleAct extends BaseSwiBackAct {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.act_article);
-    ButterKnife.bind(this);
     initView();
   }
 
   @Override protected int getLayoutResId() {
-    return 0;
+    return R.layout.act_article;
   }
 
   private void initView() {

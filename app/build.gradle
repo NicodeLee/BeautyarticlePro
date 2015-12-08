@@ -22,7 +22,6 @@ android {
   }
   buildTypes {
     release {
-      // 不显示Log
       buildConfigField "boolean", "LOG_DEBUG", "false"
 
       debuggable false
@@ -79,6 +78,11 @@ android {
       keyPassword "com.nicodelee"
     }
   }
+
+  lintOptions {
+    disable "InvalidPackage"
+    lintConfig file("lint.xml")
+  }
 }
 
 repositories {
@@ -115,9 +119,9 @@ dependencies {
   compile dependencies["com.google.dagger"]
   compile dependencies["gpuimage"]
   compile dependencies["horizontallistview"]
-  compile dependencies["nucleus"]
-  compile dependencies["nucleus-support-v4"]
-  compile dependencies["nucleus-support-v7"]
+//  compile dependencies["nucleus"]
+//  compile dependencies["nucleus-support-v4"]
+//  compile dependencies["nucleus-support-v7"]
 //  compile dependencies["fastScroll"]
 //  compile dependencies["cam2"]
 //  compile dependencies["smooth-app-bar-layout"]

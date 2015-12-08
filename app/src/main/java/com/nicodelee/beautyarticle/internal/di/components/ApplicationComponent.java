@@ -5,6 +5,7 @@ import com.nicodelee.beautyarticle.app.APP;
 import com.nicodelee.beautyarticle.app.BaseFragment;
 import com.nicodelee.beautyarticle.internal.di.modules.ApplicationModule;
 import com.nicodelee.beautyarticle.app.BaseAct;
+import com.nicodelee.beautyarticle.navigation.Navigator;
 import com.nicodelee.beautyarticle.ui.view.fragment.ActicleListFragment;
 import com.nicodelee.beautyarticle.ui.view.activity.MainAct;
 import dagger.Component;
@@ -22,5 +23,6 @@ public interface ApplicationComponent {
   void inject(MainAct mainAct);
   void inject(ActicleListFragment acticleListFragment);
 
+  //Navigator navigator();
   Context context();
 }

@@ -28,9 +28,11 @@ public class FunTemplateAct extends BaseSwiBackAct {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.act_fun_template);
-    ButterKnife.bind(this);
     initView();
+  }
+
+  @Override protected int getLayoutResId() {
+    return R.layout.act_fun_template;
   }
 
   private void initView() {

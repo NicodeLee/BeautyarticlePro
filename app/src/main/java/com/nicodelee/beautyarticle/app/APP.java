@@ -66,8 +66,10 @@ public class APP extends Application {
 
   private void initialzeInjector() {
     this.applicationComponent =
-        DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
-    applicationComponent.inject(this);
+        DaggerApplicationComponent.builder()
+            .applicationModule(new ApplicationModule(this))
+            .build();
+    //applicationComponent.inject(this);
   }
 
   private void initImageLoader(Context context) {
@@ -76,7 +78,7 @@ public class APP extends Application {
             .denyCacheImageMultipleSizesInMemory()
             .diskCacheFileNameGenerator(new Md5FileNameGenerator())
             .diskCacheSize(50 * 1024 * 1024)
-            .imageDownloader(new OkHttpImageDownloader(context,new OkHttpClient()))
+            .imageDownloader(new OkHttpImageDownloader(context, new OkHttpClient()))
             .diskCache(new UnlimitedDiskCache(new File(AndroidUtils.IMAGE_CACHE_PATH)))
             .tasksProcessingOrder(QueueProcessingType.LIFO)
             .diskCacheFileCount(200)
@@ -87,8 +89,8 @@ public class APP extends Application {
 
   public ImageLoader imageLoader = ImageLoader.getInstance();
   public static DisplayImageOptions options =
-      new DisplayImageOptions.Builder().showImageOnLoading(R.color.loading_cl).showImageForEmptyUri(
-          R.color.loading_cl)
+      new DisplayImageOptions.Builder().showImageOnLoading(R.color.loading_cl)
+          .showImageForEmptyUri(R.color.loading_cl)
           .showImageOnFail(R.color.loading_cl)
           .cacheInMemory(true)
           .cacheOnDisk(true)
@@ -98,5 +100,6 @@ public class APP extends Application {
           //			.showImageForEmptyUri(R.drawable.image_loader_empty)
           //			.showImageOnFail(R.drawable.image_loader_fail)
           //			.showImageOnLoading(R.drawable.image_loader_loading)
-          .displayer(new SimpleBitmapDisplayer()).build();
+          .displayer(new SimpleBitmapDisplayer())
+          .build();
 }

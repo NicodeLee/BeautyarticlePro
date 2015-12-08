@@ -5,27 +5,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
+import butterknife.ButterKnife;
 import com.devspark.appmsg.AppMsg;
 import com.nicodelee.beautyarticle.base.R;
-import com.nicodelee.beautyarticle.navigation.Navigator;
+import com.nicodelee.beautyarticle.internal.di.components.ApplicationComponent;
 import com.nicodelee.view.LoadingDialog;
 import de.greenrobot.event.EventBus;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import javax.inject.Inject;
-import nucleus.presenter.Presenter;
-import nucleus.view.NucleusAppCompatActivity;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public abstract class BaseAct <PresenterType extends Presenter> extends
-    NucleusAppCompatActivity<PresenterType> {
+public abstract class BaseAct extends AppCompatActivity {
 
-  @Inject Navigator navigator;
+  //public Navigator navigator;
+  //@Inject Navigator navigator;
 
   public LoadingDialog loadingDialog;
 
@@ -35,8 +34,16 @@ public abstract class BaseAct <PresenterType extends Presenter> extends
     loadingDialog = new LoadingDialog(this);
     //RefWatcher refWatcher = APP.getRefWatcher(this);
     //refWatcher.watch(this);
+    //navigator = getAppComponent().navigator();
+    //this.getAppComponent().inject(this);
   }
 
+
+  @Override
+  public void onContentChanged() {//布局改变回调
+    super.onContentChanged();
+    ButterKnife.bind(this);
+  }
   @Override protected void attachBaseContext(Context newBase) {
     super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
   }
@@ -138,4 +145,8 @@ public abstract class BaseAct <PresenterType extends Presenter> extends
   }
 
   abstract protected @LayoutRes int getLayoutResId();
+
+  protected ApplicationComponent getAppComponent() {
+    return ((APP) getApplication()).getApplicationComponent();
+  }
 }

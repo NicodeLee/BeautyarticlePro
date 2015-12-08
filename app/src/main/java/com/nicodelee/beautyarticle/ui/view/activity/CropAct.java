@@ -23,8 +23,10 @@ public class CropAct extends BaseAct {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.act_corp_photo);
-    ButterKnife.bind(this);
+  }
+
+  @Override protected int getLayoutResId() {
+    return R.layout.act_corp_photo;
   }
 
   public void onEvent(CropEvent cropEvent) {
