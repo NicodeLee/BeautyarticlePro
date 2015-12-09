@@ -51,14 +51,13 @@ import nucleus.factory.RequiresPresenter;
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_main_list, container, false);
-    return view;
+    return inflater.inflate(R.layout.fragment_main_list, container, false);
   }
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    macticleMods = new ArrayList<ActicleMod>();
+    macticleMods = new ArrayList<>();
     mSwipeLayout.setOnRefreshListener(this);
     mSwipeLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorAccent,
         R.color.colorAccent, R.color.colorAccent);
@@ -116,10 +115,8 @@ import nucleus.factory.RequiresPresenter;
   }
 
   private void saveActicles(ArrayList<ActicleMod> acticleMods) {
-    ActicleMod acticleMod;
     for (ActicleMod mainMod : acticleMods) {
-      acticleMod = mainMod;
-      acticleMod.save();
+      mainMod.save();
     }
   }
 

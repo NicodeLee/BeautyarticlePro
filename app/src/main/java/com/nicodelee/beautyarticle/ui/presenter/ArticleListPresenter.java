@@ -1,9 +1,7 @@
 package com.nicodelee.beautyarticle.ui.presenter;
 
 import android.os.Bundle;
-import android.widget.Toast;
 import com.nicodelee.beautyarticle.api.BeautyApi;
-import com.nicodelee.beautyarticle.app.APP;
 import com.nicodelee.beautyarticle.app.BaseRxPresenter;
 import com.nicodelee.beautyarticle.mode.ActicleMod;
 import com.nicodelee.beautyarticle.mode.ActicleMod$Table;
@@ -15,7 +13,6 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Action2;
 import rx.functions.Func0;
 import rx.schedulers.Schedulers;
