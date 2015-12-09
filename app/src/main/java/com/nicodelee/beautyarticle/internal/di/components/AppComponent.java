@@ -14,14 +14,13 @@ import javax.inject.Singleton;
 /**
  * Created by Nicodelee on 15/9/2.
  */
-@Singleton
-@Component(modules = ApplicationModule.class)
-public interface ApplicationComponent {
-  void inject(BaseAct baseAct);
-  void inject(BaseFragment baseFragment);
+@Singleton @Component(modules = ApplicationModule.class) public interface AppComponent {
+  //void inject(MainAct mainAct);
+  //void inject(BaseAct baseAct);
+  //void inject(BaseFragment baseFragment);
   void inject(APP app);
-  void inject(MainAct mainAct);
-  void inject(ActicleListFragment acticleListFragment);
+
+  //void inject(ActicleListFragment acticleListFragment);
 
   //Navigator navigator();
   Context context();

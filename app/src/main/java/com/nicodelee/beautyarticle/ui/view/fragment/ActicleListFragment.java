@@ -9,14 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.adapter.MainRecyclerViewAdapter;
-import com.nicodelee.beautyarticle.api.BeautyApi;
 import com.nicodelee.beautyarticle.app.APP;
-import com.nicodelee.beautyarticle.app.BaseFragment;
+import com.nicodelee.beautyarticle.app.BaseSupportFragment;
 import com.nicodelee.beautyarticle.mode.ActicleMod;
-import com.nicodelee.beautyarticle.mode.ActicleMod$Table;
+import com.nicodelee.beautyarticle.ui.presenter.ArticleListPresenter;
 import com.nicodelee.beautyarticle.viewhelper.EndlessRecyclerOnScrollListener;
 import com.nicodelee.beautyarticle.viewhelper.MySwipeRefreshLayout;
 import com.nicodelee.utils.ListUtils;
@@ -24,17 +22,12 @@ import com.nicodelee.utils.WeakHandler;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Inject;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import nucleus.factory.PresenterFactory;
+import nucleus.factory.RequiresPresenter;
 
-public class ActicleListFragment extends BaseFragment
+@RequiresPresenter(ArticleListPresenter.class) public class ActicleListFragment
+    extends BaseSupportFragment<ArticleListPresenter>
     implements SwipeRefreshLayout.OnRefreshListener {
-
-  @Inject BeautyApi mbeautyApi;
 
   @Bind(R.id.recyclerview) RecyclerView rv;
   @Bind(R.id.swipe_container) MySwipeRefreshLayout mSwipeLayout;
@@ -44,90 +37,55 @@ public class ActicleListFragment extends BaseFragment
   private boolean isHasMore = true;
   private LinearLayoutManager linearLayoutManager;
 
+  @Override protected void injectorPresenter() {
+    super.injectorPresenter();
+    final PresenterFactory<ArticleListPresenter> superFactory = super.getPresenterFactory();
+    setPresenterFactory(new PresenterFactory<ArticleListPresenter>() {
+      @Override public ArticleListPresenter createPresenter() {
+        ArticleListPresenter presenter = superFactory.createPresenter();
+        getApiComponent().inject(presenter);
+        return presenter;
+      }
+    });
+  }
+
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_main_list, container, false);
-    ButterKnife.bind(this, view);
-    APP.from(getActivity()).getApplicationComponent().inject(this);
     return view;
   }
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+
     macticleMods = new ArrayList<ActicleMod>();
     mSwipeLayout.setOnRefreshListener(this);
     mSwipeLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorAccent,
         R.color.colorAccent, R.color.colorAccent);
     linearLayoutManager = new LinearLayoutManager(mActivity);
     rv.setLayoutManager(linearLayoutManager);
-    setupRecyclerView();
+
+    if (isInDB()) {
+      getPresenter().setLocal();
+    } else {
+      mSwipeLayout.setRefreshing(true);
+      getPresenter().getData(0, 0);//首次获取数据
+    }
     rv.addOnScrollListener(
         new EndlessRecyclerOnScrollListener(linearLayoutManager, APP.getInstance().imageLoader,
             false, true) {
           @Override public void onLoadMore() {
             int size = macticleMods.size();
             if (isHasMore && !mSwipeLayout.isRefreshing() && size > 0) {
-              getActicle(1, (int) macticleMods.get(size - 1).id);
+              mSwipeLayout.setRefreshing(true);
+              getPresenter().getData(1, (int) macticleMods.get(size - 1).id);
             }
           }
         });
-  }
-
-  private void setupRecyclerView() {
-
-    if (isInDB()) {
-      Observable.create(new Observable.OnSubscribe<List<ActicleMod>>() {
-        @Override public void call(Subscriber<? super List<ActicleMod>> subscriber) {
-          List<ActicleMod> acticleMods =
-              new Select().from(ActicleMod.class).orderBy(false, ActicleMod$Table.ID).queryList();
-          subscriber.onNext(acticleMods);
-          subscriber.onCompleted();
-        }
-      })
-          .subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(new Action1<List<ActicleMod>>() {
-            @Override public void call(List<ActicleMod> acticleMods) {
-              macticleMods = acticleMods;
-              mActcleAdapter = new MainRecyclerViewAdapter(mActivity, macticleMods);
-              rv.setAdapter(mActcleAdapter);
-            }
-          });
-    } else {
-      getActicle(0, 0);//首次获取数据
-    }
   }
 
   private boolean isInDB() {
     return new Select().count().from(ActicleMod.class).count() > 0;
-  }
-
-  private void getActicle(final int page, final int id) {
-
-    mSwipeLayout.setRefreshing(true);
-
-    //熟悉RxJava再用lambda
-    mbeautyApi.getActicle(page, id)
-        .subscribeOn(Schedulers.newThread())
-        .doOnNext(new Action1<ArrayList<ActicleMod>>() {
-          @Override public void call(ArrayList<ActicleMod> acticleMods) {
-            saveActicles(acticleMods);
-          }
-        })
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<ArrayList<ActicleMod>>() {
-          @Override public void onCompleted() {
-          }
-
-          @Override public void onError(Throwable e) {
-            if (mSwipeLayout.isRefreshing()) mSwipeLayout.setRefreshing(false);
-          }
-
-          @Override public void onNext(final ArrayList<ActicleMod> acticleMods) {
-            setUpData(page, acticleMods);
-          }
-        });
   }
 
   private void setUpData(final int page, final ArrayList<ActicleMod> acticleMods) {
@@ -141,7 +99,6 @@ public class ActicleListFragment extends BaseFragment
       }
       return;
     }
-
     //page = 0 首次 <0 刷新 >0 加载更多
     if (page == 0) {
       macticleMods = acticleMods;
@@ -170,9 +127,9 @@ public class ActicleListFragment extends BaseFragment
     new WeakHandler().postDelayed(new Runnable() {
       @Override public void run() {
         if (ListUtils.isEmpty(macticleMods)) {
-          getActicle(0, 0);//first time
+          getPresenter().getData(0, 0);//first time
         } else {
-          getActicle(-1, (int) macticleMods.get(0).id);//update
+          getPresenter().getData(-1, (int) macticleMods.get(0).id);//update
         }
       }
     }, 300);
@@ -187,8 +144,18 @@ public class ActicleListFragment extends BaseFragment
     }
   }
 
-  @Override public void onDestroyView() {
-    super.onDestroyView();
-    ButterKnife.unbind(this);
+  public void onChangeItems(ArrayList<ActicleMod> acticleMods, int pageIndex) {
+    saveActicles(acticleMods);
+    setUpData(pageIndex, acticleMods);
+  }
+
+  public void onNetworkError(Throwable throwable, int pageIndex) {
+    showInfo("抱歉,出现了一些错:" + throwable.getMessage());
+  }
+
+  public void setLocalData(List<ActicleMod> acticleMods) {
+    macticleMods = acticleMods;
+    mActcleAdapter = new MainRecyclerViewAdapter(mActivity, macticleMods);
+    rv.setAdapter(mActcleAdapter);
   }
 }

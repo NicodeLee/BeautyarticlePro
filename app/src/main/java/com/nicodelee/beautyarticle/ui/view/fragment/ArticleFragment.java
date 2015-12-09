@@ -22,15 +22,20 @@ import butterknife.OnClick;
 import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.app.APP;
 import com.nicodelee.beautyarticle.app.BaseFragment;
+import com.nicodelee.beautyarticle.app.BaseSupportFragment;
 import com.nicodelee.beautyarticle.mode.ActicleMod;
+import com.nicodelee.beautyarticle.ui.presenter.ArticleDetailPresenter;
 import com.nicodelee.beautyarticle.utils.UILUtils;
 import java.util.ArrayList;
+import nucleus.factory.PresenterFactory;
+import nucleus.factory.RequiresPresenter;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
-public class ArticleFragment extends BaseFragment {
+@RequiresPresenter(ArticleDetailPresenter.class) public class ArticleFragment
+    extends BaseSupportFragment<ArticleDetailPresenter> {
 
   @Bind(R.id.wv_acticle_detail) WebView webView;
   @Bind(R.id.tv_acticle_detail) TextView tvDetail;
@@ -44,15 +49,13 @@ public class ArticleFragment extends BaseFragment {
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    position = getArguments().getInt(EXTRA_POSITION);
-    View view = inflater.inflate(R.layout.fragment_article, container, false);
-    ButterKnife.bind(this, view);
-    initView();
-    return view;
+    return inflater.inflate(R.layout.fragment_article, container, false);
   }
 
-  @Override public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    position = getArguments().getInt(EXTRA_POSITION);
+    initView();
   }
 
   @JavascriptInterface private void initView() {
@@ -109,11 +112,10 @@ public class ArticleFragment extends BaseFragment {
       }
     })
         //.subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Action1<Boolean>() {
-          @Override public void call(Boolean aBoolean) {
-          }
-        });
+        .observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Boolean>() {
+      @Override public void call(Boolean aBoolean) {
+      }
+    });
   }
 
   private void setUpWebView(final String mdText) {
@@ -130,8 +132,15 @@ public class ArticleFragment extends BaseFragment {
     webView.loadUrl("javascript:parseMarkdown(\"" + str + "\")");
   }
 
-  @Override public void onDestroyView() {
-    super.onDestroyView();
-    ButterKnife.unbind(this);
+  @Override protected void injectorPresenter() {
+    super.injectorPresenter();
+    final PresenterFactory<ArticleDetailPresenter> superFactory = super.getPresenterFactory();
+    setPresenterFactory(new PresenterFactory<ArticleDetailPresenter>() {
+      @Override public ArticleDetailPresenter createPresenter() {
+        ArticleDetailPresenter presenter = superFactory.createPresenter();
+        getApiComponent().inject(presenter);
+        return presenter;
+      }
+    });
   }
 }

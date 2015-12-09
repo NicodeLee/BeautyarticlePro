@@ -57,35 +57,6 @@ public class MainRecyclerViewAdapter
       mView = view;
       ButterKnife.bind(this, view);
     }
-
-    private Observable<Bitmap> loadBitmap(String url) {
-      return Observable.create(subscriber -> {
-        APP.getInstance().imageLoader.displayImage(url, ivIcon, APP.options,
-            new ImageLoadingListener() {
-              final List<String> displayedImages =
-                  Collections.synchronizedList(new LinkedList<String>());
-
-              @Override public void onLoadingStarted(String imageUri, View view) {
-                progressBar.setVisibility(View.VISIBLE);
-              }
-
-              @Override
-              public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                subscriber.onError(failReason.getCause());
-              }
-
-              @Override
-              public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                subscriber.onNext(loadedImage);
-                subscriber.onCompleted();
-              }
-
-              @Override public void onLoadingCancelled(String imageUri, View view) {
-                subscriber.onError(new Throwable("Image loading cancelled"));
-              }
-            });
-      });
-    }
   }
 
   public MainRecyclerViewAdapter(Context context, List<ActicleMod> items) {

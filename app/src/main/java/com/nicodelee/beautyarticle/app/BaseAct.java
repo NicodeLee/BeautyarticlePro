@@ -12,7 +12,7 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import com.devspark.appmsg.AppMsg;
 import com.nicodelee.beautyarticle.base.R;
-import com.nicodelee.beautyarticle.internal.di.components.ApplicationComponent;
+import com.nicodelee.beautyarticle.internal.di.components.AppComponent;
 import com.nicodelee.view.LoadingDialog;
 import de.greenrobot.event.EventBus;
 import java.io.Serializable;
@@ -146,7 +146,7 @@ public abstract class BaseAct extends AppCompatActivity {
 
   abstract protected @LayoutRes int getLayoutResId();
 
-  protected ApplicationComponent getAppComponent() {
+  protected AppComponent getAppComponent() {
     return ((APP) getApplication()).getApplicationComponent();
   }
 }

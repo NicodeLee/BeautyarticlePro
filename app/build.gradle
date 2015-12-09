@@ -39,8 +39,8 @@ android {
       applicationVariants.all { variant ->
         variant.outputs.each { output ->
           def outputFile = output.outputFile
-          if (outputFile != null && outputFile.name.endsWith('.apk')) {
-            def fileName = "Beautyarticle-V${defaultConfig.versionName}.apk"
+          if (outputFile != null && outputFile.name.endsWith('.apk')) {v
+            def fileName = "Beautyarticle-v${defaultConfig.versionName}.apk"
             //                        def fileName = "Beautyarticle-V${defaultConfig.versionName}_${releaseTime()}.apk"
             output.outputFile = new File(outputFile.parent, fileName)
           }
@@ -119,9 +119,9 @@ dependencies {
   compile dependencies["com.google.dagger"]
   compile dependencies["gpuimage"]
   compile dependencies["horizontallistview"]
-//  compile dependencies["nucleus"]
-//  compile dependencies["nucleus-support-v4"]
-//  compile dependencies["nucleus-support-v7"]
+  compile dependencies["nucleus"]
+  compile dependencies["nucleus-support-v4"]
+  compile dependencies["nucleus-support-v7"]
 //  compile dependencies["fastScroll"]
 //  compile dependencies["cam2"]
 //  compile dependencies["smooth-app-bar-layout"]

@@ -1,6 +1,6 @@
 package com.nicodelee.beautyarticle.utils;
 
-import com.nicodelee.beautyarticle.base.BuildConfig;
+import com.nicodelee.beautyarticle.BuildConfig;
 
 /**
  * Wrapper API for sending log output.

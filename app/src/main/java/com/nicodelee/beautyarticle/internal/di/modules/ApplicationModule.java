@@ -15,11 +15,8 @@ import javax.inject.Singleton;
 @Module public class ApplicationModule {
   private final APP mapp;
 
-  private BeautyApi mbeautyApi;
-
   public ApplicationModule(APP app) {
     this.mapp = app;
-    mbeautyApi = new RetrofitHelper().getBeautyApi();
   }
 
   @Provides @Singleton Navigator provideNavigator() {
@@ -30,7 +27,7 @@ import javax.inject.Singleton;
     return this.mapp;
   }
 
-  @Provides @Singleton BeautyApi provideBeautyApi() {
-    return mbeautyApi;
-  }
+  //@Provides @Singleton BeautyApi provideBeautyApi() {
+  //  return new RetrofitHelper().getBeautyApi();
+  //}
 }

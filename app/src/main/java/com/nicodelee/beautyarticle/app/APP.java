@@ -5,8 +5,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import com.nicodelee.beautyarticle.R;
-import com.nicodelee.beautyarticle.internal.di.components.ApplicationComponent;
-import com.nicodelee.beautyarticle.internal.di.components.DaggerApplicationComponent;
+import com.nicodelee.beautyarticle.internal.di.components.ApiComponent;
+import com.nicodelee.beautyarticle.internal.di.components.AppComponent;
+import com.nicodelee.beautyarticle.internal.di.components.DaggerApiComponent;
+import com.nicodelee.beautyarticle.internal.di.components.DaggerAppComponent;
 import com.nicodelee.beautyarticle.internal.di.modules.ApplicationModule;
 import com.nicodelee.beautyarticle.utils.AndroidUtils;
 import com.nicodelee.beautyarticle.utils.DevicesUtil;
@@ -33,11 +35,13 @@ public class APP extends Application {
 
   //private RefWatcher refWatcher;
 
-  private ApplicationComponent applicationComponent;
+  private AppComponent applicationComponent;
+  private ApiComponent apiComponent;
 
   @Override public void onCreate() {
     super.onCreate();
     initialzeInjector();
+    initApiialzeInjector();
     FlowManager.init(this);//DbFlow
     CalligraphyConfig.initDefault(
         new CalligraphyConfig.Builder().setDefaultFontPath("fonts/Roboto-Light.ttf")
@@ -56,8 +60,12 @@ public class APP extends Application {
   //  return app.refWatcher;
   //}
 
-  public ApplicationComponent getApplicationComponent() {
+  public AppComponent getApplicationComponent() {
     return applicationComponent;
+  }
+
+  public ApiComponent getApiComponent() {
+    return apiComponent;
   }
 
   public static APP from(@NonNull Context context) {
@@ -66,12 +74,18 @@ public class APP extends Application {
 
   private void initialzeInjector() {
     this.applicationComponent =
-        DaggerApplicationComponent.builder()
+        DaggerAppComponent.builder()
             .applicationModule(new ApplicationModule(this))
             .build();
     //applicationComponent.inject(this);
   }
 
+  private void initApiialzeInjector() {
+    this.apiComponent =
+        DaggerApiComponent.builder()
+            .applicationModule(new ApplicationModule(this))
+            .build();
+  }
   private void initImageLoader(Context context) {
     ImageLoaderConfiguration.Builder config =
         new ImageLoaderConfiguration.Builder(context).threadPriority(Thread.NORM_PRIORITY - 2)
