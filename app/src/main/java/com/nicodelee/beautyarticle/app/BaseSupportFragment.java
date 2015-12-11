@@ -13,7 +13,9 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import com.devspark.appmsg.AppMsg;
 import com.nicodelee.beautyarticle.internal.di.components.ApiComponent;
+import com.nicodelee.beautyarticle.internal.di.components.AppComponent;
 import de.greenrobot.event.EventBus;
+import icepick.Icepick;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -30,13 +32,18 @@ public abstract class BaseSupportFragment<PresenterType extends Presenter> exten
     injectorPresenter();
     super.onCreate(savedInstanceState);
     context = getActivity().getApplicationContext();
-    //RefWatcher refWatcher = APP.getRefWatcher(getActivity());
-    //refWatcher.watch(this);
   }
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    Icepick.restoreInstanceState(this, savedInstanceState);
     ButterKnife.bind(this, view);
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle bundle) {
+    super.onSaveInstanceState(bundle);
+    Icepick.saveInstanceState(this, bundle);
   }
 
   // http://stackoverflow.com/questions/15207305/getting-the-error-java-lang-illegalstateexception-activity-has-been-destroyed
@@ -155,6 +162,9 @@ public abstract class BaseSupportFragment<PresenterType extends Presenter> exten
 
   protected void injectorPresenter() {}
 
+  protected AppComponent getAppComponent() {
+    return ((APP) getActivity().getApplication()).getApplicationComponent();
+  }
 
   protected ApiComponent getApiComponent() {
     return ((APP) getActivity().getApplication()).getApiComponent();

@@ -15,6 +15,7 @@ import com.nicodelee.beautyarticle.app.APP;
 import com.nicodelee.beautyarticle.app.BaseSupportFragment;
 import com.nicodelee.beautyarticle.mode.ActicleMod;
 import com.nicodelee.beautyarticle.ui.presenter.ArticleListPresenter;
+import com.nicodelee.beautyarticle.utils.Logger;
 import com.nicodelee.beautyarticle.viewhelper.EndlessRecyclerOnScrollListener;
 import com.nicodelee.beautyarticle.viewhelper.MySwipeRefreshLayout;
 import com.nicodelee.utils.ListUtils;
@@ -56,7 +57,6 @@ import nucleus.factory.RequiresPresenter;
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-
     macticleMods = new ArrayList<>();
     mSwipeLayout.setOnRefreshListener(this);
     mSwipeLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorAccent,
@@ -65,10 +65,10 @@ import nucleus.factory.RequiresPresenter;
     rv.setLayoutManager(linearLayoutManager);
 
     if (isInDB()) {
-      getPresenter().setLocal();
+      getPresenter().getData(ArticleListPresenter.LOCAL,0, 0);;
     } else {
       mSwipeLayout.setRefreshing(true);
-      getPresenter().getData(0, 0);//首次获取数据
+      getPresenter().getData(ArticleListPresenter.WEB,0, 0);//首次获取数据
     }
     rv.addOnScrollListener(
         new EndlessRecyclerOnScrollListener(linearLayoutManager, APP.getInstance().imageLoader,
@@ -77,7 +77,7 @@ import nucleus.factory.RequiresPresenter;
             int size = macticleMods.size();
             if (isHasMore && !mSwipeLayout.isRefreshing() && size > 0) {
               mSwipeLayout.setRefreshing(true);
-              getPresenter().getData(1, (int) macticleMods.get(size - 1).id);
+              getPresenter().getData(ArticleListPresenter.WEB,1, (int) macticleMods.get(size - 1).id);
             }
           }
         });
@@ -124,9 +124,9 @@ import nucleus.factory.RequiresPresenter;
     new WeakHandler().postDelayed(new Runnable() {
       @Override public void run() {
         if (ListUtils.isEmpty(macticleMods)) {
-          getPresenter().getData(0, 0);//first time
+          getPresenter().getData(ArticleListPresenter.WEB,0, 0);//first time
         } else {
-          getPresenter().getData(-1, (int) macticleMods.get(0).id);//update
+          getPresenter().getData(ArticleListPresenter.WEB,-1, (int) macticleMods.get(0).id);//update
         }
       }
     }, 300);

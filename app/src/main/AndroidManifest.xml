@@ -34,7 +34,6 @@
 
         <activity android:name=".ui.view.activity.CropAct" android:screenOrientation="portrait"></activity>
         <activity android:name=".ui.view.activity.FunTemplateAct" android:screenOrientation="portrait" android:theme="@style/ActTheme"></activity>
-        <activity android:name=".ui.camara.TakePhotoActivity" android:screenOrientation="portrait" android:theme="@style/ActTheme"></activity>
         <activity android:name=".ui.view.activity.CameraActivity" android:screenOrientation="portrait" android:theme="@style/ActTheme"></activity>
         <!--<activity android:name=".ui.camara.PhotoProcessActivity" android:screenOrientation="portrait" android:theme="@style/ActTheme"></activity>-->
         <activity android:name="me.nereo.multi_image_selector.PreviewPicturesActivity" android:theme="@style/ActTheme" android:configChanges="orientation|screenSize" />
@@ -54,20 +53,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <!-- ShareSDK开始 -->
-        <!--<activity-->
-            <!--android:name="cn.sharesdk.framework.ShareSDKUIShell"-->
-            <!--android:configChanges="keyboardHidden|orientation"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"-->
-            <!--android:windowSoftInputMode="stateHidden|adjustResize" >-->
-            <!--<meta-data-->
-                <!--android:name="Adapter"-->
-                <!--android:value="cn.sharesdk.demo.MyAdapter" />-->
-        <!--</activity>-->
-        <!-- ShareSDK结束 -->
-
 
         <activity
             android:name=".wxapi.WXEntryActivity"

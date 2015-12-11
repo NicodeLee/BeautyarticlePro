@@ -12,6 +12,7 @@ import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.adapter.MainTabPageAdapter;
 import com.nicodelee.beautyarticle.ui.view.fragment.FunFragment;
 import com.nicodelee.beautyarticle.ui.view.fragment.ActicleListFragment;
+import com.nicodelee.beautyarticle.utils.Logger;
 import de.greenrobot.event.EventBus;
 
 public class MainAct extends MainBase {

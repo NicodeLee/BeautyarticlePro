@@ -6,7 +6,7 @@ import com.nicodelee.beautyarticle.BuildConfig;
  * Wrapper API for sending log output.
  */
 public class Logger {
-  protected static final String TAG = "beautyarticle";
+  protected static final String TAG = "-beautyarticle-";
 
   private Logger() {
   }

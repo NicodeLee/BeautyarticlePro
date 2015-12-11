@@ -8,6 +8,7 @@ import com.nicodelee.beautyarticle.mode.ActicleMod$Table;
 import com.nicodelee.beautyarticle.ui.view.fragment.ActicleListFragment;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
@@ -28,10 +29,21 @@ public class ArticleListPresenter extends BaseRxPresenter<ActicleListFragment> {
   private static final int REQUEST_ARCICLE_ID = 1;
   private static final int REQUEST_ARCICLE_LOCAL_ID = 2;
 
+  public static final String WEB ="web";
+  public static final String LOCAL ="local";
+
   @Inject BeautyApi mbeautyApi;
 
   private int page;
   private int id;
+
+  private static final HashMap<String, Integer> requests = new HashMap<>();
+
+  static {
+    requests.put(WEB,REQUEST_ARCICLE_ID);
+    requests.put(LOCAL,REQUEST_ARCICLE_LOCAL_ID);
+  }
+
 
   @Override protected void onCreate(Bundle savedState) {
     super.onCreate(savedState);
@@ -40,6 +52,7 @@ public class ArticleListPresenter extends BaseRxPresenter<ActicleListFragment> {
         new Action2<ActicleListFragment, ArrayList<ActicleMod>>() {
           @Override public void call(ActicleListFragment acticleListFragment,
               ArrayList<ActicleMod> acticleMods) {
+            //Logger.e("REQUEST_ARCICLE_ID");
             acticleListFragment.onChangeItems(acticleMods, page);
           }
         };
@@ -73,22 +86,15 @@ public class ArticleListPresenter extends BaseRxPresenter<ActicleListFragment> {
     }, new Action2<ActicleListFragment, List<ActicleMod>>() {
       @Override
       public void call(ActicleListFragment acticleListFragment, List<ActicleMod> acticleMods) {
+        //Logger.e("REQUEST_ARCICLE_LOCAL_ID");
         acticleListFragment.setLocalData(acticleMods);
-      }
-    }, new Action2<ActicleListFragment, Throwable>() {
-      @Override public void call(ActicleListFragment acticleListFragment, Throwable throwable) {
-
       }
     });
   }
 
-  public void getData(int page,int id) {
+  public void getData(String type,int page,int id) {
     this.page = page;
     this.id = id;
-    start(REQUEST_ARCICLE_ID);
-  }
-
-  public void setLocal() {
-    start(REQUEST_ARCICLE_LOCAL_ID);
+    start(requests.get(type));
   }
 }

@@ -25,6 +25,7 @@ import com.nicodelee.beautyarticle.app.BaseFragment;
 import com.nicodelee.beautyarticle.app.BaseSupportFragment;
 import com.nicodelee.beautyarticle.mode.ActicleMod;
 import com.nicodelee.beautyarticle.ui.presenter.ArticleDetailPresenter;
+import com.nicodelee.beautyarticle.utils.Logger;
 import com.nicodelee.beautyarticle.utils.UILUtils;
 import java.util.ArrayList;
 import nucleus.factory.PresenterFactory;

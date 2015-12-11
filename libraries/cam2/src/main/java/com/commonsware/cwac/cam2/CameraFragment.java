@@ -14,13 +14,10 @@
 
 package com.commonsware.cwac.cam2;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -31,11 +28,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.OvershootInterpolator;
-import android.widget.ImageView;
 import android.widget.Toast;
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
+import com.nicodelee.beautyarticle.ui.camara.PhotoProcessActivity;
 import de.greenrobot.event.EventBus;
 import java.io.File;
 import java.util.LinkedList;
@@ -290,6 +284,12 @@ public class CameraFragment extends Fragment {
     if (output != null) {
       b.toUri(getActivity(), output, getArguments().getBoolean(ARG_UPDATE_MEDIA_STORE, false));
     }
+
+    //Toast.makeText(getActivity(), "拍照,uri="+output, Toast.LENGTH_SHORT).show();
+    //Intent intent = new Intent(getActivity(),PhotoProcessActivity.class);
+    //intent.putExtra("uri",output+"");
+    //startActivity(intent);
+    //getActivity().finish();//图片未生成
 
     ctlr.takePicture(b.build());
   }

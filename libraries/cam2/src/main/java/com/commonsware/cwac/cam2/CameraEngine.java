@@ -18,6 +18,7 @@ import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
