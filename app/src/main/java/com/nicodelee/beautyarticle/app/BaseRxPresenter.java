@@ -8,11 +8,10 @@ import static com.nicodelee.beautyarticle.utils.Logger.e;
 
 public class BaseRxPresenter<View> extends RxPresenter<View> {
 
-
     @Override
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
-        //e("base onCreate");
+        e("base onCreate");
         Icepick.restoreInstanceState(this, savedState);
     }
 

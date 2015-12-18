@@ -6,11 +6,15 @@ import com.nicodelee.beautyarticle.app.BaseRxPresenter;
 import com.nicodelee.beautyarticle.mode.ActicleMod;
 import com.nicodelee.beautyarticle.mode.ActicleMod$Table;
 import com.nicodelee.beautyarticle.ui.view.fragment.ActicleListFragment;
+import com.nicodelee.beautyarticle.utils.Logger;
 import com.raizlabs.android.dbflow.sql.language.Select;
+import icepick.Icepick;
+import icepick.State;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.inject.Inject;
+import nucleus.presenter.RxPresenter;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -36,6 +40,7 @@ public class ArticleListPresenter extends BaseRxPresenter<ActicleListFragment> {
 
   private int page;
   private int id;
+  private boolean isSetDate;
 
   private static final HashMap<String, Integer> requests = new HashMap<>();
 
@@ -52,7 +57,8 @@ public class ArticleListPresenter extends BaseRxPresenter<ActicleListFragment> {
         new Action2<ActicleListFragment, ArrayList<ActicleMod>>() {
           @Override public void call(ActicleListFragment acticleListFragment,
               ArrayList<ActicleMod> acticleMods) {
-            //Logger.e("REQUEST_ARCICLE_ID");
+            Logger.e("REQUEST_ARCICLE_ID");
+            if (!isSetDate)
             acticleListFragment.onChangeItems(acticleMods, page);
           }
         };
@@ -86,10 +92,27 @@ public class ArticleListPresenter extends BaseRxPresenter<ActicleListFragment> {
     }, new Action2<ActicleListFragment, List<ActicleMod>>() {
       @Override
       public void call(ActicleListFragment acticleListFragment, List<ActicleMod> acticleMods) {
-        //Logger.e("REQUEST_ARCICLE_LOCAL_ID");
+        Logger.e("REQUEST_ARCICLE_LOCAL_ID");
+        if (!isSetDate)
         acticleListFragment.setLocalData(acticleMods);
       }
     });
+
+  }
+
+
+
+  @Override protected void onSave(Bundle state) {
+    super.onSave(state);
+    isSetDate = true;
+    Logger.e("save in presenter"+ "state="+state.toString());
+  }
+
+
+  //TODO 出来返回会调用上次请求的Next方法
+  @Override protected void onTakeView(ActicleListFragment acticleListFragment) {
+    super.onTakeView(acticleListFragment);
+    Logger.e("onTakeView");
   }
 
   public void getData(String type,int page,int id) {

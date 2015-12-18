@@ -65,7 +65,7 @@ import nucleus.factory.RequiresPresenter;
     rv.setLayoutManager(linearLayoutManager);
 
     if (isInDB()) {
-      getPresenter().getData(ArticleListPresenter.LOCAL,0, 0);;
+      getPresenter().getData(ArticleListPresenter.LOCAL,0, 0);
     } else {
       mSwipeLayout.setRefreshing(true);
       getPresenter().getData(ArticleListPresenter.WEB,0, 0);//首次获取数据
