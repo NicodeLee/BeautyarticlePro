@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import com.devspark.appmsg.AppMsg;
 import com.nicodelee.beautyarticle.base.R;
 import com.nicodelee.beautyarticle.internal.di.components.AppComponent;
+import com.nicodelee.utils.WidgetController;
 import com.nicodelee.view.LoadingDialog;
 import de.greenrobot.event.EventBus;
 import java.io.Serializable;
@@ -59,7 +61,7 @@ public abstract class BaseAct extends AppCompatActivity {
   public void showInfo(String message) {
     AppMsg.Style style = new AppMsg.Style(1500, R.color.colorAccent);
     AppMsg appMsg = AppMsg.makeText(this, message, style);
-    appMsg.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+    appMsg.setAnimation(R.anim.slide_in_top, R.anim.slide_out_top);
     appMsg.setLayoutGravity(Gravity.CENTER);
     appMsg.show();
   }
