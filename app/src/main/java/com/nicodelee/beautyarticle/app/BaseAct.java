@@ -28,7 +28,6 @@ public abstract class BaseAct extends AppCompatActivity {
   //public Navigator navigator;
   //@Inject Navigator navigator;
 
-  public LoadingDialog loadingDialog;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
