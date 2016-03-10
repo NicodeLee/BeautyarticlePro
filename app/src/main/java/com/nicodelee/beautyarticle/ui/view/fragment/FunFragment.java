@@ -16,21 +16,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.FrameLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.commonsware.cwac.cam2.AbstractCameraActivity;
 import com.github.clans.fab.FloatingActionMenu;
 import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.app.APP;
 import com.nicodelee.beautyarticle.app.BaseFragment;
 import com.nicodelee.beautyarticle.bus.CropEvent;
-import com.nicodelee.beautyarticle.ui.view.activity.FunTemplateAct;
 import com.nicodelee.beautyarticle.ui.view.activity.CameraActivity;
 import com.nicodelee.beautyarticle.ui.view.activity.CropAct;
+import com.nicodelee.beautyarticle.ui.view.activity.FunTemplateAct;
 import com.nicodelee.beautyarticle.utils.AndroidUtils;
 import com.nicodelee.beautyarticle.utils.DevicesUtil;
 import com.nicodelee.beautyarticle.utils.Logger;
@@ -58,13 +58,15 @@ public class FunFragment extends BaseFragment {
   @Bind(R.id.sc_fun) NestedScrollView scFun;
   @Bind(R.id.rl_fun) RelativeLayout rlFun;
   @Bind(R.id.tv_desc) VerticalTextView tvDesc;
-  @Bind(R.id.tv_time) TextView tvTime;
   @Bind(R.id.tv_title) TextView tvTitle;
   @Bind(R.id.fl_menu) FloatingActionMenu famFun;
   @Bind(R.id.iv_fun) CircularImage ivFun;
 
   @BindString(R.string.article) String acticle;
   @BindString(R.string.acticle_title) String acticleTitle;
+  @Bind(R.id.tv_day) TextView tvDay;
+  @Bind(R.id.tv_month) TextView tvMonth;
+  @Bind(R.id.tv_year) TextView tvYear;
 
   private LayoutToImage layoutToImage;
   private LayoutInflater inflater;
@@ -92,9 +94,12 @@ public class FunFragment extends BaseFragment {
     tvDesc.setTextColor(R.color.templage_text);
     tvDesc.setTypeface(face);
     tvDesc.setText(acticle);
-    tvTime.setText(TimeUtils.dateToCnDate(TimeUtils.getCurentData()));
+    String date = TimeUtils.dateToCnDate(TimeUtils.getCurentData());
 
-    rlFun.setLayoutParams(new LayoutParams(DevicesUtil.screenWidth, LayoutParams.MATCH_PARENT));
+    tvDay.setText(TimeUtils.getDay(date));
+    tvMonth.setText(TimeUtils.getMonth(date));
+    tvYear.setText(TimeUtils.getYear(date));
+
     layoutToImage = new LayoutToImage(scFun);
   }
 
@@ -114,14 +119,13 @@ public class FunFragment extends BaseFragment {
           }
         })
             //.subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Action1<Bitmap>() {
-                  @Override public void call(Bitmap bitmap) {
-                    if (bitmap != null) {
-                      ShareHelper.showUp(mActivity, sharImageHelper.getShareMod(bitmap));
-                    }
-                  }
-                });
+            .observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Bitmap>() {
+          @Override public void call(Bitmap bitmap) {
+            if (bitmap != null) {
+              ShareHelper.showUp(mActivity, sharImageHelper.getShareMod(bitmap));
+            }
+          }
+        });
 
         break;
       case R.id.fb_make:
@@ -178,14 +182,13 @@ public class FunFragment extends BaseFragment {
     }, 200);
   }
 
-  private void showChiocePicDialog(){
-    String[] items = new String[]{"拍照", "相册"};
+  private void showChiocePicDialog() {
+    String[] items = new String[] { "拍照", "相册" };
     new AlertDialog.Builder(mActivity).setItems(items, new DialogInterface.OnClickListener() {
       @Override public void onClick(DialogInterface dialog, int which) {
-        switch (which){
+        switch (which) {
           case 0:
-            Intent i=new CameraActivity.IntentBuilder(getActivity())
-                .skipConfirm()
+            Intent i = new CameraActivity.IntentBuilder(getActivity()).skipConfirm()
                 .facing(CameraActivity.Facing.BACK)
                 .to(new File(AndroidUtils.IMAGE_CACHE_PATH, "nicodelee.jpg"))
                 .debug()
@@ -196,7 +199,8 @@ public class FunFragment extends BaseFragment {
             break;
           case 1:
             int selectedMode = MultiImageSelectorActivity.MODE_SINGLE;
-            MultiImageSelectorActivity.startSelect(FunFragment.this, REQUEST_IMAGE, 1, selectedMode);
+            MultiImageSelectorActivity.startSelect(FunFragment.this, REQUEST_IMAGE, 1,
+                selectedMode);
             break;
         }
       }
@@ -204,8 +208,9 @@ public class FunFragment extends BaseFragment {
   }
 
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    Logger.e(String.format("requestCode = %s, resultCode= %s, data= %s",requestCode,resultCode,data));
-    if (resultCode != mActivity.RESULT_OK ) return;
+    Logger.e(
+        String.format("requestCode = %s, resultCode= %s, data= %s", requestCode, resultCode, data));
+    if (resultCode != mActivity.RESULT_OK) return;
 
     CropEvent cropEvent = new CropEvent();
     cropEvent.setCropMode(CropImageView.CropMode.CIRCLE);
@@ -215,11 +220,11 @@ public class FunFragment extends BaseFragment {
       cropEvent.setImagePath(mSelectPath.get(0));
       EventBus.getDefault().postSticky(cropEvent);
       skipIntent(CropAct.class, false);
-    }else if (requestCode == REQUEST_PORTRAIT_FFC){//拍照直接返回的
-      String path = data.getData()+"";
-      Logger.e(String.format("path = %s",path));
-      if (path !=null) {
-        String url = path.substring(path.lastIndexOf("//")+1);
+    } else if (requestCode == REQUEST_PORTRAIT_FFC) {//拍照直接返回的
+      String path = data.getData() + "";
+      Logger.e(String.format("path = %s", path));
+      if (path != null) {
+        String url = path.substring(path.lastIndexOf("//") + 1);
         cropEvent.setImagePath(url);
         EventBus.getDefault().postSticky(cropEvent);
         skipIntent(CropAct.class, false);
@@ -232,6 +237,11 @@ public class FunFragment extends BaseFragment {
   }
 
   public void onEvent(Uri uri) {
-    APP.getInstance().imageLoader.displayImage(uri+"",ivFun,APP.options);
+    APP.getInstance().imageLoader.displayImage(uri + "", ivFun, APP.options);
+  }
+
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+    ButterKnife.unbind(this);
   }
 }

@@ -4,7 +4,7 @@
     <string name="app_name">最美文字</string>
     <string name="action_settings">Settings</string>
     <string name="acticle_title">一生</string>
-    <string name="article">我行过许多地方的桥，\n看过许多次数的云，\n喝过很多种类的酒，\n却只爱过一个正当最好年龄的人。</string>
+    <string name="article">我行过许多地方的桥\n看过许多次数的云\n喝过很多种类的酒\n却只爱过一个正当最好年龄的人</string>
 
     <string name="app_description">Android drawer icon with material design animation</string>
     <string name="drawer_open">drawer_open</string>

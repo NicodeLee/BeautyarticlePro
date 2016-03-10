@@ -15,7 +15,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         testApplicationId "com.commonsware.cwac.cam2.test"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     packagingOptions {

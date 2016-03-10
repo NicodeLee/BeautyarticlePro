@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    >
+>
 
+  <!--    app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
   <android.support.v4.widget.NestedScrollView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      app:layout_behavior="@string/appbar_scrolling_view_behavior"
       android:id="@+id/sc_fun"
       android:background="@color/white"
       >
@@ -32,16 +31,17 @@
           android:src="@drawable/head"
           />
 
+
       <TextView
           android:id="@+id/tv_title"
           style="@style/FontFun"
           android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_height="match_parent"
           android:layout_below="@+id/iv_fun"
           android:layout_marginTop="24dp"
-          android:layout_toRightOf="@+id/tv_desc"
-          android:layout_marginLeft="32dp"
           android:maxEms="1"
+          android:layout_alignParentRight="true"
+          android:layout_marginRight="16dp"
           android:textColor="@color/templage_title"
           android:textStyle="bold"
           android:textSize="22sp"
@@ -51,27 +51,55 @@
           android:id="@+id/tv_desc"
           style="@style/FontFun"
           android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_height="match_parent"
           android:layout_below="@+id/iv_fun"
           android:layout_marginTop="24dp"
           android:layout_centerHorizontal="true"
-          />
+      />
 
-      <TextView
-          android:id="@+id/tv_time"
-          style="@style/FontFun"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_alignParentBottom="true"
+
+      <RelativeLayout android:layout_width="wrap_content"
+          android:layout_height="424dp"
+          android:layout_alignBottom="@+id/tv_desc"
           android:layout_alignParentLeft="true"
-          android:layout_marginBottom="16dp"
-          android:layout_marginLeft="24dp"
-          android:gravity="bottom"
-          android:maxEms="1"
-          android:textColor="@color/templage_time"
+          android:layout_marginLeft="16dp"
           android:layout_marginRight="16dp"
-          android:textSize="16sp"
-          />
+      >
+        <TextView
+            android:id="@+id/tv_day"
+            style="@style/FontFun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxEms="1"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/templage_time"
+            android:textSize="16sp"
+        />
+
+        <TextView
+            android:id="@+id/tv_month"
+            style="@style/FontFun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tv_day"
+            android:layout_marginBottom="12dp"
+            android:maxEms="1"
+            android:textColor="@color/templage_time"
+            android:textSize="16sp"
+        />
+        <TextView
+            android:id="@+id/tv_year"
+            style="@style/FontFun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tv_month"
+            android:layout_marginBottom="12dp"
+            android:maxEms="1"
+            android:textColor="@color/templage_time"
+            android:textSize="16sp"
+        />
+      </RelativeLayout>
+
     </RelativeLayout>
   </android.support.v4.widget.NestedScrollView>
 
