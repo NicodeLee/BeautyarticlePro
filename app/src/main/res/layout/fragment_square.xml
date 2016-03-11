@@ -15,6 +15,7 @@
             android:background="@color/white"
             android:padding="8dp"
             android:paddingBottom="18dp"
+            android:id="@+id/rl_square"
             >
             <ImageView
                 android:id="@+id/iv_fun"

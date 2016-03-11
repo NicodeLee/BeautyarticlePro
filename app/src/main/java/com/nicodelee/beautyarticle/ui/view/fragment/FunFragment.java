@@ -16,13 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.commonsware.cwac.cam2.AbstractCameraActivity;
 import com.github.clans.fab.FloatingActionMenu;
 import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.app.APP;
@@ -100,6 +100,8 @@ public class FunFragment extends BaseFragment {
     tvMonth.setText(TimeUtils.getMonth(date));
     tvYear.setText(TimeUtils.getYear(date));
 
+    rlFun.setLayoutParams(new FrameLayout.LayoutParams(DevicesUtil.screenWidth,
+        ViewGroup.LayoutParams.MATCH_PARENT));
     layoutToImage = new LayoutToImage(scFun);
   }
 
@@ -118,7 +120,6 @@ public class FunFragment extends BaseFragment {
             subscriber.onCompleted();
           }
         })
-            //.subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Bitmap>() {
           @Override public void call(Bitmap bitmap) {
             if (bitmap != null) {

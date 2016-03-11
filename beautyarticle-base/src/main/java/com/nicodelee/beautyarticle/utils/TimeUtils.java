@@ -1,10 +1,8 @@
 package com.nicodelee.beautyarticle.utils;
 
-import android.util.Log;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Logger;
 
 /**
  * Created by Nicodelee on 15/8/3.
@@ -76,23 +74,20 @@ public class TimeUtils {
   }
 
   public static String getYear(String date){
-    String result = "";
     String[] dateStr = date.split(" ");
-    if (dateStr.length>0) result= dateStr[0];
-    return result;
+    if (dateStr.length>0) return dateStr[0];
+    return "";
   }
 
   public static String getMonth(String date){
-    String result = "";
     String[] dateStr = date.split(" ");
-    if (dateStr.length>1) result= dateStr[1];
-    return result;
+    if (dateStr.length>1) return dateStr[1];
+    return "";
   }
 
   public static String getDay(String date){
-    String result = "";
     String[] dateStr = date.split(" ");
-    if (dateStr.length>2) result= dateStr[2];
-    return result;
+    if (dateStr.length>2) return dateStr[2];
+    return "";
   }
 }
