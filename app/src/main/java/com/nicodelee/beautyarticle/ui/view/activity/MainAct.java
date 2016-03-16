@@ -7,13 +7,11 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
-import butterknife.ButterKnife;
 import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.adapter.MainTabPageAdapter;
-import com.nicodelee.beautyarticle.ui.view.fragment.FunFragment;
 import com.nicodelee.beautyarticle.ui.view.fragment.ActicleListFragment;
-import com.nicodelee.beautyarticle.utils.Logger;
-import de.greenrobot.event.EventBus;
+import com.nicodelee.beautyarticle.ui.view.fragment.FunFragment;
+import org.greenrobot.eventbus.EventBus;
 
 public class MainAct extends MainBase {
 

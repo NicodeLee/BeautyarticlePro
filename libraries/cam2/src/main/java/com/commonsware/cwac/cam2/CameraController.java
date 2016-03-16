@@ -14,7 +14,6 @@
 
 package com.commonsware.cwac.cam2;
 
-import android.content.pm.PackageInstaller;
 import android.content.res.Configuration;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
@@ -26,11 +25,12 @@ import com.commonsware.cwac.cam2.plugin.OrientationPlugin;
 import com.commonsware.cwac.cam2.plugin.SizeAndFormatPlugin;
 import com.commonsware.cwac.cam2.util.Size;
 import com.commonsware.cwac.cam2.util.Utils;
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Queue;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Controller for camera-related functions, designed to be used
@@ -290,6 +290,7 @@ public class CameraController implements CameraView.StateCallback {
   }
 
   @SuppressWarnings("unused")
+  @Subscribe(sticky = false, threadMode = ThreadMode.MAIN)
   public void onEventMainThread(CameraEngine.CameraDescriptorsEvent event) {
     if (event.descriptors.size()>0) {
       cameras=event.descriptors;
@@ -301,6 +302,7 @@ public class CameraController implements CameraView.StateCallback {
   }
 
   @SuppressWarnings("unused")
+  @Subscribe(sticky = false, threadMode = ThreadMode.MAIN)
   public void onEventMainThread(CameraEngine.ClosedEvent event) {
     if (switchPending) {
       switchPending=false;
@@ -311,6 +313,7 @@ public class CameraController implements CameraView.StateCallback {
   }
 
   @SuppressWarnings("unused")
+  @Subscribe(sticky = false, threadMode = ThreadMode.MAIN)
   public void onEventMainThread(CameraEngine.OrientationChangedEvent event) {
     if (engine!=null) {
       engine.handleOrientationChange(session, event);

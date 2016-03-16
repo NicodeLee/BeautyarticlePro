@@ -10,7 +10,6 @@ import android.view.Gravity;
 import android.widget.Toast;
 import com.devspark.appmsg.AppMsg;
 import com.nicodelee.beautyarticle.internal.di.components.ApiComponent;
-import de.greenrobot.event.EventBus;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -18,6 +17,8 @@ import java.util.Iterator;
 import java.util.Map;
 import nucleus.presenter.Presenter;
 import nucleus.view.NucleusSupportFragment;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public abstract class BaseFragment extends Fragment {
 
@@ -124,11 +125,7 @@ public abstract class BaseFragment extends Fragment {
   }
 
   @Override public void onStart() {
-    if (isStickyAvailable()) {
       EventBus.getDefault().register(this);
-    } else {
-      EventBus.getDefault().registerSticky(this);
-    }
     super.onStart();
   }
 
@@ -137,6 +134,7 @@ public abstract class BaseFragment extends Fragment {
     super.onStop();
   }
 
+  @Subscribe
   public void onEvent(Object event) {
   }
 

@@ -8,21 +8,16 @@ import com.nicodelee.beautyarticle.mode.ActicleMod$Table;
 import com.nicodelee.beautyarticle.ui.view.fragment.ActicleListFragment;
 import com.nicodelee.beautyarticle.utils.Logger;
 import com.raizlabs.android.dbflow.sql.language.Select;
-import icepick.Icepick;
-import icepick.State;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.inject.Inject;
-import nucleus.presenter.RxPresenter;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action2;
 import rx.functions.Func0;
 import rx.schedulers.Schedulers;
-
-import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
 /**
  * Created by NocodeLee on 15/12/8.
@@ -33,9 +28,10 @@ public class ArticleListPresenter extends BaseRxPresenter<ActicleListFragment> {
   private static final int REQUEST_ARCICLE_ID = 1;
   private static final int REQUEST_ARCICLE_LOCAL_ID = 2;
 
-  public static final String WEB ="web";
-  public static final String LOCAL ="local";
+  public static final String WEB = "web";
+  public static final String LOCAL = "local";
 
+  //BeautyApi mbeautyApi;
   @Inject BeautyApi mbeautyApi;
 
   private int page;
@@ -45,10 +41,9 @@ public class ArticleListPresenter extends BaseRxPresenter<ActicleListFragment> {
   private static final HashMap<String, Integer> requests = new HashMap<>();
 
   static {
-    requests.put(WEB,REQUEST_ARCICLE_ID);
-    requests.put(LOCAL,REQUEST_ARCICLE_LOCAL_ID);
+    requests.put(WEB, REQUEST_ARCICLE_ID);
+    requests.put(LOCAL, REQUEST_ARCICLE_LOCAL_ID);
   }
-
 
   @Override protected void onCreate(Bundle savedState) {
     super.onCreate(savedState);
@@ -57,9 +52,7 @@ public class ArticleListPresenter extends BaseRxPresenter<ActicleListFragment> {
         new Action2<ActicleListFragment, ArrayList<ActicleMod>>() {
           @Override public void call(ActicleListFragment acticleListFragment,
               ArrayList<ActicleMod> acticleMods) {
-            Logger.e("REQUEST_ARCICLE_ID");
-            if (!isSetDate)
-            acticleListFragment.onChangeItems(acticleMods, page);
+            if (!isSetDate) acticleListFragment.onChangeItems(acticleMods, page);
           }
         };
 
@@ -72,7 +65,9 @@ public class ArticleListPresenter extends BaseRxPresenter<ActicleListFragment> {
 
     restartableLatestCache(REQUEST_ARCICLE_ID, new Func0<Observable<ArrayList<ActicleMod>>>() {
       @Override public Observable<ArrayList<ActicleMod>> call() {
-        return mbeautyApi.getActicle(page,id).subscribeOn(Schedulers.io()).observeOn(mainThread());
+        return mbeautyApi.getActicle(page, id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread());
       }
     }, onNext, onError);
 
@@ -85,29 +80,22 @@ public class ArticleListPresenter extends BaseRxPresenter<ActicleListFragment> {
             subscriber.onNext(acticleMods);
             subscriber.onCompleted();
           }
-        })
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread());
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
       }
     }, new Action2<ActicleListFragment, List<ActicleMod>>() {
       @Override
       public void call(ActicleListFragment acticleListFragment, List<ActicleMod> acticleMods) {
         Logger.e("REQUEST_ARCICLE_LOCAL_ID");
-        if (!isSetDate)
-        acticleListFragment.setLocalData(acticleMods);
+        if (!isSetDate) acticleListFragment.setLocalData(acticleMods);
       }
     });
-
   }
-
-
 
   @Override protected void onSave(Bundle state) {
     super.onSave(state);
     isSetDate = true;
-    Logger.e("save in presenter"+ "state="+state.toString());
+    Logger.e("save in presenter" + "state=" + state.toString());
   }
-
 
   //TODO 出来返回会调用上次请求的Next方法
   @Override protected void onTakeView(ActicleListFragment acticleListFragment) {
@@ -115,7 +103,7 @@ public class ArticleListPresenter extends BaseRxPresenter<ActicleListFragment> {
     Logger.e("onTakeView");
   }
 
-  public void getData(String type,int page,int id) {
+  public void getData(String type, int page, int id) {
     this.page = page;
     this.id = id;
     start(requests.get(type));

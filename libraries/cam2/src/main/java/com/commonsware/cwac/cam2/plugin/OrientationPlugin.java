@@ -19,11 +19,8 @@ import android.content.Context;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
-import android.media.ImageReader;
 import android.media.MediaRecorder;
 import android.os.Build;
-import android.util.DisplayMetrics;
-import android.util.SparseIntArray;
 import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.WindowManager;
@@ -31,13 +28,11 @@ import com.commonsware.cwac.cam2.CameraConfigurator;
 import com.commonsware.cwac.cam2.CameraEngine;
 import com.commonsware.cwac.cam2.CameraPlugin;
 import com.commonsware.cwac.cam2.CameraSession;
-import com.commonsware.cwac.cam2.CameraTwoConfigurator;
 import com.commonsware.cwac.cam2.ClassicCameraConfigurator;
 import com.commonsware.cwac.cam2.SimpleCameraTwoConfigurator;
 import com.commonsware.cwac.cam2.SimpleClassicCameraConfigurator;
 import com.commonsware.cwac.cam2.VideoTransaction;
-import com.commonsware.cwac.cam2.util.Size;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Plugin for managing orientation effects on the previews

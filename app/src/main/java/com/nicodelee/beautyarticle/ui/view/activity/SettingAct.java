@@ -18,7 +18,7 @@ import com.nicodelee.beautyarticle.utils.FileUtil;
 import com.nicodelee.beautyarticle.viewhelper.SampleDialog;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Nicodelee on 15/3/31.

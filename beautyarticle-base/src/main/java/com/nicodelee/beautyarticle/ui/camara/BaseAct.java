@@ -7,7 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import com.nicodelee.view.LoadingDialog;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public abstract class BaseAct extends AppCompatActivity {
@@ -20,6 +21,7 @@ public abstract class BaseAct extends AppCompatActivity {
     intent = getIntent();
     loadingDialog = new LoadingDialog(this);
   }
+
   @Override protected void attachBaseContext(Context newBase) {
     super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
   }
@@ -32,13 +34,8 @@ public abstract class BaseAct extends AppCompatActivity {
     return (T) activity.findViewById(id);
   }
 
-
   @Override public void onStart() {
-    if (isStickyAvailable()) {
-      EventBus.getDefault().register(this);
-    } else {
-      EventBus.getDefault().registerSticky(this);
-    }
+    EventBus.getDefault().register(this);
     super.onStart();
   }
 
@@ -47,6 +44,7 @@ public abstract class BaseAct extends AppCompatActivity {
     super.onStop();
   }
 
+  @Subscribe
   public void onEvent(Object event) {
   }
 

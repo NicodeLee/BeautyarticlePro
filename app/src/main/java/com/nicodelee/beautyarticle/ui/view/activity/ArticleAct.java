@@ -13,6 +13,8 @@ import com.nicodelee.beautyarticle.app.BaseSwiBackAct;
 import com.nicodelee.beautyarticle.mode.ActicleMod;
 import com.nicodelee.beautyarticle.ui.view.fragment.ArticleFragment;
 import java.util.ArrayList;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by alee on 2015/1/9.
@@ -38,10 +40,12 @@ public class ArticleAct extends BaseSwiBackAct {
     mAdapter = new ArticleAdt(getSupportFragmentManager());
   }
 
+  @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
   public void onEvent(Integer event) {
     position = event;
   }
 
+  @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
   public void onEvent(ArrayList<ActicleMod> eventList) {
     count = eventList.size();
     vpActicle.setAdapter(mAdapter);

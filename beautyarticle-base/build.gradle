@@ -25,9 +25,8 @@ dependencies {
   compile dependencies["com.android.support:design"]
   compile dependencies["com.android.support:appcompat-v7"]
   compile dependencies["com.android.support:recyclerview-v7"]
-//
-  compile dependencies["com.nostra13.universalimageloader"]
-  compile dependencies["de.greenrobot.eventbus"]
+  compile dependencies.universalimageloader
+  compile dependencies.eventbus
   compile dependencies["com.github.johnkil.android-appmsg"]
   compile dependencies["uk.co.chrisjenx.calligraphy"]
 //  compile dependencies["com.squareup.retrofit"]

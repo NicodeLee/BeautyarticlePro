@@ -30,6 +30,8 @@ import com.nicodelee.beautyarticle.utils.UILUtils;
 import java.util.ArrayList;
 import nucleus.factory.PresenterFactory;
 import nucleus.factory.RequiresPresenter;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -86,6 +88,7 @@ import rx.functions.Action1;
     //share
   }
 
+  @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
   public void onEvent(ArrayList<ActicleMod> eventList) {
     ActicleMod mod = eventList.get(position);
     collapsingToolbar.setTitle(mod.title + "");

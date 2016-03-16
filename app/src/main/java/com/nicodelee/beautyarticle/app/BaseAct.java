@@ -16,11 +16,13 @@ import com.nicodelee.beautyarticle.base.R;
 import com.nicodelee.beautyarticle.internal.di.components.AppComponent;
 import com.nicodelee.utils.WidgetController;
 import com.nicodelee.view.LoadingDialog;
-import de.greenrobot.event.EventBus;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public abstract class BaseAct extends AppCompatActivity {
@@ -39,12 +41,11 @@ public abstract class BaseAct extends AppCompatActivity {
     //this.getAppComponent().inject(this);
   }
 
-
-  @Override
-  public void onContentChanged() {//布局改变回调
+  @Override public void onContentChanged() {//布局改变回调
     super.onContentChanged();
     ButterKnife.bind(this);
   }
+
   @Override protected void attachBaseContext(Context newBase) {
     super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
   }
@@ -125,11 +126,7 @@ public abstract class BaseAct extends AppCompatActivity {
   }
 
   @Override public void onStart() {
-    if (isStickyAvailable()) {
-      EventBus.getDefault().register(this);
-    } else {
-      EventBus.getDefault().registerSticky(this);
-    }
+    EventBus.getDefault().register(this);
     super.onStart();
   }
 
@@ -138,7 +135,7 @@ public abstract class BaseAct extends AppCompatActivity {
     super.onStop();
   }
 
-  public void onEvent(Object event) {
+  @Subscribe public void onEvent(Object event) {
   }
 
   protected boolean isStickyAvailable() {

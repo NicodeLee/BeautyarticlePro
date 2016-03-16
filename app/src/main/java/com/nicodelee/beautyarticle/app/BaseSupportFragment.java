@@ -14,8 +14,6 @@ import butterknife.ButterKnife;
 import com.devspark.appmsg.AppMsg;
 import com.nicodelee.beautyarticle.internal.di.components.ApiComponent;
 import com.nicodelee.beautyarticle.internal.di.components.AppComponent;
-import de.greenrobot.event.EventBus;
-import icepick.Icepick;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -23,8 +21,11 @@ import java.util.Iterator;
 import java.util.Map;
 import nucleus.presenter.Presenter;
 import nucleus.view.NucleusSupportFragment;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
-public abstract class BaseSupportFragment<PresenterType extends Presenter> extends NucleusSupportFragment<PresenterType> {
+public abstract class BaseSupportFragment<PresenterType extends Presenter>
+    extends NucleusSupportFragment<PresenterType> {
 
   private Context context;
 
@@ -36,14 +37,13 @@ public abstract class BaseSupportFragment<PresenterType extends Presenter> exten
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    Icepick.restoreInstanceState(this, savedInstanceState);
+    //Icepick.restoreInstanceState(this, savedInstanceState);
     ButterKnife.bind(this, view);
   }
 
-  @Override
-  public void onSaveInstanceState(Bundle bundle) {
+  @Override public void onSaveInstanceState(Bundle bundle) {
     super.onSaveInstanceState(bundle);
-    Icepick.saveInstanceState(this, bundle);
+    //Icepick.saveInstanceState(this, bundle);
   }
 
   // http://stackoverflow.com/questions/15207305/getting-the-error-java-lang-illegalstateexception-activity-has-been-destroyed
@@ -76,10 +76,11 @@ public abstract class BaseSupportFragment<PresenterType extends Presenter> exten
   }
 
   public void showInfo(String message) {
-    AppMsg.Style style = new AppMsg.Style(1500, com.nicodelee.beautyarticle.base.R.color.colorAccent);
+    AppMsg.Style style =
+        new AppMsg.Style(1500, com.nicodelee.beautyarticle.base.R.color.colorAccent);
     AppMsg appMsg = AppMsg.makeText(getActivity(), message, style);
-    appMsg.setAnimation(
-        com.nicodelee.beautyarticle.base.R.anim.slide_in_bottom, com.nicodelee.beautyarticle.base.R.anim.slide_out_bottom);
+    appMsg.setAnimation(com.nicodelee.beautyarticle.base.R.anim.slide_in_bottom,
+        com.nicodelee.beautyarticle.base.R.anim.slide_out_bottom);
     appMsg.setLayoutGravity(Gravity.CENTER);
     appMsg.show();
   }
@@ -140,11 +141,7 @@ public abstract class BaseSupportFragment<PresenterType extends Presenter> exten
   }
 
   @Override public void onStart() {
-    if (isStickyAvailable()) {
-      EventBus.getDefault().register(this);
-    } else {
-      EventBus.getDefault().registerSticky(this);
-    }
+    EventBus.getDefault().register(this);
     super.onStart();
   }
 
@@ -153,14 +150,11 @@ public abstract class BaseSupportFragment<PresenterType extends Presenter> exten
     super.onStop();
   }
 
-  public void onEvent(Object event) {
+  @Subscribe public void onEvent(Object event) {
   }
 
-  protected boolean isStickyAvailable() {
-    return false;
+  protected void injectorPresenter() {
   }
-
-  protected void injectorPresenter() {}
 
   protected AppComponent getAppComponent() {
     return ((APP) getActivity().getApplication()).getApplicationComponent();
@@ -174,5 +168,4 @@ public abstract class BaseSupportFragment<PresenterType extends Presenter> exten
     super.onDestroyView();
     ButterKnife.unbind(this);
   }
-
 }

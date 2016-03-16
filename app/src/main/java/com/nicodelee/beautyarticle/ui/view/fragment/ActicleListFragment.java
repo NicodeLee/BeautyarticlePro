@@ -15,7 +15,6 @@ import com.nicodelee.beautyarticle.app.APP;
 import com.nicodelee.beautyarticle.app.BaseSupportFragment;
 import com.nicodelee.beautyarticle.mode.ActicleMod;
 import com.nicodelee.beautyarticle.ui.presenter.ArticleListPresenter;
-import com.nicodelee.beautyarticle.utils.Logger;
 import com.nicodelee.beautyarticle.viewhelper.EndlessRecyclerOnScrollListener;
 import com.nicodelee.beautyarticle.viewhelper.MySwipeRefreshLayout;
 import com.nicodelee.utils.ListUtils;
@@ -25,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import nucleus.factory.PresenterFactory;
 import nucleus.factory.RequiresPresenter;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 @RequiresPresenter(ArticleListPresenter.class) public class ActicleListFragment
     extends BaseSupportFragment<ArticleListPresenter>
@@ -65,10 +66,10 @@ import nucleus.factory.RequiresPresenter;
     rv.setLayoutManager(linearLayoutManager);
 
     if (isInDB()) {
-      getPresenter().getData(ArticleListPresenter.LOCAL,0, 0);
+      getPresenter().getData(ArticleListPresenter.LOCAL, 0, 0);
     } else {
       mSwipeLayout.setRefreshing(true);
-      getPresenter().getData(ArticleListPresenter.WEB,0, 0);//首次获取数据
+      getPresenter().getData(ArticleListPresenter.WEB, 0, 0);//首次获取数据
     }
     rv.addOnScrollListener(
         new EndlessRecyclerOnScrollListener(linearLayoutManager, APP.getInstance().imageLoader,
@@ -77,7 +78,8 @@ import nucleus.factory.RequiresPresenter;
             int size = macticleMods.size();
             if (isHasMore && !mSwipeLayout.isRefreshing() && size > 0) {
               mSwipeLayout.setRefreshing(true);
-              getPresenter().getData(ArticleListPresenter.WEB,1, (int) macticleMods.get(size - 1).id);
+              getPresenter().getData(ArticleListPresenter.WEB, 1,
+                  (int) macticleMods.get(size - 1).id);
             }
           }
         });
@@ -124,14 +126,16 @@ import nucleus.factory.RequiresPresenter;
     new WeakHandler().postDelayed(new Runnable() {
       @Override public void run() {
         if (ListUtils.isEmpty(macticleMods)) {
-          getPresenter().getData(ArticleListPresenter.WEB,0, 0);//first time
+          getPresenter().getData(ArticleListPresenter.WEB, 0, 0);//first time
         } else {
-          getPresenter().getData(ArticleListPresenter.WEB,-1, (int) macticleMods.get(0).id);//update
+          getPresenter().getData(ArticleListPresenter.WEB, -1,
+              (int) macticleMods.get(0).id);//update
         }
       }
     }, 300);
   }
 
+  @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
   public void onEvent(String msg) {
     if (msg.equals("Reselected")) {
       //rv.smoothScrollToPosition(0);
@@ -147,6 +151,7 @@ import nucleus.factory.RequiresPresenter;
   }
 
   public void onNetworkError(Throwable throwable, int pageIndex) {
+    mSwipeLayout.setRefreshing(false);
     showInfo("抱歉,出现了一些错:" + throwable.getMessage());
   }
 

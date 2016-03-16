@@ -12,7 +12,9 @@ import com.nicodelee.beautyarticle.bus.CropEvent;
 import com.nicodelee.beautyarticle.utils.DevicesUtil;
 import com.nicodelee.view.CropImageView;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by alee on 2015/9/4.
@@ -29,6 +31,7 @@ public class CropAct extends BaseAct {
     return R.layout.act_corp_photo;
   }
 
+  @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
   public void onEvent(CropEvent cropEvent) {
     mCropImageView.setCropMode(cropEvent.getCropMode());
     mCropImageView.setImageBitmap(

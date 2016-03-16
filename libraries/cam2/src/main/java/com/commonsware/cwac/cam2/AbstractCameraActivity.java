@@ -35,7 +35,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Base class for activities that integrate with CameraFragment
@@ -261,16 +263,19 @@ abstract public class AbstractCameraActivity extends Activity {
   }
 
   @SuppressWarnings("unused")
+  @Subscribe(sticky = false, threadMode = ThreadMode.MAIN)
   public void onEventMainThread(CameraController.NoSuchCameraEvent event) {
     finish();
   }
 
   @SuppressWarnings("unused")
+  @Subscribe(sticky = false, threadMode = ThreadMode.MAIN)
   public void onEventMainThread(CameraController.ControllerDestroyedEvent event) {
     finish();
   }
 
   @SuppressWarnings("unused")
+  @Subscribe(sticky = false, threadMode = ThreadMode.MAIN)
   public void onEventMainThread(CameraEngine.CameraTwoGenericEvent event) {
     finish();
   }

@@ -21,8 +21,8 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.raizlabs.android.dbflow.config.FlowManager;
-import com.squareup.okhttp.OkHttpClient;
 import java.io.File;
+import okhttp3.OkHttpClient;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class APP extends Application {

@@ -30,9 +30,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 import com.nicodelee.beautyarticle.ui.camara.PhotoProcessActivity;
-import de.greenrobot.event.EventBus;
 import java.io.File;
 import java.util.LinkedList;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Fragment for displaying a camera preview, with hooks to allow
@@ -232,12 +234,14 @@ public class CameraFragment extends Fragment {
   }
 
   @SuppressWarnings("unused")
+  @Subscribe(sticky = false, threadMode = ThreadMode.MAIN)
   public void onEventMainThread(CameraController.ControllerReadyEvent event) {
     if (event.isEventForController(ctlr)) {
       prepController();
     }
   }
 
+  @Subscribe(sticky = false, threadMode = ThreadMode.MAIN)
   @SuppressWarnings("unused") public void onEventMainThread(CameraEngine.OpenedEvent event) {
     if (event.exception == null) {
       progress.setVisibility(View.GONE);
@@ -246,6 +250,7 @@ public class CameraFragment extends Fragment {
     }
   }
 
+  @Subscribe(sticky = false, threadMode = ThreadMode.MAIN)
   @SuppressWarnings("unused") public void onEventMainThread(CameraEngine.VideoTakenEvent event) {
     if (event.exception == null) {
       if (getArguments().getBoolean(ARG_UPDATE_MEDIA_STORE, false)) {

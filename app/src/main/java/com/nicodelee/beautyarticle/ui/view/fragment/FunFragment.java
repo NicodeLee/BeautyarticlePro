@@ -42,10 +42,12 @@ import com.nicodelee.beautyarticle.viewhelper.VerticalTextView;
 import com.nicodelee.utils.WeakHandler;
 import com.nicodelee.view.CircularImage;
 import com.nicodelee.view.CropImageView;
-import de.greenrobot.event.EventBus;
 import java.io.File;
 import java.util.ArrayList;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -100,8 +102,8 @@ public class FunFragment extends BaseFragment {
     tvMonth.setText(TimeUtils.getMonth(date));
     tvYear.setText(TimeUtils.getYear(date));
 
-    rlFun.setLayoutParams(new FrameLayout.LayoutParams(DevicesUtil.screenWidth,
-        ViewGroup.LayoutParams.MATCH_PARENT));
+    rlFun.setLayoutParams(
+        new FrameLayout.LayoutParams(DevicesUtil.screenWidth, ViewGroup.LayoutParams.MATCH_PARENT));
     layoutToImage = new LayoutToImage(scFun);
   }
 
@@ -119,8 +121,7 @@ public class FunFragment extends BaseFragment {
             subscriber.onNext(bitmap);
             subscriber.onCompleted();
           }
-        })
-            .observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Bitmap>() {
+        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Bitmap>() {
           @Override public void call(Bitmap bitmap) {
             if (bitmap != null) {
               ShareHelper.showUp(mActivity, sharImageHelper.getShareMod(bitmap));
@@ -233,11 +234,11 @@ public class FunFragment extends BaseFragment {
     }
   }
 
-  public void onEvent(Bitmap corpBitmap) {
+  @Subscribe(sticky = true, threadMode = ThreadMode.MAIN) public void onEvent(Bitmap corpBitmap) {
     ivFun.setImageBitmap(corpBitmap);
   }
 
-  public void onEvent(Uri uri) {
+  @Subscribe(sticky = true, threadMode = ThreadMode.MAIN) public void onEvent(Uri uri) {
     APP.getInstance().imageLoader.displayImage(uri + "", ivFun, APP.options);
   }
 
