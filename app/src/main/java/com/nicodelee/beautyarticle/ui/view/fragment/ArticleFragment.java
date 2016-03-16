@@ -1,6 +1,7 @@
 package com.nicodelee.beautyarticle.ui.view.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -61,10 +62,13 @@ import rx.functions.Action1;
     initView();
   }
 
-  @JavascriptInterface private void initView() {
+  private void initView() {
     ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
     ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    initWebView();
+  }
 
+  @JavascriptInterface private void initWebView() {
     WebSettings webSettings = webView.getSettings();
     webSettings.setJavaScriptEnabled(true);
     webSettings.setLoadWithOverviewMode(true);//自适应
@@ -97,29 +101,12 @@ import rx.functions.Action1;
     if (mod.type.equals("Markdown")) {
       webView.setVisibility(View.VISIBLE);
       tvDetail.setVisibility(View.GONE);
-
-      setMardown(mod.details);
-      //setUpWebView(mod.details);
+      setUpWebView(mod.details);
     } else if (mod.type.equals("text")) {
       webView.setVisibility(View.GONE);
       tvDetail.setVisibility(View.VISIBLE);
       tvDetail.setText(mod.details);
     }
-  }
-
-  private void setMardown(final String text) {
-    Observable.create(new Observable.OnSubscribe<Boolean>() {
-      @Override public void call(Subscriber<? super Boolean> subscriber) {
-        setUpWebView(text);
-        subscriber.onNext(true);
-        subscriber.onCompleted();
-      }
-    })
-        //.subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Boolean>() {
-      @Override public void call(Boolean aBoolean) {
-      }
-    });
   }
 
   private void setUpWebView(final String mdText) {

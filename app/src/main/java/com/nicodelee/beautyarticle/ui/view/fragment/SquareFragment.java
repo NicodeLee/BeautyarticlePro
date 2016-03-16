@@ -50,6 +50,8 @@ public class SquareFragment extends TemplateBase {
     params.height = width;
     ivFun.setLayoutParams(params);
     layoutToImage = new LayoutToImage(scFun);
+
+
   }
 
   @OnClick({ R.id.fb_share, R.id.fb_make, R.id.iv_fun }) public void Click(View view) {
