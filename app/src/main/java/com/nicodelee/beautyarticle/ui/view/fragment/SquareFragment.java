@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.nicodelee.beautyarticle.R;
@@ -18,6 +20,7 @@ import com.nicodelee.beautyarticle.ui.view.activity.CropAct;
 import com.nicodelee.beautyarticle.utils.DevicesUtil;
 import com.nicodelee.beautyarticle.utils.SharImageHelper;
 import com.nicodelee.beautyarticle.utils.ShareHelper;
+import com.nicodelee.beautyarticle.utils.TimeUtils;
 import com.nicodelee.beautyarticle.viewhelper.LayoutToImage;
 import com.nicodelee.view.CropImageView;
 import java.util.ArrayList;
@@ -31,6 +34,8 @@ import org.greenrobot.eventbus.ThreadMode;
  */
 public class SquareFragment extends TemplateBase {
 
+  @Bind(R.id.tv_month) TextView tvMonth;
+  @Bind(R.id.tv_year) TextView tvYear;
   private Bitmap bitmap;
   private static final int REQUEST_IMAGE = 2;
 
@@ -45,13 +50,14 @@ public class SquareFragment extends TemplateBase {
   private void initView() {
     inflater = LayoutInflater.from(mActivity);
     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ivFun.getLayoutParams();
-    int width = DevicesUtil.screenWidth - DevicesUtil.dip2px(getActivity(), 16f);
+    int width = DevicesUtil.screenWidth;
     params.width = width;
     params.height = width;
     ivFun.setLayoutParams(params);
     layoutToImage = new LayoutToImage(scFun);
 
-
+    tvMonth.setText(TimeUtils.getEnMonth()+" "+TimeUtils.getSimpleDay());
+    tvYear.setText(TimeUtils.getSimpleYear());
   }
 
   @OnClick({ R.id.fb_share, R.id.fb_make, R.id.iv_fun }) public void Click(View view) {
@@ -74,7 +80,6 @@ public class SquareFragment extends TemplateBase {
     }
   }
 
-
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == mActivity.RESULT_OK && requestCode == REQUEST_IMAGE) {
@@ -88,13 +93,16 @@ public class SquareFragment extends TemplateBase {
     }
   }
 
-  @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-  public void onEvent(Bitmap corpBitmap) {
+  @Subscribe(sticky = true, threadMode = ThreadMode.MAIN) public void onEvent(Bitmap corpBitmap) {
     ivFun.setImageBitmap(corpBitmap);
   }
 
-  @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-  public void onEvent(Uri uri) {//拍照后编辑
-    APP.getInstance().imageLoader.displayImage(uri+"",ivFun,APP.options);
+  @Subscribe(sticky = true, threadMode = ThreadMode.MAIN) public void onEvent(Uri uri) {//拍照后编辑
+    APP.getInstance().imageLoader.displayImage(uri + "", ivFun, APP.options);
+  }
+
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+    ButterKnife.unbind(this);
   }
 }

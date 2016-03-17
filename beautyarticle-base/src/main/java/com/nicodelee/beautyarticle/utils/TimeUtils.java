@@ -14,6 +14,56 @@ public class TimeUtils {
     return sdf.format(new Date());
   }
 
+  public static String getSimpleYear(){
+    String sdf = getCurentData();
+    String[] dateStr = sdf.split("-");
+    return dateStr[0];
+  }
+
+  public static String getSimpleMonth(){
+    String sdf = getCurentData();
+    String[] dateStr = sdf.split("-");
+    return dateStr[1];
+  }
+
+  public static String getEnMonth(){
+    String sipMonth = getSimpleMonth();
+    String result = "";
+    if (sipMonth.equals("01")){
+      return "Jan.";
+    }else if (sipMonth.equals("02")){
+      return "Feb.";
+    }else if (sipMonth.equals("03")){
+      return "Mar.";
+    }else if (sipMonth.equals("04")){
+      return "Apr.";
+    }else if (sipMonth.equals("05")){
+      return "May.";
+    }else if (sipMonth.equals("06")){
+      return "Jun.";
+    }else if (sipMonth.equals("07")){
+      return "Jul.";
+    }else if (sipMonth.equals("08")){
+      return "Aug.";
+    }else if (sipMonth.equals("09")){
+      return "Sept.";
+    }else if (sipMonth.equals("10")){
+      return "Oct.";
+    }else if (sipMonth.equals("11")){
+      return "Nov.";
+    }else if (sipMonth.equals("12")){
+      return "Dec.";
+    }
+
+    return result;
+  }
+
+  public static String getSimpleDay(){
+    String sdf = getCurentData();
+    String[] dateStr = sdf.split("-");
+    return dateStr[2];
+  }
+
   public static String dtFormat(Date date, String dateFormat){
     return getFormat(dateFormat).format(date);
   }

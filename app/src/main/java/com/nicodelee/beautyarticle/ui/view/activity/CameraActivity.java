@@ -12,6 +12,8 @@ import com.commonsware.cwac.cam2.ImageContext;
 import com.nicodelee.beautyarticle.ui.camara.PhotoProcessActivity;
 import com.nicodelee.beautyarticle.utils.Logger;
 import java.io.File;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by NocodeLee on 15/11/23.
@@ -54,6 +56,7 @@ public class CameraActivity extends AbstractCameraActivity
     }
   }
 
+  @Subscribe(sticky = false, threadMode = ThreadMode.MAIN)
   @SuppressWarnings("unused") public void onEventMainThread(CameraEngine.PictureTakenEvent event) {
     if (event.exception == null) {
       if (getIntent().getBooleanExtra(EXTRA_CONFIRM, true)) {

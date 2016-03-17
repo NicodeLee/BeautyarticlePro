@@ -22,6 +22,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Stock activity for taking pictures. Supports the same
@@ -89,6 +91,7 @@ public class CameraActivity extends AbstractCameraActivity
   }
 
   @SuppressWarnings("unused")
+  @Subscribe(sticky = false, threadMode = ThreadMode.MAIN)
   public void onEventMainThread(CameraEngine.PictureTakenEvent event) {
     if (event.exception==null) {
       if (getIntent().getBooleanExtra(EXTRA_CONFIRM, true)) {
