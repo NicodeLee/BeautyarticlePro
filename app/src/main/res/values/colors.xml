@@ -237,6 +237,8 @@
   <color name="templage_text">#A6A6A6</color>
   <color name="templage_time">@color/pano_custom_dialog_background</color>
   <color name="templage_title">#4C403D</color>
+  <color name="templage_msg">#575757</color>
+
 
   <color name="colorAccent">#FF7475</color>
 

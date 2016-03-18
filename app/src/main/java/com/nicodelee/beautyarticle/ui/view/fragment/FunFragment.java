@@ -90,10 +90,10 @@ public class FunFragment extends BaseFragment {
     famFun.setClosedOnTouchOutside(true);
 
     tvTitle.setText(acticleTitle);
-    tvDesc.setTextSize(DevicesUtil.sp2px(mActivity, 18));
-    tvDesc.setLineWidth(DevicesUtil.dip2px(mActivity, 30));
+    tvDesc.setTextSize(DevicesUtil.sp2px(mActivity, 16));
+    tvDesc.setLineWidth(DevicesUtil.dip2px(mActivity, 24));
     Typeface face = Typeface.createFromAsset(mActivity.getAssets(), "fonts/fun_font.TTF");
-    tvDesc.setTextColor(R.color.templage_text);
+    tvDesc.setTextColor(R.color.templage_title);
     tvDesc.setTypeface(face);
     tvDesc.setText(acticle);
     String date = TimeUtils.dateToCnDate(TimeUtils.getCurentData());

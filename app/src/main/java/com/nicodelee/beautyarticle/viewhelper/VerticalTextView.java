@@ -199,7 +199,7 @@ public class VerticalTextView extends View {
     int specMode = MeasureSpec.getMode(measureSpec);
     int specSize = MeasureSpec.getSize(measureSpec);
     int result = DevicesUtil.screenHeight - DevicesUtil.dip2px(APP.getInstance(),
-        48 + 200 + 42 + DevicesUtil.statusBar);//根据布局计算
+        48 + 200 + 32 + DevicesUtil.statusBar);//根据布局计算
     //int result = 800;
     if (specMode == MeasureSpec.AT_MOST) {
       result = specSize;

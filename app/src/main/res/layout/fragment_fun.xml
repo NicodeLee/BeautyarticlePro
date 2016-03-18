@@ -12,14 +12,14 @@
       android:layout_height="match_parent"
       android:id="@+id/sc_fun"
       android:background="@color/white"
-      >
+  >
 
     <RelativeLayout
         android:id="@+id/rl_fun"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        >
+    >
 
       <com.nicodelee.view.CircularImage
           android:id="@+id/iv_fun"
@@ -29,7 +29,7 @@
           android:layout_marginTop="32dp"
           android:scaleType="centerCrop"
           android:src="@drawable/head"
-          />
+      />
 
 
       <TextView
@@ -41,11 +41,11 @@
           android:layout_marginTop="24dp"
           android:maxEms="1"
           android:layout_alignParentRight="true"
-          android:layout_marginRight="48dp"
+          android:layout_marginRight="60dp"
           android:textColor="@color/templage_title"
           android:textStyle="bold"
           android:textSize="22sp"
-          />
+      />
 
       <com.nicodelee.beautyarticle.viewhelper.VerticalTextView
           android:id="@+id/tv_desc"
@@ -59,10 +59,10 @@
 
 
       <RelativeLayout android:layout_width="wrap_content"
-          android:layout_height="424dp"
+          android:layout_height="256dp"
           android:layout_alignBottom="@+id/tv_desc"
           android:layout_alignParentLeft="true"
-          android:layout_marginLeft="16dp"
+          android:layout_marginLeft="32dp"
           android:layout_marginRight="16dp"
       >
         <TextView
@@ -115,7 +115,7 @@
       fab:menu_labels_ellipsize="end"
       fab:menu_labels_singleLine="true"
       fab:menu_backgroundColor="#ccffffff"
-      >
+  >
 
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fb_more"
@@ -123,7 +123,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/open_more"
         fab:fab_label="更多"
-        />
+    />
 
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fb_make"
@@ -131,7 +131,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_edit"
         fab:fab_label="制作"
-        />
+    />
 
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fb_share"
@@ -139,7 +139,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_share"
         fab:fab_label="分享"
-        />
+    />
 
   </com.github.clans.fab.FloatingActionMenu>
 
