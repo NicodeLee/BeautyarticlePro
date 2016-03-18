@@ -38,7 +38,6 @@ public class SharImageHelper {
     if (uri != null && imgPath != null && imgPath != "") {
       shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
       shareIntent.setType("image/jpeg");
-      // 当用户选择短信时使用sms_body取得文字
       shareIntent.putExtra("sms_body", content);
     } else {
       shareIntent.setType("text/plain");
@@ -58,7 +57,7 @@ public class SharImageHelper {
     }
     try {
       FileOutputStream out = new FileOutputStream(f);
-      bitmap.compress(Bitmap.CompressFormat.JPEG, 50, out);
+      bitmap.compress(Bitmap.CompressFormat.JPEG, 40, out);
       out.flush();
       out.close();
       return true;

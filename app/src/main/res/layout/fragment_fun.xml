@@ -41,7 +41,7 @@
           android:layout_marginTop="24dp"
           android:maxEms="1"
           android:layout_alignParentRight="true"
-          android:layout_marginRight="16dp"
+          android:layout_marginRight="48dp"
           android:textColor="@color/templage_title"
           android:textStyle="bold"
           android:textSize="22sp"
@@ -73,7 +73,7 @@
             android:maxEms="1"
             android:layout_alignParentBottom="true"
             android:textColor="@color/templage_time"
-            android:textSize="16sp"
+            android:textSize="14sp"
         />
 
         <TextView
@@ -85,7 +85,7 @@
             android:layout_marginBottom="12dp"
             android:maxEms="1"
             android:textColor="@color/templage_time"
-            android:textSize="16sp"
+            android:textSize="14sp"
         />
         <TextView
             android:id="@+id/tv_year"
@@ -96,7 +96,7 @@
             android:layout_marginBottom="12dp"
             android:maxEms="1"
             android:textColor="@color/templage_time"
-            android:textSize="16sp"
+            android:textSize="14sp"
         />
       </RelativeLayout>
 

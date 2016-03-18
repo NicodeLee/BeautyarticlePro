@@ -123,9 +123,7 @@ public class FunFragment extends BaseFragment {
           }
         }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Bitmap>() {
           @Override public void call(Bitmap bitmap) {
-            if (bitmap != null) {
-              ShareHelper.showUp(mActivity, sharImageHelper.getShareMod(bitmap));
-            }
+            ShareHelper.showUp(mActivity, sharImageHelper.getShareMod(bitmap));
           }
         });
 

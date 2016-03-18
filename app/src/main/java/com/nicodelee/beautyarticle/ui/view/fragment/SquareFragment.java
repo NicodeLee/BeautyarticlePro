@@ -17,12 +17,15 @@ import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.app.APP;
 import com.nicodelee.beautyarticle.bus.CropEvent;
 import com.nicodelee.beautyarticle.ui.view.activity.CropAct;
+import com.nicodelee.beautyarticle.utils.AndroidUtils;
 import com.nicodelee.beautyarticle.utils.DevicesUtil;
+import com.nicodelee.beautyarticle.utils.Logger;
 import com.nicodelee.beautyarticle.utils.SharImageHelper;
 import com.nicodelee.beautyarticle.utils.ShareHelper;
 import com.nicodelee.beautyarticle.utils.TimeUtils;
 import com.nicodelee.beautyarticle.viewhelper.LayoutToImage;
 import com.nicodelee.view.CropImageView;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
 import java.util.ArrayList;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 import org.greenrobot.eventbus.EventBus;
@@ -56,7 +59,7 @@ public class SquareFragment extends TemplateBase {
     ivFun.setLayoutParams(params);
     layoutToImage = new LayoutToImage(scFun);
 
-    tvMonth.setText(TimeUtils.getEnMonth()+" "+TimeUtils.getSimpleDay());
+    tvMonth.setText(TimeUtils.getEnMonth() + " " + TimeUtils.getSimpleDay());
     tvYear.setText(TimeUtils.getSimpleYear());
   }
 
@@ -66,7 +69,11 @@ public class SquareFragment extends TemplateBase {
       case R.id.fb_share:
         bitmap = layoutToImage.convertlayout();
         SharImageHelper sharImageHelper = new SharImageHelper();
-        if (sharImageHelper.saveBitmap(bitmap, SharImageHelper.sharePicName)) {
+        String picName = SharImageHelper.sharePicName;
+        if (sharImageHelper.saveBitmap(bitmap, picName)) {
+          Logger.e("share:"+picName);
+          //Bitmap sendBitmap = APP.getInstance().imageLoader.loadImageSync(
+          //    "file:///" + AndroidUtils.IMAGE_CACHE_PATH + "/" + picName, new ImageSize(720, 720));
           ShareHelper.showUp(mActivity, sharImageHelper.getShareMod(bitmap));
         }
 

@@ -35,11 +35,11 @@
           android:layout_margin="12dp"
           android:textColor="#575757"
           android:gravity="center"
-          style="@style/FontFun"
+          style="@style/FontSq"
       />
       <!--android:textColor="@color/templage_text"-->
 
-      <RelativeLayout android:layout_width="48dp" android:layout_height="48dp"
+      <RelativeLayout android:layout_width="42dp" android:layout_height="42dp"
           android:layout_centerHorizontal="true"
           android:layout_below="@+id/tv_fun"
           android:background="@drawable/time_bg">
@@ -47,20 +47,21 @@
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:id="@+id/tv_month"
             android:text="Mar.12"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:layout_marginTop="4dp"
             android:layout_marginLeft="4dp"
-            style="@style/FontFun"
+            android:textColor="#c0c0c0"
+            style="@style/FontDate"
         />
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:id="@+id/tv_year"
             android:text="2016"
             android:layout_below="@+id/tv_month"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:layout_marginLeft="4dp"
-            android:layout_marginTop="4dp"
-            style="@style/FontFun"
+            android:textColor="#c0c0c0"
+            style="@style/FontDate"
         />
 
       </RelativeLayout>
