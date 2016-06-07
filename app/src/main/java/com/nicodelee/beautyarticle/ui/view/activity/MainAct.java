@@ -16,6 +16,7 @@ import org.greenrobot.eventbus.EventBus;
 public class MainAct extends MainBase {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
+    setTheme(R.style.Act);
     super.onCreate(savedInstanceState);
     initView();
   }

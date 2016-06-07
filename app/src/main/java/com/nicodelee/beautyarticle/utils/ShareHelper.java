@@ -145,9 +145,10 @@ public class ShareHelper {
         sp.setTitle(shareMod.title);
         sp.setText(shareMod.text);
         sp.setTitleUrl(shareMod.titleUrl);
-        sp.setImageData(shareMod.imageData);
+        //sp.setImageData(shareMod.imageData);
         sp.setImagePath(shareMod.imageUrl);
-        //sp.setShareType(QQ.SHARE_IMAGE);
+        sp.setImageUrl(shareMod.imageUrl);
+        sp.setShareType(QQ.SHARE_IMAGE);
         plat.setPlatformActionListener(platformActionListener);
         plat.share(sp);
         shareAction(context, dialog);
@@ -160,9 +161,9 @@ public class ShareHelper {
         QZone.ShareParams sp = new QZone.ShareParams();
         sp.setTitle(shareMod.title);
         sp.setText(shareMod.text);
-        sp.setImageUrl(shareMod.imageUrl);
         sp.setTitleUrl(shareMod.titleUrl);
-        sp.setImageData(shareMod.imageData);
+        //sp.setImageData(shareMod.imageData);
+        sp.setImageUrl(shareMod.imageUrl);
         sp.setImagePath(shareMod.imageUrl);
         sp.setShareType(QZone.SHARE_IMAGE);
         plat.setPlatformActionListener(platformActionListener);

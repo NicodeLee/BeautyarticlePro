@@ -1,16 +1,17 @@
 package com.nicodelee.beautyarticle.ui.view.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -18,25 +19,23 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.app.APP;
-import com.nicodelee.beautyarticle.app.BaseFragment;
 import com.nicodelee.beautyarticle.app.BaseSupportFragment;
 import com.nicodelee.beautyarticle.mode.ActicleMod;
 import com.nicodelee.beautyarticle.ui.presenter.ArticleDetailPresenter;
 import com.nicodelee.beautyarticle.utils.Logger;
+import com.nicodelee.beautyarticle.utils.ShareHelper;
 import com.nicodelee.beautyarticle.utils.UILUtils;
+import com.nicodelee.beautyarticle.viewhelper.LayoutToImage;
+import com.nicodelee.beautyarticle.viewhelper.viewtoimage.ViewToImageHelper;
+import java.io.File;
 import java.util.ArrayList;
 import nucleus.factory.PresenterFactory;
 import nucleus.factory.RequiresPresenter;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 
 @RequiresPresenter(ArticleDetailPresenter.class) public class ArticleFragment
     extends BaseSupportFragment<ArticleDetailPresenter> {
@@ -46,7 +45,8 @@ import rx.functions.Action1;
   @Bind(R.id.ic_acticle) ImageView ivActicle;
   @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbar;
   @Bind(R.id.toolbar) Toolbar toolbar;
-  @Bind(R.id.fb_share) FloatingActionButton share;
+  @Bind(R.id.main_content) CoordinatorLayout mainContent;
+  @Bind(R.id.sc_acticle) NestedScrollView scAcrticle;
 
   public static final String EXTRA_POSITION = "ARTICLE_POSITION";
   private int position;
@@ -88,8 +88,34 @@ import rx.functions.Action1;
     return super.onOptionsItemSelected(item);
   }
 
+  private ViewToImageHelper viewToImageHelper;
+
   @OnClick(R.id.fb_share) public void Click(View view) {
     //share
+    //ShareHelper.showUp(mActivity, sharImageHelper.getShareMod(bitmap));
+    viewToImageHelper = new ViewToImageHelper(new ViewToImageHelper.IViewToImage() {
+      @Override public void saveToFile(File file) {
+        showInfo("图片保存路径:"+file.getAbsolutePath());
+        //ShareHelper.showUp(mActivity, sharImageHelper.getShareMod(bitmap));
+      }
+    });
+    viewToImageHelper.createImageAndShare(mActivity,ViewToImageHelper.SaveImageAction.SAVELOCAL,scAcrticle);
+
+    //ViewTreeObserver vto = scAcrticle.getViewTreeObserver();
+    //vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+    //  @Override
+    //  public void onGlobalLayout() {
+    //    scAcrticle.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+    //    int height = scAcrticle.getChildAt(0).getHeight();
+    //    //int height = scAcrticle.getMeasuredHeight();
+    //    int width = scAcrticle.getWidth();
+    //
+    //    Logger.e("height==="+mainContent.getChildAt(1).getClass()+",count="+mainContent.getChildCount());
+    //
+    //    Logger.e(String.format("height:%d,wight:%d",height,width));
+    //  }
+    //});
+
   }
 
   @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)

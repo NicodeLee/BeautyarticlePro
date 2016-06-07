@@ -19,7 +19,7 @@
             android:name=".ui.view.activity.MainAct"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/Act"
+            android:theme="@style/AppTheme.Launcher"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

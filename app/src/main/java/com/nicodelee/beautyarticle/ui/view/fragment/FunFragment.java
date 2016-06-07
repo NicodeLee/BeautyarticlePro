@@ -39,6 +39,7 @@ import com.nicodelee.beautyarticle.utils.ShareHelper;
 import com.nicodelee.beautyarticle.utils.TimeUtils;
 import com.nicodelee.beautyarticle.viewhelper.LayoutToImage;
 import com.nicodelee.beautyarticle.viewhelper.VerticalTextView;
+import com.nicodelee.utils.StringUtils;
 import com.nicodelee.utils.WeakHandler;
 import com.nicodelee.view.CircularImage;
 import com.nicodelee.view.CropImageView;
@@ -223,7 +224,7 @@ public class FunFragment extends BaseFragment {
     } else if (requestCode == REQUEST_PORTRAIT_FFC) {//拍照直接返回的
       String path = data.getData() + "";
       Logger.e(String.format("path = %s", path));
-      if (path != null) {
+      if (!StringUtils.isEmpty(path)) {
         String url = path.substring(path.lastIndexOf("//") + 1);
         cropEvent.setImagePath(url);
         EventBus.getDefault().postSticky(cropEvent);
