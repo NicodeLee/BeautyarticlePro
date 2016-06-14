@@ -1,10 +1,12 @@
 package com.nicodelee.beautyarticle.ui.view.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -25,15 +27,19 @@ import com.nicodelee.beautyarticle.app.APP;
 import com.nicodelee.beautyarticle.app.BaseSupportFragment;
 import com.nicodelee.beautyarticle.mode.ActicleMod;
 import com.nicodelee.beautyarticle.ui.presenter.ArticleDetailPresenter;
+import com.nicodelee.beautyarticle.ui.view.activity.SharePreAct;
 import com.nicodelee.beautyarticle.utils.Logger;
 import com.nicodelee.beautyarticle.utils.ShareHelper;
 import com.nicodelee.beautyarticle.utils.UILUtils;
 import com.nicodelee.beautyarticle.viewhelper.LayoutToImage;
 import com.nicodelee.beautyarticle.viewhelper.viewtoimage.ViewToImageHelper;
+import com.nicodelee.utils.StringUtils;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import nucleus.factory.PresenterFactory;
 import nucleus.factory.RequiresPresenter;
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -50,6 +56,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
   public static final String EXTRA_POSITION = "ARTICLE_POSITION";
   private int position;
+  private String srcHead;
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -88,34 +95,17 @@ import org.greenrobot.eventbus.ThreadMode;
     return super.onOptionsItemSelected(item);
   }
 
-  private ViewToImageHelper viewToImageHelper;
-
-  @OnClick(R.id.fb_share) public void Click(View view) {
+  @OnClick(R.id.fb_share) public void Click(final View view) {
     //share
-    //ShareHelper.showUp(mActivity, sharImageHelper.getShareMod(bitmap));
-    viewToImageHelper = new ViewToImageHelper(new ViewToImageHelper.IViewToImage() {
-      @Override public void saveToFile(File file) {
-        showInfo("图片保存路径:"+file.getAbsolutePath());
-        //ShareHelper.showUp(mActivity, sharImageHelper.getShareMod(bitmap));
+    new ViewToImageHelper(new ViewToImageHelper.IViewToImage() {
+      @Override
+      public void saveToFile(File file, ViewToImageHelper.SaveImageAction saveImageAction) {
+        HashMap map = new HashMap();
+        map.put("haedpic", srcHead);
+        map.put("textPic", "" + file.getAbsoluteFile());
+        skipIntent(SharePreAct.class, map, false);
       }
-    });
-    viewToImageHelper.createImageAndShare(mActivity,ViewToImageHelper.SaveImageAction.SAVELOCAL,scAcrticle);
-
-    //ViewTreeObserver vto = scAcrticle.getViewTreeObserver();
-    //vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-    //  @Override
-    //  public void onGlobalLayout() {
-    //    scAcrticle.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-    //    int height = scAcrticle.getChildAt(0).getHeight();
-    //    //int height = scAcrticle.getMeasuredHeight();
-    //    int width = scAcrticle.getWidth();
-    //
-    //    Logger.e("height==="+mainContent.getChildAt(1).getClass()+",count="+mainContent.getChildCount());
-    //
-    //    Logger.e(String.format("height:%d,wight:%d",height,width));
-    //  }
-    //});
-
+    }).createImageAndShare(mActivity, ViewToImageHelper.SaveImageAction.SHARE, scAcrticle);
   }
 
   @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
@@ -124,6 +114,7 @@ import org.greenrobot.eventbus.ThreadMode;
     collapsingToolbar.setTitle(mod.title + "");
     APP.getInstance().imageLoader.displayImage(mod.image, ivActicle, APP.options,
         new UILUtils.AnimateFirstDisplayListener());
+    srcHead = mod.image;
     if (mod.type.equals("Markdown")) {
       webView.setVisibility(View.VISIBLE);
       tvDetail.setVisibility(View.GONE);
@@ -136,6 +127,7 @@ import org.greenrobot.eventbus.ThreadMode;
   }
 
   private void setUpWebView(final String mdText) {
+    if (webView == null) return;
     webView.setWebViewClient(new WebViewClient() {
       @Override public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
@@ -146,6 +138,7 @@ import org.greenrobot.eventbus.ThreadMode;
   }
 
   private void loadMarkDown(String str) {
+    if (webView!=null && !StringUtils.isBlank(str))
     webView.loadUrl("javascript:parseMarkdown(\"" + str + "\")");
   }
 

@@ -11,7 +11,7 @@ ext {
              versionCode      : 1,
              versionName      : "0.6"]
 
-  supportVersion = "23.2.0"
+  supportVersion = "23.4.0"
 
   dependencies = ["com.android.support:design"          : "com.android.support:design:${supportVersion}",
                   "com.android.support:appcompat-v7"    : "com.android.support:appcompat-v7:${supportVersion}",
@@ -52,6 +52,7 @@ ext {
                   "nucleus-support-v7"                  : "info.android15.nucleus:nucleus-support-v7:2.0.3",
                   "icepick"                             : "frankiesardo:icepick:3.1.0",
                   "icepick-processor"                   : "frankiesardo:icepick-processor:3.1.0",
+                  "subsampling"                         : "com.davemorrissey.labs:subsampling-scale-image-view:3.5.0",
                   "smooth-app-bar-layout"               : "me.henrytao:smooth-app-bar-layout:0.1.9"
 
   ]

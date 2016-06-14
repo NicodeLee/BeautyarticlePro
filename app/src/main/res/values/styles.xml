@@ -34,6 +34,12 @@
     <item name="actionMenuTextColor">#696D6F</item>
   </style>
 
+  <style name="ToolBarStyleIn" parent="Theme.AppCompat.Light">
+    <item name="android:textColorPrimary">@color/white</item>
+    <item name="android:textColorSecondary">@color/white</item>
+    <item name="actionMenuTextColor">@color/white</item>
+  </style>
+
   <style name="DetailToolBarStyle" parent="Theme.AppCompat.Light">
     <item name="android:textColorPrimary">#696D6F</item>
     <item name="android:textColorSecondary">@android:color/white</item>

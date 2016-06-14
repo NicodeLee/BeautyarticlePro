@@ -131,6 +131,8 @@ dependencies {
   compile dependencies.converterRxjava
   compile dependencies.OkhttpInterceptor
 
+  compile dependencies.subsampling
+
   //  compile dependencies["cam2"]
   //  compile dependencies["smooth-app-bar-layout"]
 

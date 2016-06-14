@@ -2,6 +2,7 @@ package com.nicodelee.beautyarticle.viewhelper.viewtoimage;
 
 import android.os.Environment;
 import android.support.v4.media.session.PlaybackStateCompat;
+import com.nicodelee.beautyarticle.utils.AndroidUtils;
 import com.nicodelee.beautyarticle.utils.Logger;
 import java.io.File;
 
@@ -11,7 +12,7 @@ import java.io.File;
  */
 public class ViewToImageUtils {
 
-  public static final String NOTES_CACHE_FOLDER = "nicodelee/notes";
+  public static final String NOTES_CACHE_FOLDER = "Beautyacticle/saves";
 
   public static File getCacheFolderName() {
     File folder = new File(Environment.getExternalStorageDirectory(), NOTES_CACHE_FOLDER);
