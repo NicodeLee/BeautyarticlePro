@@ -1,5 +1,6 @@
 package com.nicodelee.beautyarticle.ui.view.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -17,7 +18,6 @@ import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.app.APP;
 import com.nicodelee.beautyarticle.bus.CropEvent;
 import com.nicodelee.beautyarticle.ui.view.activity.CropAct;
-import com.nicodelee.beautyarticle.utils.AndroidUtils;
 import com.nicodelee.beautyarticle.utils.DevicesUtil;
 import com.nicodelee.beautyarticle.utils.Logger;
 import com.nicodelee.beautyarticle.utils.SharImageHelper;
@@ -25,7 +25,6 @@ import com.nicodelee.beautyarticle.utils.ShareHelper;
 import com.nicodelee.beautyarticle.utils.TimeUtils;
 import com.nicodelee.beautyarticle.viewhelper.LayoutToImage;
 import com.nicodelee.view.CropImageView;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
 import java.util.ArrayList;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 import org.greenrobot.eventbus.EventBus;
@@ -39,7 +38,6 @@ public class SquareFragment extends TemplateBase {
 
   @Bind(R.id.tv_month) TextView tvMonth;
   @Bind(R.id.tv_year) TextView tvYear;
-  private Bitmap bitmap;
   private static final int REQUEST_IMAGE = 2;
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,13 +65,10 @@ public class SquareFragment extends TemplateBase {
     famFun.close(true);
     switch (view.getId()) {
       case R.id.fb_share:
-        bitmap = layoutToImage.convertlayout();
+        Bitmap bitmap = layoutToImage.convertlayout();
         SharImageHelper sharImageHelper = new SharImageHelper();
         String picName = SharImageHelper.sharePicName;
         if (sharImageHelper.saveBitmap(bitmap, picName)) {
-          Logger.e("share:"+picName);
-          //Bitmap sendBitmap = APP.getInstance().imageLoader.loadImageSync(
-          //    "file:///" + AndroidUtils.IMAGE_CACHE_PATH + "/" + picName, new ImageSize(720, 720));
           ShareHelper.showUp(mActivity, sharImageHelper.getShareMod(bitmap));
         }
 
@@ -89,7 +84,7 @@ public class SquareFragment extends TemplateBase {
 
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (resultCode == mActivity.RESULT_OK && requestCode == REQUEST_IMAGE) {
+    if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE) {
       ArrayList<String> mSelectPath =
           data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
       CropEvent cropEvent = new CropEvent();

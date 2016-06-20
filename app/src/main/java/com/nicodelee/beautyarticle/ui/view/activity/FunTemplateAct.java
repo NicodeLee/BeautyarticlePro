@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import com.nicodelee.beautyarticle.R;
 import com.nicodelee.beautyarticle.app.BaseSwiBackAct;
 import com.nicodelee.beautyarticle.ui.view.fragment.RectangleFragment;
@@ -23,8 +22,7 @@ public class FunTemplateAct extends BaseSwiBackAct {
 
   @Bind(R.id.vp_fun_template) ViewPager vpFun;
   @Bind(R.id.toolbar) protected Toolbar toolbar;
-
-  private FunTemplateAdt funTemplateAdt;
+  private static int totalPage = 3;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -39,13 +37,15 @@ public class FunTemplateAct extends BaseSwiBackAct {
 
     setSupportActionBar(toolbar);
     final ActionBar ab = getSupportActionBar();
-    //ab.setHomeAsUpIndicator(R.drawable.btn_back);
-    ab.setDisplayHomeAsUpEnabled(true);
-    ab.setTitle("选择模板");
+    if (ab!=null){
+      ab.setDisplayHomeAsUpEnabled(true);
+      ab.setTitle("选择模板");
+    }
 
-    funTemplateAdt = new FunTemplateAdt(getSupportFragmentManager());
+    FunTemplateAdt funTemplateAdt = new FunTemplateAdt(getSupportFragmentManager());
     vpFun.setAdapter(funTemplateAdt);
     vpFun.setPageTransformer(true, new TabletTransformer());
+    vpFun.setOffscreenPageLimit(totalPage);
   }
 
   class FunTemplateAdt extends FragmentPagerAdapter {
@@ -57,8 +57,7 @@ public class FunTemplateAct extends BaseSwiBackAct {
     @Override public Fragment getItem(int position) {
       switch (position) {
         case 0:
-          SquareFragment squareFragment = new SquareFragment();
-          return squareFragment;
+          return new SquareFragment();
         case 1:
           final Bundle bundle = new Bundle();
           bundle.putInt(RectangleFragment.EXTRA_POSITION, position);
@@ -76,7 +75,7 @@ public class FunTemplateAct extends BaseSwiBackAct {
     }
 
     @Override public int getCount() {
-      return 3;
+      return totalPage;
     }
   }
 

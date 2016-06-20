@@ -10,19 +10,16 @@ import java.util.Date;
 public class TimeUtils {
 
   public static String getCurentData() {
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    return sdf.format(new Date());
+    return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
   }
 
   public static String getSimpleYear(){
-    String sdf = getCurentData();
-    String[] dateStr = sdf.split("-");
+    String[] dateStr = getCurentData().split("-");
     return dateStr[0];
   }
 
   public static String getSimpleMonth(){
-    String sdf = getCurentData();
-    String[] dateStr = sdf.split("-");
+    String[] dateStr = getCurentData().split("-");
     return dateStr[1];
   }
 
@@ -59,8 +56,7 @@ public class TimeUtils {
   }
 
   public static String getSimpleDay(){
-    String sdf = getCurentData();
-    String[] dateStr = sdf.split("-");
+    String[] dateStr = getCurentData().split("-");
     return dateStr[2];
   }
 

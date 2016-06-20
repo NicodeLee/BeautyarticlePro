@@ -40,7 +40,6 @@ import rx.android.schedulers.AndroidSchedulers;
 public class MainRecyclerViewAdapter
     extends RecyclerView.Adapter<MainRecyclerViewAdapter.ViewHolder> {
 
-  private final TypedValue mTypedValue = new TypedValue();
   private List<ActicleMod> mylist;
 
   public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -60,17 +59,8 @@ public class MainRecyclerViewAdapter
   }
 
   public MainRecyclerViewAdapter(Context context, List<ActicleMod> items) {
-    context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
+    context.getTheme().resolveAttribute(R.attr.selectableItemBackground, new TypedValue(), true);
     mylist = items;
-  }
-
-  public void setDatas(ArrayList<ActicleMod> acticleMods) {
-    if (acticleMods == null) {
-      acticleMods = new ArrayList<ActicleMod>();
-    } else {
-      this.mylist = acticleMods;
-    }
-    notifyDataSetChanged();
   }
 
   @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -133,19 +123,17 @@ public class MainRecyclerViewAdapter
               }
             });
       }
-    }).observeOn(AndroidSchedulers.mainThread())
-        //.observeOn(Schedulers.io())
-        .subscribe(new Observer<Bitmap>() {
-          @Override public void onCompleted() {
-          }
+    }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Bitmap>() {
+      @Override public void onCompleted() {
+      }
 
-          @Override public void onError(Throwable e) {
-          }
+      @Override public void onError(Throwable e) {
+      }
 
-          @Override public void onNext(Bitmap bitmap) {
-            holder.ivIcon.setImageBitmap(bitmap);
-          }
-        });
+      @Override public void onNext(Bitmap bitmap) {
+        holder.ivIcon.setImageBitmap(bitmap);
+      }
+    });
 
     holder.mView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -171,5 +159,14 @@ public class MainRecyclerViewAdapter
 
       this.notifyItemRangeRemoved(0, size);
     }
+  }
+
+  public void setDatas(ArrayList<ActicleMod> acticleMods) {
+    if (acticleMods == null) {
+      acticleMods = new ArrayList<ActicleMod>();
+    } else {
+      this.mylist = acticleMods;
+    }
+    notifyDataSetChanged();
   }
 }
